@@ -2,9 +2,10 @@
 for conda_path in "$HOME/anaconda/bin" "$HOME/miniconda/bin" "$HOME/miniconda2/bin"
     if test -d $conda_path
         set -gx PATH $PATH $conda_path
+        source (conda info --root)/etc/fish/conf.d/conda.fish
     end
 end
-source (conda info --root)/etc/fish/conf.d/conda.fish
+#
 
 
 
@@ -15,7 +16,7 @@ test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shel
 # Quick CD
 set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
 
-Add VS Code to Path
+# Add VS Code to Path
 set --global --export PATH $PATH "~/Applications/Visual Studio Code.app/Contents/Resources/app/bin/"
 
 
