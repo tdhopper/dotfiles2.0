@@ -1,0 +1,140 @@
+Updated: 2012-05-30 17:25
+
+# ==========
+# = Python
+# ==========
+
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+
+# ==========
+# = LaTeX
+# ==========
+
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdy
+
+# ==========
+# = TextMate
+# ==========
+
+*.tmproj
+*.tmproject
+tmtags
+
+# ==========
+# = OSX
+# ==========
+
+.DS_Store
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# ==========
+# = Vi
+# ==========
+
+
+# ==========
+# = vim
+# ==========
+
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# ==========
+# = Linux
+# ==========
+
+.*
+!.gitignore
+*~
+
+# KDE
+.directory
+*.sublime-project
+*.sublime-workspace
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

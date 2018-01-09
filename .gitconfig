@@ -1,0 +1,59 @@
+[user]
+    name = Tim Hopper
+    email = tdhopper@gmail.com
+[github]
+    user = tdhopper
+[core]
+	excludesfile = /Users/thopper/.gitignore
+	editor = code -n --wait
+[color]
+    ui = true
+[alias]
+    wdiff = diff
+    lg = log --max-count=12 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    p = pull --rebase --prune
+    c = commit -v
+    co = checkout
+    ec = config --global -e
+    amend = commit -a --amend
+    wipe = '!git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard'
+    branches = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) %(authorname) %(refname:short)'
+    aliases = config --get-regexp ^alias\\.
+    showstat = show --stat
+    unstage = reset HEAD --
+[credential]
+    helper = osxkeychain
+[diff]
+    tool = Kaleidoscope
+[difftool "diffmerge"]
+    cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+[merge]
+	tool = code
+[mergetool "diffmerge"]
+    cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+    trustExitCode = true
+[help]
+    autocorrect = 1
+[branch]
+    autosetuprebase = always
+[filter "media"]
+    required = true
+    clean = git media clean %f
+    smudge = git media smudge %f
+[push]
+    default = simple
+[mergetool]
+    keepBackup = true
+[difftool "Kaleidoscope"]
+[mergetool "Kaleidoscope"]
+    trustexitcode = true
+[difftool]
+    prompt = false
+[mergetool "Kaleidoscope"]
+    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+[difftool "Kaleidoscope"]
+    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool]
+    prompt = false
+[commit]
+	verbose = true

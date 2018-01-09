@@ -1,0 +1,10 @@
+create_default_packages:
+  - pip
+
+channels:
+  - defaults
+
+changeps1: no
+always_yes: yes
+show_channel_urls: yes
+
