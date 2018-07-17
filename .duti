@@ -9,3 +9,4 @@ com.microsoft.VSCode	com.netscape.javascript-source	all
 com.microsoft.VSCode	public.c-plus-plus-source	all
 com.microsoft.VSCode	.yaml	all
 com.microsoft.VSCode	.json	all
+com.microsoft.VSCode    .md     all

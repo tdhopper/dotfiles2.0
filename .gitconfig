@@ -1,11 +1,11 @@
 [user]
     name = Tim Hopper
-    email = tdhopper@gmail.com
+	email = thopper@cylance.com
 [github]
     user = tdhopper
 [core]
 	excludesfile = /Users/thopper/.gitignore
-	editor = code -n --wait
+	editor = code --wait
 [color]
     ui = true
 [alias]
@@ -24,11 +24,11 @@
 [credential]
     helper = osxkeychain
 [diff]
-    tool = Kaleidoscope
+	tool = Kaleidoscope
 [difftool "diffmerge"]
     cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
 [merge]
-	tool = code
+	tool = Kaleidoscope
 [mergetool "diffmerge"]
     cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
     trustExitCode = true
@@ -57,3 +57,7 @@
     prompt = false
 [commit]
 	verbose = true
+[difftool "vscode"]
+	cmd = "code --wait --diff  "
+[mergetool "vscode"]
+	cmd = "code --wait "
