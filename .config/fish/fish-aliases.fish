@@ -11,3 +11,5 @@ alias cat 'ccat'
 alias dns_flush 'sudo killall -HUP mDNSResponder'
 alias flush_dns dns_flush
 alias a "source env/bin/activate.fish"
+
+alias caws 'aws --profile c'

@@ -2,6 +2,10 @@ function subf
     code -n .
 end
 
+function rm_older_than
+    find . -type f -mtime +$argv -delete
+end
+
 function subl
     code $argv
 end
