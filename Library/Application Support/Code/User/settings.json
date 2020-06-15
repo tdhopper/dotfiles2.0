@@ -1,0 +1,43 @@
+{
+    "workbench.colorTheme": "Visual Studio Light",
+    "editor.minimap.enabled": false,
+    "go.formatTool": "goimports",
+    "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 14,
+    "workbench.editor.enablePreview": false,
+    "editor.fontWeight": "300",
+    "editor.rulers": [
+    100
+    ],
+    "editor.lineNumbers": "relative",
+    "git.confirmSync": false,
+    "vim.disableExtension": true,
+    "vim.surround": false,
+    "window.zoomLevel": 0,
+    "files.trimTrailingWhitespace": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "vim.autoSwitchInputMethod.obtainIMCmd": "/usr/local/bin/im-select",
+    "vim.autoSwitchInputMethod.defaultIM": "com.apple.keylayout.US",
+    "vim.autoSwitchInputMethod.switchIMCmd": "/usr/local/bin/im-select {im}",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.highlightedyank.enable": true,
+    "vim.useSystemClipboard": true,
+    "projectManager.git.baseFolders": [
+
+        "~/repos",
+
+    ],
+    "git.autofetch": true,
+    "markdown-table-formatter.markdownGrammarScopes": [
+        "markdown",
+        "python"
+    ],
+    "vim.autoSwitchInputMethod.enable": true,
+    "gitlens.advanced.telemetry.enabled": false
+}
