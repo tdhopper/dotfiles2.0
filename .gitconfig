@@ -6,7 +6,7 @@
 [github]
     user = tdhopper
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/tim.hopper/.gitignore
 	editor = code --wait
 [color]
     ui = true

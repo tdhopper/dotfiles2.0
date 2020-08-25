@@ -1,3 +1,4 @@
 git config --global core.excludesfile ~/.gitignore
 brew install duti
 duti ~/.duti
+brew install bat ccat direnv exa fd fish htop gpg pyenv ripgrep shellcheck tldr the_silver_searcher sd
