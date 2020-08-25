@@ -1,10 +1,12 @@
 [user]
     name = Tim Hopper
-	email = thopper@cylance.com
+	email = tdhopper@gmail.com
+[includeIf "gitdir:~/dtn/"]
+  path = ~/.gitconfig-work
 [github]
     user = tdhopper
 [core]
-	excludesfile = /Users/thopper/.gitignore
+	excludesfile = ~/.gitignore
 	editor = code --wait
 [color]
     ui = true

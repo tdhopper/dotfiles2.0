@@ -7,9 +7,8 @@ for conda_path in "$HOME/anaconda/bin" "$HOME/miniconda/bin" "$HOME/miniconda2/b
 end
 #
 
+register-python-argcomplete --shell fish pipx | .
 status --is-interactive; and source (pyenv init -|psub)
-status --is-interactive; and source (pyenv virtualenv-init -|psub)
-status --is-interactive; and source (rbenv init -|psub)
 
 # Setup iterm2 shell iterm2_shell_integration
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
@@ -21,9 +20,9 @@ set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
 # Add VS Code to Path
 set --global --export PATH $PATH ~/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/
 
-#Autoenv
-. ~/.config/fish/autoenv.fish
 
+set PATH $PATH ~/.local/bin
+set --erase fish_greeting
 
 # pip fish completion start
 function __fish_complete_pip
