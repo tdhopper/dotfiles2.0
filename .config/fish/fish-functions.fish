@@ -1,38 +1,24 @@
-function subf
-    code -n .
+function .env
+    python -m venv .env
+    source ./.env/bin/activate.fish
 end
 
-function rm_older_than
-    find . -type f -mtime +$argv -delete
+function __park
+    set --local cmd (commandline)
+    set --local cursor (commandline --cursor)
+    commandline --replace ""
+
+    function __unpark --inherit-variable cmd --inherit-variable cursor --on-event fish_prompt
+        functions --erase __unpark
+        commandline --replace $cmd
+        commandline --cursor $cursor
+    end
 end
 
-function subl
-    code $argv
-end
-
-# Git commit alias
-function gc
-    git commit --verbose $argv
-end
-
-
-# Git push new branch to upstream
-function gpo
-    set -x CURRENT_BRANCH (git branch | awk '/^\* / { print $2 }')
-    git push --set-upstream origin $CURRENT_BRANCH
-end
+bind \cq '__park'
 
 # Explain shell command
 function explain
     set -x arg (perl -MURI::Escape -le "print uri_escape('$argv')")
     open 'http://explainshell.com/explain?cmd='$arg
-end
-
-set --erase fish_greeting
-
-function rsync_head
-    rm -rf /tmp/(basename $PWD)
-    git clone . /tmp/(basename $PWD)
-    rm -rf /tmp/(basename $PWD)/.git
-    rsync --archive --stats --rsh ssh /tmp/(basename $PWD) $1:$2
 end

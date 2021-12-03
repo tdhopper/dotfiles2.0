@@ -1,0 +1,251 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "projectManager.git.baseFolders": [
+        "/Users/tim.hopper/dtn",
+        "/Users/tim.hopper/repos"
+    ],
+    "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 17,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "/Users/tim.hopper/.local/pipx/venvs/flake8/bin/flake8",
+    "git.autofetch": true,
+    "files.trimTrailingWhitespace": true,
+    "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
+    "editor.minimap.enabled": false,
+    "editor.lineNumbers": "on",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+        {
+            "before": [
+                "<Up>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Down>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Left>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Right>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+    ],
+    "vim.useSystemClipboard": true,
+    "python.formatting.provider": "black",
+    "editor.rulers": [
+        88
+    ],
+    "editor.codeActionsOnSave": {},
+    "python.sortImports.path": "/Users/tim.hopper/.local/bin/isort",
+    "python.linting.lintOnSave": false,
+    "python.formatting.blackPath": "",
+    "gitlens.advanced.blame.delayAfterEdit": 2000,
+    "terminal.integrated.scrollback": 10000,
+    "yaml.schemas": {
+        "file:///Users/tim.hopper/.vscode/extensions/atlassian.atlascode-2.8.5/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+    },
+    "python.languageServer": "Pylance",
+    "workbench.startupEditor": "newUntitledFile",
+    "remote.containers.workspaceMountConsistency": "delegated",
+    "editor.rename.enablePreview": false,
+    "projectManager.any.ignoredFolders": [
+        "node_modules",
+        "out",
+        "typings",
+        "test",
+        ".env",
+        ".venv",
+        ".pytest_cache",
+        ".mypy_cache"
+    ],
+    "terminal.integrated.inheritEnv": false,
+    "editor.largeFileOptimizations": false,
+    "files.autoSave": "onFocusChange",
+    "launch": {
+        "configurations": [],
+        "compounds": []
+    },
+    "yaml.customTags": [
+        "!And",
+        "!And sequence",
+        "!If",
+        "!If sequence",
+        "!Not",
+        "!Not sequence",
+        "!Equals",
+        "!Equals sequence",
+        "!Or",
+        "!Or sequence",
+        "!FindInMap",
+        "!FindInMap sequence",
+        "!Base64",
+        "!Join",
+        "!Join sequence",
+        "!Cidr",
+        "!Ref",
+        "!Sub",
+        "!Sub sequence",
+        "!GetAtt",
+        "!GetAZs",
+        "!ImportValue",
+        "!ImportValue sequence",
+        "!Select",
+        "!Select sequence",
+        "!Split",
+        "!Split sequence"
+    ],
+    "yaml.validate": false,
+    "editor.renderControlCharacters": true,
+    "[dockerfile]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "jupyter.askForKernelRestart": false,
+    "jupyter.allowUnauthorizedRemoteConnection": true,
+    "files.exclude": {
+        "**/.*_cache": true,
+        "**/.direnv": true,
+        "**/.venv": true,
+        "**/.vscode": true
+    },
+    "workbench.editorAssociations": {
+        "git-rebase-todo": "default",
+        "*.ipynb": "jupyter-notebook"
+    },
+    "[json]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace",
+        "gitlens.codeLens.scopes": [
+            "document"
+        ]
+    },
+    "gitlens.views.searchAndCompare.pullRequests.enabled": false,
+    "remote.SSH.suppressWindowsSshWarning": true,
+    "vim.leader": " ",
+    "vim.easymotion": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "r"
+            ],
+            "commands": [
+                ":reg"
+            ]
+        },
+        {
+            "before": [
+                "<Up>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Down>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Left>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Right>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "d",
+                "d"
+            ]
+        }
+    ],
+    "vim.highlightedyank.enable": true,
+    "json.schemas": [],
+    "projectManager.vscode.ignoredFolders": [
+        "node_modules",
+        "out",
+        "typings",
+        "test",
+        ".venv"
+    ],
+    "gremlins.showInProblemPane": true,
+    "workbench.colorTheme": "Visual Studio Light",
+    "terminal.integrated.fontSize": 14,
+    "files.defaultLanguage": "markdown",
+    "[shellscript]": {
+        "editor.defaultFormatter": "shakram02.bash-beautify"
+    },
+    "vsicons.dontShowNewVersionMessage": true,
+    "python.pythonPath": "/Users/tim.hopper/.pyenv/versions/3.7.9/bin/python",
+    "vim.statusBarColors.surroundinputmode": "",
+    "redhat.telemetry.enabled": false,
+    "editor.cursorStyle": "line",
+    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+    "editor.wordWrap": "off",
+    "vim.smartRelativeLine": true,
+    "editor.stickyTabStops": true,
+    "editor.inlineSuggest.enabled": true,
+    "workbench.editor.enablePreview": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "terminal.integrated.cursorBlinking": true,
+    "python.linting.mypyPath": "",
+    "git.confirmSync": false,
+    "security.workspace.trust.banner": "never",
+    "security.workspace.trust.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "window.zoomLevel": 1,
+    "yaml.format.enable": false
+}

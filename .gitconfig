@@ -1,65 +1,54 @@
 [user]
-    name = Tim Hopper
-	email = tdhopper@gmail.com
+	name = Tim Hopper
+	email = tim.hopper@dtn.com
 [includeIf "gitdir:~/dtn/"]
-  path = ~/.gitconfig-work
+path = ~/.gitconfig-work
 [github]
-    user = tdhopper
+user = tdhopper
 [core]
 	excludesfile = /Users/tim.hopper/.gitignore
-	editor = code --wait
 [color]
-    ui = true
+ui = true
 [alias]
-    wdiff = diff
-    lg = log --max-count=12 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-    p = pull --rebase --prune
-    c = commit -v
-    co = checkout
-    ec = config --global -e
-    amend = commit -a --amend
-    wipe = '!git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard'
-    branches = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) %(authorname) %(refname:short)'
-    aliases = config --get-regexp ^alias\\.
-    showstat = show --stat
-    unstage = reset HEAD --
-[credential]
-    helper = osxkeychain
+wdiff = diff
+cleanup = "!git branch --merged | grep  -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
+lg = log --max-count=12 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+lgg = log --max-count=24 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+lggg = log --max-count=48 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+p = pull --rebase --prune
+c = commit -v
+co = checkout
+ec = config --global -e
+amend = commit -a --amend
+wipe = '!git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard'
+branches = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) %(authorname) %(refname:short)'
+aliases = config --get-regexp ^alias\\.
+showstat = show --stat
+unstage = reset HEAD --
+[core]
+editor = code --wait
 [diff]
-	tool = Kaleidoscope
-[difftool "diffmerge"]
-    cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
-[merge]
-	tool = Kaleidoscope
-[mergetool "diffmerge"]
-    cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-    trustExitCode = true
-[help]
-    autocorrect = 1
-[branch]
-    autosetuprebase = always
-[filter "media"]
-    required = true
-    clean = git media clean %f
-    smudge = git media smudge %f
-[push]
-    default = simple
-[mergetool]
-    keepBackup = true
-[difftool "Kaleidoscope"]
-[mergetool "Kaleidoscope"]
-    trustexitcode = true
-[difftool]
-    prompt = false
-[mergetool "Kaleidoscope"]
-    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-[difftool "Kaleidoscope"]
-    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool]
-    prompt = false
-[commit]
-	verbose = true
+tool = vscode
 [difftool "vscode"]
-	cmd = "code --wait --diff  "
+cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+tool = vscode
 [mergetool "vscode"]
-	cmd = "code --wait "
+cmd = code --wait $MERGEDcredential]
+helper = osxkeychain
+[help]
+autocorrect = 1
+[branch]
+autosetuprebase = always
+	autosetupmerge = always
+[filter "media"]
+required = true
+clean = git media clean %f
+smudge = git media smudge %f
+[push]
+default = current
+[init]
+defaultBranch = main
+	templateDir = /Users/tim.hopper/.git-template
+[pull]
+rebase = false

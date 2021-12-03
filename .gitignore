@@ -1,4 +1,3 @@
-Updated: 2012-05-30 17:25
 env/
 
 # ==========
@@ -37,7 +36,6 @@ nosetests.xml
 
 #Mr Developer
 .mr.developer.cfg
-
 
 # ==========
 # = LaTeX
@@ -100,7 +98,6 @@ tmtags
 # = Vi
 # ==========
 
-
 # ==========
 # = vim
 # ==========
@@ -113,7 +110,6 @@ Session.vim
 # = Linux
 # ==========
 
-.*
 !.gitignore
 *~
 

@@ -1,4 +1,31 @@
+#!/usr/bin/env bash
+
 git config --global core.excludesfile ~/.gitignore
-brew install duti
+# install homebrew
+if ! hash brew  &> /dev/null
+then
+    echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+brew install \
+    bat \
+    ccat \
+    direnv \
+    duti \
+    exa \
+    fd \
+    fish \
+    git \
+    gpg \
+    htop \
+    jq \
+    pipx \
+    pyenv \
+    ripgrep \
+    shellcheck \
+    snappy \
+    the_silver_searcher \
+    tldr \
+    wget \
+    youtube-dl
 duti ~/.duti
-brew install bat ccat direnv exa fd fish htop gpg pyenv ripgrep shellcheck tldr the_silver_searcher sd
