@@ -1,6 +1,6 @@
 [user]
 	name = Tim Hopper
-	email = tim.hopper@dtn.com
+	email = tdhopper@gmail.com 
 [includeIf "gitdir:~/dtn/"]
 path = ~/.gitconfig-work
 [github]
