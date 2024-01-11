@@ -1,4 +1,9 @@
+PKG-INFO
+.direnv/
 env/
+.envrc
+.env
+.tool-versions
 
 # ==========
 # = Python
