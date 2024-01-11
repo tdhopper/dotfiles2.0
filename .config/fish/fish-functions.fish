@@ -16,9 +16,3 @@ function __park
 end
 
 bind \cq '__park'
-
-# Explain shell command
-function explain
-    set -x arg (perl -MURI::Escape -le "print uri_escape('$argv')")
-    open 'http://explainshell.com/explain?cmd='$arg
-end

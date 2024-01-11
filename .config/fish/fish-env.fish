@@ -1,25 +1,32 @@
-# Fish setup
-set --erase fish_greeting
 
-# pipx
-set PATH $PATH ~/.local/bin
-if test -q
-    register-python-argcomplete --shell fish pipx | .
+function add_to_path_if_exists
+    set -l dir $argv[1]
+    if test -d $dir
+        fish_add_path $dir
+    else
+        echo "Directory '$dir' does not exist."
+    end
 end
 
-# Pyenv initialize
+function source_if_exists
+    set -l file $argv[1]
+    if test -f $file
+        source $file
+    else
+        echo "File '$file' does not exist."
+    end
+end
+
+set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
+
+add_to_path_if_exists /opt/homebrew/bin
+add_to_path_if_exists ~/.local/bin
+source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.fish
+source_if_exists {$HOME}/.iterm2_shell_integration.fish
+
 if type -q pyenv
     status --is-interactive; and source (pyenv init -|psub)
 end
-
-# Setup iterm2 shell iterm2_shell_integration
-test -e {$HOME}/.iterm2_shell_integration.fish; and source {$HOME}/.iterm2_shell_integration.fish
-
-# Quick CD
-set --global CDPATH . "~/dtn" "~/repos" "~" $CDPATH
-
-# Add VS Code to Path
-set --global --export PATH $PATH ~/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/
 
 # Pip autocomplete
 function __fish_complete_pip
@@ -32,7 +39,12 @@ complete -fa "(__fish_complete_pip)" -c pip
 
 # Direnv enable
 function __direnv_export_eval --on-event fish_postexec;
-        "/usr/local/bin/direnv" export fish | source;
+        "/opt/homebrew/bin/direnv" export fish | source;
 end
 
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+if type -q starship
+    starship init fish | source
+end
+
+string match -q "$TERM_PROGRAM" "vscode"
+and . (code --locate-shell-integration-path fish)
