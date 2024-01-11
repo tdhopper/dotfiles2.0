@@ -1,5 +1,4 @@
 package foreign-env
 package nvm
 package pyenv
-theme bobthefish
 theme default
