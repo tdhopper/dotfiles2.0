@@ -7,25 +7,44 @@ if ! command -v brew >/dev/null 2>&1; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+curl -sS https://starship.rs/install.sh | sh
+
 brew install \
-    bat \
-    ccat \
-    direnv \
-    duti \
-    exa \
-    fd \
-    fish \
-    git \
-    gpg \
-    htop \
-    jq \
-    pipx \
-    pyenv \
-    ripgrep \
-    shellcheck \
-    snappy \
-    the_silver_searcher \
-    tldr \
-    wget \
-    youtube-dl
+	asdf \
+	awscli \
+	bat \
+	cask \
+	ccat \
+	cloc \
+	direnv \
+	duckdb \
+	duti \
+	eza \
+	fd \
+	fish \
+	fx \
+	fzf \
+	git \
+	git-filter-repo \
+	hadolint \
+	htop \
+	jq \
+	magic-wormhole \
+	mysql \
+	pandoc \
+	parallel \
+	pipx \
+	podman \
+	pre-commit \
+	ripgrep \
+	shellcheck \
+	the_silver_searcher \
+	tldr \
+	tmux \
+	watch \
+	wget \
+	yadm \
+	youtube-dl \
+	yt-dlp 
+
 duti ~/.duti

@@ -38,8 +38,15 @@ end
 complete -fa "(__fish_complete_pip)" -c pip
 
 # Direnv enable
-function __direnv_export_eval --on-event fish_postexec;
-        "/opt/homebrew/bin/direnv" export fish | source;
+if type -q /opt/homebrew/bin/direnv
+    function __direnv_export_eval --on-event fish_postexec;
+            "/opt/homebrew/bin/direnv" export fish | source;
+    end
+end
+if type -q /opt/homebrew/bin/direnv
+    function __direnv_export_eval --on-event fish_postexec;
+            "/opt/homebrew/bin/direnv" export fish | source;
+    end
 end
 
 if type -q starship
