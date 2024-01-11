@@ -37,15 +37,9 @@ function __fish_complete_pip
 end
 complete -fa "(__fish_complete_pip)" -c pip
 
-# Direnv enable
-if type -q /opt/homebrew/bin/direnv
+if type -q direnv 
     function __direnv_export_eval --on-event fish_postexec;
-            "/opt/homebrew/bin/direnv" export fish | source;
-    end
-end
-if type -q /opt/homebrew/bin/direnv
-    function __direnv_export_eval --on-event fish_postexec;
-            "/opt/homebrew/bin/direnv" export fish | source;
+            direnv export fish | source;
     end
 end
 

@@ -6,7 +6,7 @@ path = ~/.gitconfig-work
 [github]
 user = tdhopper
 [core]
-excludesfile = /Users/tdhopper/.gitignore
+	excludesfile = /Users/tdhopper/.gitignore
 [color]
 ui = true
 [alias]
