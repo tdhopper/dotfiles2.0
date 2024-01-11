@@ -1,323 +1,319 @@
 {
-    "projectManager.git.baseFolders": [
-        "/Users/tdhopper/c",
-        "/Users/tdhopper/repos"
-    ],
-    "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-    "editor.fontSize": 17,
-    "git.autofetch": true,
-    "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
-    "editor.minimap.enabled": false,
-    "editor.lineNumbers": "relative",
-    "vim.visualModeKeyBindings": [
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace",
+    "gitlens.codeLens.scopes": [
+      "document"
+    ]
+  },
+  "editor.accessibilitySupport": "off",
+  "editor.codeActionsOnSave": {},
+  "editor.cursorStyle": "line",
+  "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 17,
+  "editor.inlineSuggest.enabled": true,
+  "editor.largeFileOptimizations": false,
+  "editor.lineNumbers": "relative",
+  "editor.minimap.enabled": false,
+  "editor.rename.enablePreview": false,
+  "editor.renderControlCharacters": true,
+  "editor.rulers": [
+    88
+  ],
+  "editor.stickyScroll.enabled": true,
+  "editor.stickyTabStops": true,
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  "editor.wordWrap": "off",
+  "files.autoSave": "onFocusChange",
+  "files.defaultLanguage": "markdown",
+  "files.exclude": {
+    "**/.*_cache": true,
+    "**/.direnv": true,
+    "**/.env": true,
+    "**/.venv": true,
+    "**/.vscode": true
+  },
+  "files.trimFinalNewlines": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.timeline.showUncommitted": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "gitlens.advanced.blame.delayAfterEdit": 2000,
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.showWelcomeOnInstall": false,
+  "gitlens.showWhatsNewAfterUpgrades": false,
+  "gitlens.views.searchAndCompare.pullRequests.enabled": false,
+  "json.schemas": [],
+  "jupyter.allowUnauthorizedRemoteConnection": true,
+  "jupyter.askForKernelRestart": false,
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "projectManager.any.ignoredFolders": [
+    "node_modules",
+    "out",
+    "typings",
+    "test",
+    ".env",
+    ".venv",
+    ".pytest_cache",
+    ".mypy_cache"
+  ],
+  "projectManager.git.baseFolders": [
+    "/Users/tdhopper/c",
+    "/Users/tdhopper/repos"
+  ],
+  "projectManager.vscode.ignoredFolders": [
+    "node_modules",
+    "out",
+    "typings",
+    "test",
+    ".venv"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.envFile": "",
+  "python.experiments.enabled": false,
+  "python.experiments.optInto": [],
+  "python.languageServer": "Pylance",
+  "python.testing.pytestEnabled": true,
+  "redhat.telemetry.enabled": false,
+  "security.workspace.trust.banner": "never",
+  "security.workspace.trust.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.altClickMovesCursor": false,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.inheritEnv": false,
+  "terminal.integrated.scrollback": 10000,
+  "trailing-spaces.deleteModifiedLinesOnly": true,
+  "trailing-spaces.trimOnSave": true,
+  "vim.easymotion": true,
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "<Up>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Down>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Left>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Right>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    }
+  ],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<Esc>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.leader": " ",
+  "vim.normalModeKeyBindings": [
+    {
+      "before": [
+        "<leader>",
+        "r"
+      ],
+      "commands": [
+        ":reg"
+      ]
+    },
+    {
+      "before": [
+        "<Up>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Down>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Left>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<Right>"
+      ],
+      "after": [
+        "<Nop>"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "d",
+        "d"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "g"
+      ],
+      "commands": [
+        "editor.action.revealDefinition"
+      ],
+      "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+      "before": [
+        "<leader>",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.navigateBack"
+      ],
+      "when": "canNavigateBack"
+    },
+    {
+      "before": [
+        "<leader>",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.navigateForward"
+      ],
+      "when": "canNavigateForward"
+    },
+    {
+      "before": [
+        "u"
+      ],
+      "after": [],
+      "commands": [
         {
-            "before": [
-                "<leader>",
-                "c"
-            ],
-            "commands": [
-                "editor.action.commentLine"
-            ],
-            "when": "editorTextFocus && !editorReadonly"
+          "command": "undo",
+          "args": []
         }
-    ],
-    "vim.insertModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<Esc>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "j",
-                "k"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        }
-    ],
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "<Up>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Down>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Left>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Right>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<leader>",
-                "g"
-            ],
-            "commands": [
-                "editor.action.revealDefinition"
-            ],
-            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-        },
-        {
-            "before": [
-                "<leader>",
-                "b"
-            ],
-            "commands": [
-                "workbench.action.navigateBack"
-            ],
-            "when": "canNavigateBack"
-        },
-        {
-            "before": [
-                "<leader>",
-                "f"
-            ],
-            "commands": [
-                "workbench.action.navigateForward"
-            ],
-            "when": "canNavigateForward"
-        }
-        {
-            "before": [
-                "u"
-            ],
-            "after": [],
-            "commands": [
-                {
-                    "command": "undo",
-                    "args": []
-                }
-            ]
-        }
-    ],
-    "vim.useSystemClipboard": true,
-    "editor.rulers": [
-        88
-    ],
-    "editor.codeActionsOnSave": {},
-    "gitlens.advanced.blame.delayAfterEdit": 2000,
-    "terminal.integrated.scrollback": 10000,
-    "yaml.schemas": {
-        "file:///Users/tim.hopper/.vscode/extensions/atlassian.atlascode-2.8.5/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
-    },
-    "python.languageServer": "Pylance",
-    "workbench.startupEditor": "newUntitledFile",
-    "editor.rename.enablePreview": false,
-    "projectManager.any.ignoredFolders": [
-        "node_modules",
-        "out",
-        "typings",
-        "test",
-        ".env",
-        ".venv",
-        ".pytest_cache",
-        ".mypy_cache"
-    ],
-    "terminal.integrated.inheritEnv": false,
-    "editor.largeFileOptimizations": false,
-    "files.autoSave": "onFocusChange",
-    "launch": {
-        "configurations": [],
-        "compounds": []
-    },
-    "yaml.customTags": [
-        "!And",
-        "!And sequence",
-        "!If",
-        "!If sequence",
-        "!Not",
-        "!Not sequence",
-        "!Equals",
-        "!Equals sequence",
-        "!Or",
-        "!Or sequence",
-        "!FindInMap",
-        "!FindInMap sequence",
-        "!Base64",
-        "!Join",
-        "!Join sequence",
-        "!Cidr",
-        "!Ref",
-        "!Sub",
-        "!Sub sequence",
-        "!GetAtt",
-        "!GetAZs",
-        "!ImportValue",
-        "!ImportValue sequence",
-        "!Select",
-        "!Select sequence",
-        "!Split",
-        "!Split sequence"
-    ],
-    "yaml.validate": false,
-    "editor.renderControlCharacters": true,
-    "jupyter.askForKernelRestart": false,
-    "jupyter.allowUnauthorizedRemoteConnection": true,
-    "files.exclude": {
-        "**/.*_cache": true,
-        "**/.direnv": true,
-        "**/.env": true,
-        "**/.venv": true,
-        "**/.vscode": true
-    },
-    "workbench.editorAssociations": {
-        "git-rebase-todo": "default",
-        "*.ipynb": "jupyter-notebook"
-    },
-    "[json]": {
-        "editor.quickSuggestions": {
-            "strings": true
-        },
-        "editor.suggest.insertMode": "replace",
-        "gitlens.codeLens.scopes": [
-            "document"
-        ]
-    },
-    "gitlens.views.searchAndCompare.pullRequests.enabled": false,
-    "vim.leader": " ",
-    "vim.normalModeKeyBindings": [
-        {
-            "before": [
-                "<leader>",
-                "r"
-            ],
-            "commands": [
-                ":reg"
-            ]
-        },
-        {
-            "before": [
-                "<Up>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Down>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Left>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<Right>"
-            ],
-            "after": [
-                "<Nop>"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "d"
-            ],
-            "after": [
-                "\"",
-                "_",
-                "d",
-                "d"
-            ]
-        }
-    ],
-    "vim.highlightedyank.enable": true,
-    "json.schemas": [],
-    "projectManager.vscode.ignoredFolders": [
-        "node_modules",
-        "out",
-        "typings",
-        "test",
-        ".venv"
-    ],
-    "workbench.colorTheme": "Visual Studio Light",
-    "terminal.integrated.fontSize": 14,
-    "files.defaultLanguage": "markdown",
-    "vim.statusBarColors.surroundinputmode": "",
-    "redhat.telemetry.enabled": false,
-    "editor.cursorStyle": "line",
-    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
-    "editor.wordWrap": "off",
-    "vim.smartRelativeLine": true,
-    "editor.stickyTabStops": true,
-    "editor.inlineSuggest.enabled": true,
-    "workbench.editor.enablePreview": false,
-    "security.workspace.trust.untrustedFiles": "open",
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
-    },
-    "terminal.integrated.cursorBlinking": true,
-    "git.confirmSync": false,
-    "security.workspace.trust.banner": "never",
-    "security.workspace.trust.enabled": false,
-    "telemetry.telemetryLevel": "off",
-    "yaml.format.enable": false,
-    "terminal.integrated.altClickMovesCursor": false,
-    "workbench.editor.tabSizing": "shrink",
-    "workbench.editor.tabCloseButton": "left",
-    "git.timeline.showUncommitted": true,
-    "vim.easymotion": true,
-    "python.analysis.typeCheckingMode": "basic",
-    "gitlens.showWelcomeOnInstall": false,
-    "gitlens.showWhatsNewAfterUpgrades": false,
-    "gitlens.plusFeatures.enabled": false,
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": true,
-        "plaintext": false,
-        "markdown": true,
-        "scminput": false
-    },
-    "files.trimFinalNewlines": true,
-    "trailing-spaces.trimOnSave": true,
-    "trailing-spaces.deleteModifiedLinesOnly": true,
-    "editor.accessibilitySupport": "off",
-    "zenMode.centerLayout": false,
-    "vim.hlsearch": true,
-    "editor.stickyScroll.enabled": true,
-    "python.experiments.optInto": [],
-    "python.testing.pytestEnabled": true,
-    "python.defaultInterpreterPath": "/Users/tdhopper/c/test_tecton_0.5/.direnv/python-3.9",
-    "python.experiments.enabled": false,
-    "python.envFile": "",
-    "workbench.editor.tabActionLocation": "left",
-    "window.zoomLevel": -1,
+      ]
+    }
+  ],
+  "vim.smartRelativeLine": true,
+  "vim.statusBarColors.surroundinputmode": "",
+  "vim.useSystemClipboard": true,
+  "vim.visualModeKeyBindings": [
+    {
+      "before": [
+        "<leader>",
+        "c"
+      ],
+      "commands": [
+        "editor.action.commentLine"
+      ],
+      "when": "editorTextFocus && !editorReadonly"
+    }
+  ],
+  "window.zoomLevel": -1,
+  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.tabActionLocation": "left",
+  "workbench.editor.tabCloseButton": "left",
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editorAssociations": {
+    "git-rebase-todo": "default",
+    "*.ipynb": "jupyter-notebook"
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "yaml.format.enable": false,
+  "yaml.validate": false,
+  "zenMode.centerLayout": false
 }
