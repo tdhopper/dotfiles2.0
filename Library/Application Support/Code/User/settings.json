@@ -1,28 +1,46 @@
 {
-    "workbench.iconTheme": "vscode-icons",
     "projectManager.git.baseFolders": [
-        "/Users/tim.hopper/dtn",
-        "/Users/tim.hopper/repos"
+        "/Users/tdhopper/c",
+        "/Users/tdhopper/repos"
     ],
     "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 17,
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Path": "/Users/tim.hopper/.local/pipx/venvs/flake8/bin/flake8",
     "git.autofetch": true,
-    "files.trimTrailingWhitespace": true,
     "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
     "editor.minimap.enabled": false,
-    "editor.lineNumbers": "on",
-    "vim.insertModeKeyBindings": [
+    "editor.lineNumbers": "relative",
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "c"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ],
+            "when": "editorTextFocus && !editorReadonly"
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<Esc>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
         {
             "before": [
                 "j",
-                "j"
+                "k"
             ],
             "after": [
                 "<Esc>"
             ]
-        },
+        }
+    ],
+    "vim.insertModeKeyBindings": [
         {
             "before": [
                 "<Up>"
@@ -56,15 +74,55 @@
             ]
         },
     ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "g"
+            ],
+            "commands": [
+                "editor.action.revealDefinition"
+            ],
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+        },
+        {
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.navigateBack"
+            ],
+            "when": "canNavigateBack"
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.navigateForward"
+            ],
+            "when": "canNavigateForward"
+        }
+        {
+            "before": [
+                "u"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "undo",
+                    "args": []
+                }
+            ]
+        }
+    ],
     "vim.useSystemClipboard": true,
-    "python.formatting.provider": "black",
     "editor.rulers": [
         88
     ],
     "editor.codeActionsOnSave": {},
-    "python.sortImports.path": "/Users/tim.hopper/.local/bin/isort",
-    "python.linting.lintOnSave": false,
-    "python.formatting.blackPath": "",
     "gitlens.advanced.blame.delayAfterEdit": 2000,
     "terminal.integrated.scrollback": 10000,
     "yaml.schemas": {
@@ -72,7 +130,6 @@
     },
     "python.languageServer": "Pylance",
     "workbench.startupEditor": "newUntitledFile",
-    "remote.containers.workspaceMountConsistency": "delegated",
     "editor.rename.enablePreview": false,
     "projectManager.any.ignoredFolders": [
         "node_modules",
@@ -122,17 +179,12 @@
     ],
     "yaml.validate": false,
     "editor.renderControlCharacters": true,
-    "[dockerfile]": {
-        "editor.quickSuggestions": {
-            "strings": true
-        },
-        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-    },
     "jupyter.askForKernelRestart": false,
     "jupyter.allowUnauthorizedRemoteConnection": true,
     "files.exclude": {
         "**/.*_cache": true,
         "**/.direnv": true,
+        "**/.env": true,
         "**/.venv": true,
         "**/.vscode": true
     },
@@ -150,9 +202,7 @@
         ]
     },
     "gitlens.views.searchAndCompare.pullRequests.enabled": false,
-    "remote.SSH.suppressWindowsSshWarning": true,
     "vim.leader": " ",
-    "vim.easymotion": true,
     "vim.normalModeKeyBindings": [
         {
             "before": [
@@ -217,15 +267,9 @@
         "test",
         ".venv"
     ],
-    "gremlins.showInProblemPane": true,
     "workbench.colorTheme": "Visual Studio Light",
     "terminal.integrated.fontSize": 14,
     "files.defaultLanguage": "markdown",
-    "[shellscript]": {
-        "editor.defaultFormatter": "shakram02.bash-beautify"
-    },
-    "vsicons.dontShowNewVersionMessage": true,
-    "python.pythonPath": "/Users/tim.hopper/.pyenv/versions/3.7.9/bin/python",
     "vim.statusBarColors.surroundinputmode": "",
     "redhat.telemetry.enabled": false,
     "editor.cursorStyle": "line",
@@ -241,11 +285,39 @@
         "jupyter-notebook": "left"
     },
     "terminal.integrated.cursorBlinking": true,
-    "python.linting.mypyPath": "",
     "git.confirmSync": false,
     "security.workspace.trust.banner": "never",
     "security.workspace.trust.enabled": false,
     "telemetry.telemetryLevel": "off",
-    "window.zoomLevel": 1,
-    "yaml.format.enable": false
+    "yaml.format.enable": false,
+    "terminal.integrated.altClickMovesCursor": false,
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editor.tabCloseButton": "left",
+    "git.timeline.showUncommitted": true,
+    "vim.easymotion": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "gitlens.showWelcomeOnInstall": false,
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "gitlens.plusFeatures.enabled": false,
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "files.trimFinalNewlines": true,
+    "trailing-spaces.trimOnSave": true,
+    "trailing-spaces.deleteModifiedLinesOnly": true,
+    "editor.accessibilitySupport": "off",
+    "zenMode.centerLayout": false,
+    "vim.hlsearch": true,
+    "editor.stickyScroll.enabled": true,
+    "python.experiments.optInto": [],
+    "python.testing.pytestEnabled": true,
+    "python.defaultInterpreterPath": "/Users/tdhopper/c/test_tecton_0.5/.direnv/python-3.9",
+    "python.experiments.enabled": false,
+    "python.envFile": "",
+    "workbench.editor.tabActionLocation": "left",
+    "window.zoomLevel": -1,
 }
