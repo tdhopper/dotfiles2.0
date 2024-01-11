@@ -273,7 +273,6 @@
       "when": "editorTextFocus && !editorReadonly"
     }
   ],
-  "window.zoomLevel": -1,
   "workbench.colorTheme": "Visual Studio Light",
   "workbench.editor.enablePreview": false,
   "workbench.editor.tabActionLocation": "left",
