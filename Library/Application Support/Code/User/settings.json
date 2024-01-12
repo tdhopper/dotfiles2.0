@@ -271,6 +271,17 @@
         "editor.action.commentLine"
       ],
       "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "d",
+      ]
     }
   ],
   "window.zoomLevel": -1,
