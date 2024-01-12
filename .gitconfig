@@ -18,7 +18,7 @@ lggg = log --max-count=48 --color --graph --pretty=format:'%Cred%h%Creset -%C(ye
 co = checkout
 branches = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) %(authorname) %(refname:short)'
 aliases = config --get-regexp ^alias\\.
-	cm = !git checkout $(git branch -l | grep -E \"^(master|main)$\" | head -n 1)
+	cm = !git checkout $(git branch -l | grep -E \"^\\s*(master|main)$\" | sed \"s/^\\s*//\" | head -n 1)
 [core]
 editor = vim
 [diff]

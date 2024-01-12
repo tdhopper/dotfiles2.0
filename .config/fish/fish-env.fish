@@ -21,7 +21,6 @@ set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
 
 add_to_path_if_exists /opt/homebrew/bin
 add_to_path_if_exists ~/.local/bin
-source_if_exists /opt/homebrew/opt/asdf/libexec/asdf.fish
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
 
 if type -q pyenv
@@ -37,7 +36,7 @@ function __fish_complete_pip
 end
 complete -fa "(__fish_complete_pip)" -c pip
 
-if type -q direnv 
+if type -q direnv
     function __direnv_export_eval --on-event fish_postexec;
             direnv export fish | source;
     end
