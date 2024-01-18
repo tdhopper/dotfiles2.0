@@ -23,6 +23,7 @@ aliases = config --get-regexp ^alias\\.
 editor = vim
 [diff]
 tool = vscode
+	algorithm = histogram
 [difftool "vscode"]
 cmd = code --wait --diff $LOCAL $REMOTE
 [merge]
