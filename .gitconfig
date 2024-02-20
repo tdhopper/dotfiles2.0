@@ -50,3 +50,5 @@ rebase = false
 	ff = true
 [rebase]
 autoStash = true
+[interactive]
+	singleKey = true
