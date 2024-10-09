@@ -210,6 +210,10 @@
     {
         "key": "cmd+k cmd+right",
         "command": "-workbench.action.focusRightGroup"
+    },
+    {
+        "key": "cmd+k cmd+f",
+        "command": "workbench.action.quickTextSearch"
     }
 
 ]

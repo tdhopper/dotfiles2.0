@@ -41,7 +41,7 @@ required = true
 clean = git media clean %f
 smudge = git media smudge %f
 [push]
-default = current
+	default = current
 	autoSetupRemote = true
 [init]
 defaultBranch = main
