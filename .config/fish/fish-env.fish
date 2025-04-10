@@ -23,9 +23,6 @@ add_to_path_if_exists /opt/homebrew/bin
 add_to_path_if_exists ~/.local/bin
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
 
-if type -q pyenv
-    status --is-interactive; and source (pyenv init -|psub)
-end
 
 # Pip autocomplete
 function __fish_complete_pip
@@ -42,9 +39,7 @@ if type -q direnv
     end
 end
 
-if type -q starship
-    starship init fish | source
-end
+starship init fish | source
 
 string match -q "$TERM_PROGRAM" "vscode"
 and . (code --locate-shell-integration-path fish)

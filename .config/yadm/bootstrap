@@ -7,9 +7,15 @@ if ! command -v brew >/dev/null 2>&1; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-curl -sS https://starship.rs/install.sh | sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+call plug#begin('~/.vim/plugged')
+" Plug statements go here
+call plug#end()
+
 
 brew install \
+	starship \
 	asdf \
 	awscli \
 	bat \
@@ -45,7 +51,7 @@ brew install \
 	wget \
 	yadm \
 	youtube-dl \
-	yt-dlp 
+	yt-dlp
 
 duti ~/.duti
 

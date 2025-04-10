@@ -2,7 +2,7 @@
 # VERSION: 3.0
 SETUVAR --export EDITOR:vim
 SETUVAR TO_DIR:/Users/tim\x2ehopper/\x2etofish
-SETUVAR __fish_initialized:3400
+SETUVAR __fish_initialized:3800
 SETUVAR _fisher_joehillen_2F_to_2D_fish_files:/Users/tim\x2ehopper/\x2econfig/fish/functions/to\x2efish\x1e/Users/tim\x2ehopper/\x2econfig/fish/conf\x2ed/to\x2efish\x1e/Users/tim\x2ehopper/\x2econfig/fish/completions/to\x2efish
 SETUVAR _fisher_jorgebucaran_2F_fisher_files:/Users/tim\x2ehopper/\x2econfig/fish/functions/fisher\x2efish\x1e/Users/tim\x2ehopper/\x2econfig/fish/completions/fisher\x2efish
 SETUVAR _fisher_plugins:joehillen/to\x2dfish\x1ejorgebucaran/fisher
@@ -24,7 +24,7 @@ SETUVAR fish_color_operator:00a6b2
 SETUVAR fish_color_param:00afff
 SETUVAR fish_color_quote:999900
 SETUVAR fish_color_redirection:00afff
-SETUVAR fish_color_search_match:bryellow\x1e\x2d\x2dbackground\x3dbrblack
+SETUVAR fish_color_search_match:white\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
