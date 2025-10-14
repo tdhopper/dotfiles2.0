@@ -5,6 +5,7 @@ set -U fish_greeting ""
 . ~/.config/fish/fish-keybindings.fish
 if test -e ~/.config/fish/fish-work.fish
    . ~/.config/fish/fish-work.fish
+
 end
 fish_add_path --move --path /opt/spotify-devex/bin
 
