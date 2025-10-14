@@ -119,3 +119,6 @@
 
 [status]
     submoduleSummary = true
+
+[remote]
+    pushDefault = origin
