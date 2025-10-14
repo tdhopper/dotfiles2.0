@@ -286,7 +286,8 @@
     ],
     "workbench.colorTheme": "Codesso Light",
     "workbench.colorCustomizations": {
-        "terminal.background": "#fff""sideBar.background": "#fff"
+        "terminal.background": "#fff",
+        "sideBar.background": "#fff"
     },
     "workbench.editor.enablePreview": false,
     "workbench.editor.tabActionLocation": "left",
