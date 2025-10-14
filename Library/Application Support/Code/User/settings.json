@@ -11,7 +11,9 @@
     "editor.accessibilitySupport": "off",
     "editor.codeActionsOnSave": {},
     "editor.cursorStyle": "line",
-    "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.renderWhitespace": "boundary",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.fontFamily": "LigaSauceCode Pro Nerd Font, SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 17,
     "editor.inlineSuggest.enabled": true,
     "editor.largeFileOptimizations": false,
@@ -48,7 +50,6 @@
     },
     "gitlens.advanced.blame.delayAfterEdit": 2000,
     "gitlens.plusFeatures.enabled": false,
-    "gitlens.showWelcomeOnInstall": false,
     "gitlens.showWhatsNewAfterUpgrades": false,
     "gitlens.views.searchAndCompare.pullRequests.enabled": false,
     "json.schemas": [],
@@ -100,11 +101,13 @@
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.inheritEnv": false,
     "terminal.integrated.scrollback": 50000,
-    "trailing-spaces.deleteModifiedLinesOnly": true,
-    "trailing-spaces.trimOnSave": true,
     "vim.easymotion": true,
     "vim.highlightedyank.enable": true,
     "vim.hlsearch": true,
+    "vim.camelCaseMotion.enable": false,
+    "vim.incsearch": true,
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
     "vim.insertModeKeyBindings": [
         {
             "before": [
@@ -350,7 +353,6 @@
         ".custom-sidebar-titlebar .sidebar .composite.title .inline-titlebar-placeholder": "padding-left: 0 !important;", // Don't indent the sidebar title. Part 2 to remove the empty space to the left of the sidebar title and complete the proper horizontal left alignment.
         ".monaco-workbench .part.statusbar>.items-container>.statusbar-item.left.first-visible-item": "padding-left: 0;", // Don't indent the statusbar items. This horizontally aligns the statusbar items with the "Problems" header in the panel, which looks nice.
     },
-    "editor.glyphMargin": false,
     "markdown.marp.breaks": "off",
     "markdown.marp.pdf.noteAnnotations": true,
     "workbench.activityBar.location": "hidden",
@@ -360,4 +362,5 @@
     "gitlens.statusBar.pullRequests.enabled": false,
     "gitlens.graph.statusBar.enabled": false,
     "terminal.integrated.stickyScroll.enabled": true,
+    "files.trimTrailingWhitespace": true
 }
