@@ -41,4 +41,3 @@ if type -q direnv
 end
 
 starship init fish | source
-
