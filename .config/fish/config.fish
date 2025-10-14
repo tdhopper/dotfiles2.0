@@ -6,3 +6,11 @@ set -U fish_greeting ""
 if test -e ~/.config/fish/fish-work.fish
    . ~/.config/fish/fish-work.fish
 end
+fish_add_path --move --path /opt/spotify-devex/bin
+
+# pnpm
+set -gx PNPM_HOME "/Users/thopper/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

@@ -21,6 +21,7 @@ set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
 
 add_to_path_if_exists /opt/homebrew/bin
 add_to_path_if_exists ~/.local/bin
+source_if_exists ~/.cargo/env.fish
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
 
 
@@ -41,5 +42,3 @@ end
 
 starship init fish | source
 
-string match -q "$TERM_PROGRAM" "vscode"
-and . (code --locate-shell-integration-path fish)
