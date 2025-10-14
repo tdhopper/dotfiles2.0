@@ -26,7 +26,6 @@ disabled = false
 disabled = true
 
 [python]
-pyenv_version_name = false
 format = '[${symbol}(${version}) ]($style)'
 version_format = '$major.$minor'
 
