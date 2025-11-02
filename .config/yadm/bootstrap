@@ -1,64 +1,92 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-git config --global core.excludesfile ~/.gitignore
-# install homebrew
+# ---- git ----
+git config --global core.excludesfile "${HOME}/.gitignore"
+
+# ---- Homebrew (modern installer) ----
 if ! command -v brew >/dev/null 2>&1; then
-    echo "Installing homebrew"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "Installing Homebrew"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Ensure brew is on PATH for this session
+  eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || true)"
+  eval "$(/usr/local/bin/brew shellenv 2>/dev/null || true)"
 fi
 
+# ---- uv ----
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-call plug#begin('~/.vim/plugged')
-" Plug statements go here
-call plug#end()
-
-
-brew install \
-	starship \
-	asdf \
-	awscli \
-	bat \
-	cask \
-	ccat \
-	cloc \
-	delta \
-	direnv \
-	duckdb \
-	duti \
-	eza \
-	fd \
-	fish \
-	fx \
-	fzf \
-	git \
-	git-filter-repo \
-	hadolint \
-	htop \
-	jq \
-	magic-wormhole \
-	mysql \
-	pandoc \
-	parallel \
-	pipx \
-	podman \
-	pre-commit \
-	ripgrep \
-	shellcheck \
-	the_silver_searcher \
-	tldr \
-	tmux \
-	watch \
-	wget \
-	yadm \
-	youtube-dl \
-	yt-dlp
-
-duti ~/.duti
-
-if command -v xargs >/dev/null 2>&1 && command -v code >/dev/null 2>&1; then
-    echo "Installing VSCode extensions"
-    < .vscode-extensions xargs -L 1 code --install-extension
-else
-    echo "Skipping VSCode extensions because xargs or code is not installed"
+# ---- vim-plug (vim + neovim) ----
+# Vim
+if command -v vim >/dev/null 2>&1; then
+  mkdir -p "${HOME}/.vim/autoload"
+  curl -fLo "${HOME}/.vim/autoload/plug.vim" \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+# Neovim
+if command -v nvim >/dev/null 2>&1; then
+  mkdir -p "${HOME}/.local/share/nvim/site/autoload"
+  curl -fLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# ---- packages ----
+brew install \
+  starship \
+  asdf \
+  awscli \
+  bat \
+  cloc \
+  delta \
+  direnv \
+  duckdb \
+  duti \
+  eza \
+  fd \
+  fish \
+  fx \
+  fzf \
+  git \
+  git-filter-repo \
+  hadolint \
+  htop \
+  jq \
+  magic-wormhole \
+  mysql \
+  pandoc \
+  parallel \
+  pipx \
+  podman \
+  pre-commit \
+  ripgrep \
+  the_silver_searcher \
+  tldr \
+  tmux \
+  watch \
+  wget \
+  yadm \
+  yt-dlp
+
+# (Optional) old 'cask' formula removed & youtube-dl deprecated; use yt-dlp instead.
+
+# ---- default app mappings ----
+if command -v duti >/dev/null 2>&1 && [[ -f "${HOME}/.duti" ]]; then
+  duti "${HOME}/.duti"
+fi
+
+# ---- VS Code extensions ----
+if command -v xargs >/dev/null 2>&1 && command -v code >/dev/null 2>&1; then
+  echo "Installing VS Code extensions"
+  < "${HOME}/.vscode-extensions" xargs -L1 -I{} code --install-extension "{}" || true
+else
+  echo "Skipping VS Code extensions (xargs or code not found)"
+fi
+
+# ---- Install Vim/Neovim plugins if your configs declare them ----
+if command -v vim >/dev/null 2>&1; then
+  vim +PlugInstall +qall || true
+fi
+if command -v nvim >/dev/null 2>&1; then
+  nvim +PlugInstall +qall --headless || true
+fi
+
