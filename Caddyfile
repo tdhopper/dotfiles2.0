@@ -73,6 +73,11 @@ drive.hopperhosted.com {
 		import tls_skip_verify
 	}
 }
+files.hopperhosted.com {
+	reverse_proxy 192.168.68.89:7001 {
+		import tls_skip_verify
+	}
+}
 file.hopperhosted.com {
 	reverse_proxy 192.168.68.89:7001 {
 		import tls_skip_verify
