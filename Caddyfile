@@ -1,0 +1,91 @@
+{
+	email tim@tdhopper.com
+}
+
+# Wildcard + apex: get DNS certs and serve the apex docs here
+*.hopperhosted.com hopperhosted.com {
+	tls {
+		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	}
+
+	# Apex landing/docs (MkDocs build output)
+	@apex host hopperhosted.com
+	handle @apex {
+		root *  /Users/thopper/repos/mkdocs/site
+		encode zstd gzip
+		file_server
+
+		header {
+			# Safe defaults; skip HSTS includeSubDomains if you have weird clients
+			Strict-Transport-Security "max-age=31536000"
+			X-Content-Type-Options "nosniff"
+			Referrer-Policy "no-referrer-when-downgrade"
+		}
+	}
+
+	# Everything else in this block falls through; specific subdomain site blocks below handle apps.
+}
+
+# ----- helpers -----
+(tls_skip_verify) {
+	transport http {
+		tls_insecure_skip_verify
+	}
+}
+
+# ----- subdomains -----
+pihole.hopperhosted.com {
+	reverse_proxy 192.168.68.89:8765
+}
+webdav.hopperhosted.com {
+	reverse_proxy https://192.168.68.89:5006 {
+		import tls_skip_verify
+	}
+}
+synology.hopperhosted.com {
+	reverse_proxy https://192.168.68.89:5001 {
+		import tls_skip_verify
+	}
+}
+audible.hopperhosted.com {
+	reverse_proxy 192.168.68.89:3000
+}
+shiloh-companion.hopperhosted.com {
+	reverse_proxy http://100.108.169.83:8888
+}
+cam.hopperhosted.com {
+	reverse_proxy 192.168.68.89:9901 {
+		import tls_skip_verify
+	}
+}
+mail.hopperhosted.com {
+	reverse_proxy 192.168.68.89:21681 {
+		import tls_skip_verify
+	}
+}
+photos.hopperhosted.com {
+	reverse_proxy 192.168.68.89:5443 {
+		import tls_skip_verify
+	}
+}
+drive.hopperhosted.com {
+	reverse_proxy 192.168.68.89:10003 {
+		import tls_skip_verify
+	}
+}
+file.hopperhosted.com {
+	reverse_proxy 192.168.68.89:7001 {
+		import tls_skip_verify
+	}
+}
+download.hopperhosted.com {
+	reverse_proxy 192.168.68.89:8001 {
+		import tls_skip_verify
+	}
+}
+jellyfin.hopperhosted.com {
+	reverse_proxy 127.0.0.1:8096
+}
+dobro.hopperhosted.com {
+        reverse_proxy http://127.0.0.1:19999
+}
