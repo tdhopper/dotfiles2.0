@@ -3,8 +3,6 @@ function add_to_path_if_exists
     set -l dir $argv[1]
     if test -d $dir
         fish_add_path $dir
-    else
-        echo "Directory '$dir' does not exist."
     end
 end
 
@@ -12,14 +10,13 @@ function source_if_exists
     set -l file $argv[1]
     if test -f $file
         source $file
-    else
-        echo "File '$file' does not exist."
     end
 end
 
 set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
 
 add_to_path_if_exists /opt/homebrew/bin
+add_to_path_if_exists /usr/local/bin
 add_to_path_if_exists ~/.local/bin
 source_if_exists ~/.cargo/env.fish
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
@@ -41,4 +38,3 @@ if type -q direnv
 end
 
 starship init fish | source
-

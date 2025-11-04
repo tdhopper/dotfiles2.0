@@ -215,5 +215,4 @@
         "key": "cmd+k cmd+f",
         "command": "workbench.action.quickTextSearch"
     }
-
 ]

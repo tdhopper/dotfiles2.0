@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Custom pre-commit hook for yadm
+# This hook properly sets up the Git environment for yadm before running pre-commit
+
+# Set git environment for yadm
+export GIT_DIR="$HOME/.local/share/yadm/repo.git"
+export GIT_WORK_TREE="$HOME"
+
+# Run pre-commit
+exec pre-commit run --hook-stage commit --config "$HOME/.pre-commit-config.yaml"
