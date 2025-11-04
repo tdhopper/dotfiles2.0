@@ -1,5 +1,0 @@
-package foreign-env
-package nvm
-package pyenv
-package sdk
-theme default
