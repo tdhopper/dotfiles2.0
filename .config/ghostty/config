@@ -1,0 +1,11 @@
+# Ghostty Cursor Shaders Configuration
+
+# Trail effect (cursor movement animation)
+custom-shader = shaders/cursor_warp.glsl
+
+# Pulse effect (triggered on cursor mode changes)
+custom-shader = shaders/sonic_boom_cursor.glsl
+
+# Optional: Keep animations running even when window is unfocused
+# Recommended for line cursors with pulse effects
+custom-shader-animation = always
