@@ -33,7 +33,7 @@
     co = checkout
     branches = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) %(authorname) %(refname:short)'
     aliases = config --get-regexp ^alias\\.
-    cm = !git checkout $(git branch -l | grep -E "^\\s*(master|main)$" | sed "s/^\\s*//" | head -n 1)
+	cm = !git checkout $(git branch -l | grep -E \"^\\s*(master|main)$\" | sed \"s/^\\s*//\" | head -n 1)
     pushf = push --force-with-lease
     force-push = push --force-with-lease
 
@@ -98,7 +98,6 @@
 [delta]
     navigate = true
     line-numbers = true
-    side-by-side = true
     hyperlinks = true
 
 [filter "lfs"]
@@ -119,3 +118,6 @@
 
 [status]
     submoduleSummary = true
+
+[remote]
+    pushDefault = origin
