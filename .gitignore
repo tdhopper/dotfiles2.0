@@ -143,3 +143,6 @@ Temporary Items
 
 # Local Netlify folder
 .netlify
+
+# Work-specific git config (keep local only)
+.gitconfig-work
