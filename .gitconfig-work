@@ -1,3 +1,6 @@
 [user]
     name = Tim Hopper
-    email = thopper@varomoney.com
+    email = thopper@spotify.com
+
+[user]
+    signingkey = E32DBAE12DA521EE
