@@ -1,3 +1,4 @@
+set -U fish_greeting ""
 
 function add_to_path_if_exists
     set -l dir $argv[1]
@@ -13,23 +14,15 @@ function source_if_exists
     end
 end
 
-set --global CDPATH . "~/c" "~/repos" "~" $CDPATH
+set --global CDPATH . "~/repos" "~" $CDPATH
 
 add_to_path_if_exists /opt/homebrew/bin
 add_to_path_if_exists /usr/local/bin
 add_to_path_if_exists ~/.local/bin
+add_to_path_if_exists ~/.lmstudio/bin
+add_to_path_if_exists ~/Library/pnpm
 source_if_exists ~/.cargo/env.fish
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
-
-
-# Pip autocomplete
-function __fish_complete_pip
-    set -lx COMP_WORDS (commandline -o) ""
-    set -lx COMP_CWORD (math (contains -i -- (commandline -t) $COMP_WORDS)-1)
-    set -lx PIP_AUTO_COMPLETE 1
-    string split \  -- (eval $COMP_WORDS[1])
-end
-complete -fa "(__fish_complete_pip)" -c pip
 
 if type -q direnv
     function __direnv_export_eval --on-event fish_postexec;
@@ -37,4 +30,6 @@ if type -q direnv
     end
 end
 
-starship init fish | source
+if type -q starship
+    starship init fish | source
+end
