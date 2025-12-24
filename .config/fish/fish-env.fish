@@ -25,9 +25,7 @@ source_if_exists ~/.cargo/env.fish
 source_if_exists {$HOME}/.iterm2_shell_integration.fish
 
 if type -q direnv
-    function __direnv_export_eval --on-event fish_postexec;
-            direnv export fish | source;
-    end
+    direnv hook fish | source
 end
 
 if type -q starship
