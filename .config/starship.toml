@@ -12,12 +12,7 @@ added_style = "bold blue"
 format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
 
 [direnv]
-disabled = false
-format = '$loaded$allowed'
-loaded_msg = '📁'
-unloaded_msg = ''
-allowed_msg = '✔︎'
-denied_msg = '❌'
+disabled = true
 
 [sudo]
 style = 'bold green'
@@ -28,8 +23,15 @@ disabled = false
 disabled = true
 
 [python]
-format = '[${symbol}(${version}) ]($style)'
-version_format = '$major.$minor'
+disabled = true
+
+[custom.uv_python]
+command = 'uv python find --show-version'
+format = 'via [${symbol}(${output} )]($style)'
+symbol = "uv "
+detect_extensions = ['py', 'ipynb']
+detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'uv.lock', 'pylock.toml']
+style = "bold purple"
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
