@@ -15,8 +15,6 @@ function __park
     end
 end
 
-bind \cq '__park'
-
 function review_this_branch
 
     set -l base_branch $argv[1]

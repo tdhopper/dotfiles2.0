@@ -6,3 +6,4 @@ bind ']' history-token-search-forward
 bind -M insert \cp history-search-backward
 bind -M insert \cn history-search-forward
 bind -M insert \cf accept-autosuggestion
+bind \cq '__park'
