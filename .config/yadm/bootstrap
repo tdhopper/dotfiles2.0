@@ -33,7 +33,6 @@ fi
 # ---- packages ----
 brew install \
   starship \
-  asdf \
   awscli \
   bat \
   cloc \
@@ -44,8 +43,6 @@ brew install \
   eza \
   fd \
   fish \
-  fx \
-  fzf \
   git \
   git-filter-repo \
   hadolint \
@@ -66,8 +63,6 @@ brew install \
   wget \
   yadm \
   yt-dlp
-
-# (Optional) old 'cask' formula removed & youtube-dl deprecated; use yt-dlp instead.
 
 # ---- default app mappings ----
 if command -v duti >/dev/null 2>&1 && [[ -f "${HOME}/.duti" ]]; then
