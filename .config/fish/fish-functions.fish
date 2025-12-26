@@ -90,3 +90,11 @@ function gcsflac2mp3
 
     gsutil cp $input - | ffmpeg -i pipe:0 -f mp3 -b:a 320k $output
 end
+
+function claude
+    if test -n "$SSH_CONNECTION" -a -z "$KEYCHAIN_UNLOCKED"
+        security unlock-keychain ~/Library/Keychains/login.keychain-db
+        set -gx KEYCHAIN_UNLOCKED true
+    end
+    command claude $argv
+end

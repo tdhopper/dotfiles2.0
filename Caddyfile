@@ -11,7 +11,7 @@
 	# Apex landing/docs (MkDocs build output)
 	@apex host hopperhosted.com
 	handle @apex {
-		root *  /Users/thopper/repos/mkdocs/site
+		root *  /Users/tdhopper/repos/hopperhosted/site
 		encode zstd gzip
 		file_server
 
@@ -89,8 +89,5 @@ download.hopperhosted.com {
 	}
 }
 jellyfin.hopperhosted.com {
-	reverse_proxy 127.0.0.1:8096
-}
-dobro.hopperhosted.com {
-        reverse_proxy http://127.0.0.1:19999
+	reverse_proxy 192.168.68.84:8096
 }
