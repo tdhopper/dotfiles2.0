@@ -10,3 +10,4 @@ end
 if test -e ~/.config/fish/fish-work.fish
    . ~/.config/fish/fish-work.fish
 end
+fish_add_path --move --path /opt/spotify-devex/bin
