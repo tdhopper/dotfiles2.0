@@ -103,13 +103,21 @@ Structure your review as:
 ## Key Findings
 
 ### Must Address
-[Critical issues that should be fixed before merge]
+1. **[Issue title]** (file:line)
+   - Detail about the issue
+   - Code example if helpful
+   - **Risk**: Why this matters
+
+2. **[Next issue title]** (file:line)
+   - Details...
 
 ### Should Consider
-[Important suggestions that would improve the code]
+3. **[Issue title]** (file:line)
+   - Details...
 
 ### Minor Notes
-[Optional improvements or observations]
+- [Observation]
+- [Another observation]
 
 ## Tests
 [Assessment of test coverage and quality]
@@ -117,6 +125,12 @@ Structure your review as:
 ## Complexity Assessment
 [Does this increase or decrease overall codebase complexity?]
 ```
+
+**IMPORTANT formatting rules:**
+- Use a **single incrementing number sequence** across all sections (Must Address items 1-N, Should Consider continues from N+1, etc.)
+- Use **bullet points (-)** for sub-details under each numbered finding, never restart numbering
+- Each numbered finding should have a bold title followed by file:line reference
+- Include a **Risk:** bullet point explaining why the issue matters
 
 ## Review Scope Guidelines
 
