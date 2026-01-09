@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 90,
+  "env": {
+    "CLAUDE_CODE_USE_VERTEX": "1",
+    "ANTHROPIC_SMALL_FAST_MODEL": "claude-3-5-haiku@20241022",
+    "VERTEX_REGION_CLAUDE_4_1_OPUS": "europe-west4",
+    "VERTEX_REGION_CLAUDE_4_5_SONNET": "global",
+    "CLOUD_ML_REGION": "europe-west1",
+    "VERTEX_REGION_CLAUDE_4_0_OPUS": "europe-west4",
+    "ANTHROPIC_VERTEX_PROJECT_ID": "spotify-claude-code-trial"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "claude-opus-4-5@20251101",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-wrapper.sh"
+  },
+  "enabledPlugins": {
+    "agent-sdk-dev@claude-code-plugins": true,
+    "new-python-project@python-tooling-handbook": true,
+    "frontend-design@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "fileSuggestion": {
+    "type": "command",
+    "command": "~/.claude/file-suggestion.sh"
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754066412430
+  }
+}
