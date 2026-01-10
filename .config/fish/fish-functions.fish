@@ -98,3 +98,11 @@ function claude
     end
     command claude $argv
 end
+
+function tm
+    set -l session_name (basename (pwd))
+    if test "$session_name" = (basename $HOME)
+        set session_name main
+    end
+    tmux new-session -A -s $session_name
+end

@@ -3,6 +3,8 @@
 . ~/.config/fish/fish-aliases.fish
 . ~/.config/fish/fish-keybindings.fish
 
+fish_add_path /Users/tdhopper/.cargo/bin
+
 # Source secrets if the file exists
 if test -f ~/.config/fish/secrets.fish
     . ~/.config/fish/secrets.fish
