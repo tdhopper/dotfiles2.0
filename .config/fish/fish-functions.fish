@@ -100,9 +100,16 @@ function claude
 end
 
 function tm
+    argparse 'c/command=' -- $argv
+
     set -l session_name (basename (pwd))
     if test "$session_name" = (basename $HOME)
         set session_name main
     end
-    tmux new-session -A -s $session_name
+
+    if set -q _flag_command
+        tmux new-session -A -s $session_name "$_flag_command"
+    else
+        tmux new-session -A -s $session_name
+    end
 end
