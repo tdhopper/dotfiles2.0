@@ -10,11 +10,13 @@
 Generate images using Google's Nano Banana Pro (Gemini 3 Pro Image) API.
 
 Usage:
-    uv run generate_image.py --prompt "your image description" --filename "output.png" [--resolution 1K|2K|4K] [--api-key KEY]
+    uv run generate_image.py --prompt "your image description" --filename "output.png" [--resolution 1K|2K|4K] [--api-key KEY] [--compress] [--max-size MB]
 """
 
 import argparse
 import os
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -24,6 +26,49 @@ def get_api_key(provided_key: str | None) -> str | None:
     if provided_key:
         return provided_key
     return os.environ.get("GEMINI_API_KEY")
+
+
+def compress_png(filepath: Path, max_size_mb: float = 8.0, quality_min: int = 65, quality_max: int = 95) -> bool:
+    """Compress PNG using pngquant if available and file exceeds max size.
+
+    Returns True if compression was applied, False otherwise.
+    """
+    # Check if pngquant is available
+    if not shutil.which("pngquant"):
+        print("Note: pngquant not installed, skipping compression (install with: brew install pngquant)")
+        return False
+
+    # Check current file size
+    current_size_mb = filepath.stat().st_size / (1024 * 1024)
+    if current_size_mb <= max_size_mb:
+        print(f"Image size ({current_size_mb:.1f}MB) already under {max_size_mb}MB, skipping compression")
+        return False
+
+    print(f"Compressing {current_size_mb:.1f}MB image (target: <{max_size_mb}MB)...")
+
+    try:
+        result = subprocess.run(
+            [
+                "pngquant",
+                f"--quality={quality_min}-{quality_max}",
+                "--force",
+                "--output", str(filepath),
+                str(filepath)
+            ],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode == 0:
+            new_size_mb = filepath.stat().st_size / (1024 * 1024)
+            print(f"Compressed: {current_size_mb:.1f}MB -> {new_size_mb:.1f}MB")
+            return True
+        else:
+            print(f"Compression warning: {result.stderr}", file=sys.stderr)
+            return False
+    except Exception as e:
+        print(f"Compression error: {e}", file=sys.stderr)
+        return False
 
 
 def main():
@@ -54,8 +99,29 @@ def main():
         "--api-key", "-k",
         help="Gemini API key (overrides GEMINI_API_KEY env var)"
     )
+    parser.add_argument(
+        "--compress", "-c",
+        action="store_true",
+        default=True,
+        help="Compress PNG if over max size (default: enabled)"
+    )
+    parser.add_argument(
+        "--no-compress",
+        action="store_true",
+        help="Disable PNG compression"
+    )
+    parser.add_argument(
+        "--max-size", "-m",
+        type=float,
+        default=8.0,
+        help="Max file size in MB before compression (default: 8.0)"
+    )
 
     args = parser.parse_args()
+
+    # Handle --no-compress flag
+    if args.no_compress:
+        args.compress = False
 
     # Get API key
     api_key = get_api_key(args.api_key)
@@ -154,6 +220,10 @@ def main():
         if image_saved:
             full_path = output_path.resolve()
             print(f"\nImage saved: {full_path}")
+
+            # Compress if enabled
+            if args.compress:
+                compress_png(output_path, max_size_mb=args.max_size)
         else:
             print("Error: No image was generated in the response.", file=sys.stderr)
             sys.exit(1)

@@ -48,6 +48,16 @@ Map user requests to API parameters:
 - "2K", "2048", "normal", "medium resolution" → `2K`
 - "high resolution", "high-res", "hi-res", "4K", "ultra" → `4K`
 
+## Compression
+
+Images are automatically compressed using pngquant if they exceed the max size (default: 8MB).
+
+- **Enabled by default** - no flag needed
+- `--no-compress` - disable compression
+- `--max-size 5` - set max size in MB (default: 8.0)
+
+Requires pngquant installed (`brew install pngquant`). If not installed, compression is skipped with a warning.
+
 ## API Key
 
 The script checks for API key in this order:
