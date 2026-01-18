@@ -11,7 +11,7 @@
 	# Apex landing/docs (MkDocs build output)
 	@apex host hopperhosted.com
 	handle @apex {
-		root *  /Users/tdhopper/repos/hopperhosted/site
+		root *  /Users/thopper/repos/hopperhosted/site
 		encode zstd gzip
 		file_server
 
@@ -43,7 +43,7 @@ webdav.hopperhosted.com {
 	}
 }
 synology.hopperhosted.com {
-	reverse_proxy https://192.168.68.89:5001 {
+	reverse_proxy https://100.86.145.18:5001 {
 		import tls_skip_verify
 	}
 }
@@ -90,4 +90,12 @@ download.hopperhosted.com {
 }
 jellyfin.hopperhosted.com {
 	reverse_proxy 192.168.68.84:8096
+}
+elwood.hopperhosted.com {
+    reverse_proxy http://100.119.124.86:8765
+}
+scrypted.hopperhosted.com {
+	reverse_proxy https://127.0.0.1:10443 {
+		import tls_skip_verify
+	}
 }

@@ -22,7 +22,7 @@
 
 [core]
     pager = delta
-    excludesfile = /Users/thopper/.gitignore
+	excludesfile = /Users/thopper/.gitignore
     editor = vim
 
 [color]
