@@ -1,0 +1,403 @@
+{
+    "[json]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace",
+        "gitlens.codeLens.scopes": [
+            "document"
+        ]
+    },
+    "editor.accessibilitySupport": "off",
+    "editor.codeActionsOnSave": {},
+    "editor.cursorStyle": "line",
+    "editor.renderWhitespace": "boundary",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.fontFamily": "LigaSauceCode Pro Nerd Font, SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 17,
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "editor.rename.enablePreview": false,
+    "editor.renderControlCharacters": true,
+    "editor.rulers": [
+        88
+    ],
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyTabStops": true,
+    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+    "editor.wordWrap": "off",
+    "files.autoSave": "onFocusChange",
+    "files.defaultLanguage": "markdown",
+    "files.exclude": {
+        "**/.*_cache": true,
+        "**/.direnv": true,
+        "**/.env": true,
+        "**/.venv": true,
+        "**/.vscode": true
+    },
+    "files.trimFinalNewlines": true,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.timeline.showUncommitted": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false,
+        "yaml": true
+    },
+    "gitlens.advanced.blame.delayAfterEdit": 2000,
+    "gitlens.plusFeatures.enabled": false,
+    "gitlens.showWhatsNewAfterUpgrades": false,
+    "gitlens.views.searchAndCompare.pullRequests.enabled": false,
+    "json.schemas": [],
+    "jupyter.allowUnauthorizedRemoteConnection": true,
+    "jupyter.askForKernelRestart": false,
+    "launch": {
+        "configurations": [],
+        "compounds": []
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "projectManager.any.ignoredFolders": [
+        "node_modules",
+        "out",
+        "typings",
+        "test",
+        ".env",
+        ".venv",
+        ".pytest_cache",
+        ".mypy_cache"
+    ],
+    "projectManager.git.baseFolders": [
+        "/Users/tdhopper/c",
+        "/Users/tdhopper/repos",
+        "/Users/thopper/c"
+    ],
+    "projectManager.vscode.ignoredFolders": [
+        "node_modules",
+        "out",
+        "typings",
+        "test",
+        ".venv"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.envFile": "",
+    "python.experiments.enabled": false,
+    "python.experiments.optInto": [],
+    "python.languageServer": "None",
+    "python.testing.pytestEnabled": true,
+    "redhat.telemetry.enabled": false,
+    "security.workspace.trust.banner": "never",
+    "security.workspace.trust.enabled": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "telemetry.telemetryLevel": "off",
+    "terminal.integrated.altClickMovesCursor": false,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.fontFamily": "SauceCodePro Nerd Font",
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.inheritEnv": false,
+    "terminal.integrated.scrollback": 50000,
+    "vim.easymotion": true,
+    "vim.highlightedyank.enable": true,
+    "vim.hlsearch": true,
+    "vim.camelCaseMotion.enable": false,
+    "vim.incsearch": true,
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "<Up>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Down>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Left>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Right>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<Esc>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.leader": " ",
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "c"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "c"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "r"
+            ],
+            "commands": [
+                ":reg"
+            ]
+        },
+        {
+            "before": [
+                "<Up>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Down>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Left>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<Right>"
+            ],
+            "after": [
+                "<Nop>"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "d",
+                "d"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "g"
+            ],
+            "commands": [
+                "editor.action.revealDefinition"
+            ],
+            "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+        },
+        {
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.navigateBack"
+            ],
+            "when": "canNavigateBack"
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.navigateForward"
+            ],
+            "when": "canNavigateForward"
+        },
+        {
+            "before": [
+                "u"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "undo",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "vim.smartRelativeLine": true,
+    "vim.statusBarColors.surroundinputmode": "",
+    "vim.useSystemClipboard": true,
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "c"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ],
+            "when": "editorTextFocus && !editorReadonly"
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "d"
+            ]
+        }
+    ],
+    "workbench.colorCustomizations": {
+        "terminal.background": "#fff",
+        "sideBar.background": "#fff"
+    },
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.tabActionLocation": "left",
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editorAssociations": {
+        "git-rebase-todo": "default",
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.startupEditor": "newUntitledFile",
+    "yaml.customTags": [
+        "!And",
+        "!And sequence",
+        "!If",
+        "!If sequence",
+        "!Not",
+        "!Not sequence",
+        "!Equals",
+        "!Equals sequence",
+        "!Or",
+        "!Or sequence",
+        "!FindInMap",
+        "!FindInMap sequence",
+        "!Base64",
+        "!Join",
+        "!Join sequence",
+        "!Cidr",
+        "!Ref",
+        "!Sub",
+        "!Sub sequence",
+        "!GetAtt",
+        "!GetAZs",
+        "!ImportValue",
+        "!ImportValue sequence",
+        "!Select",
+        "!Select sequence",
+        "!Split",
+        "!Split sequence"
+    ],
+    "yaml.format.enable": false,
+    "yaml.validate": false,
+    "workbench.sideBar.location": "right",
+    "window.titleBarStyle": "native",
+    "apc.electron": {
+        "titleBarStyle": "customButtonsOnHover"
+    },
+    "apc.header": {
+        "height": 37
+    },
+    "apc.sidebar.titlebar": {
+        "height": 37
+    },
+    "apc.activityBar": {
+        "size": 77,
+        "itemSize": 48,
+        "itemMargin": 0
+    },
+    "apc.stylesheet": {
+        ".custom-sidebar-titlebar .sidebar .composite.title": "padding-left: 0;",
+        ".custom-sidebar-titlebar .sidebar .composite.title .inline-titlebar-placeholder": "padding-left: 0 !important;",
+        ".monaco-workbench .part.statusbar>.items-container>.statusbar-item.left.first-visible-item": "padding-left: 0;",
+        ".monaco-editor[data-uri$='.md'] .mtk2, .monaco-editor[data-uri$='.md'] .mtk3, .monaco-editor[data-uri$='.md'] .mtk4, .monaco-editor[data-uri$='.md'] .mtk5, .monaco-editor[data-uri$='.md'] .mtk6, .monaco-editor[data-uri$='.md'] .mtk7, .monaco-editor[data-uri$='.md'] .mtk8, .monaco-editor[data-uri$='.md'] .mtk9, .monaco-editor[data-uri$='.md'] .mtk10, .monaco-editor[data-uri$='.md'] .mtk11, .monaco-editor[data-uri$='.md'] .mtk12, .monaco-editor[data-uri$='.md'] .mtk13, .monaco-editor[data-uri$='.md'] .mtk14, .monaco-editor[data-uri$='.md'] .mtk15, .monaco-editor[data-uri$='.md'] .mtk16, .monaco-editor[data-uri$='.md'] .mtk17, .monaco-editor[data-uri$='.md'] .mtk18, .monaco-editor[data-uri$='.md'] .mtk19, .monaco-editor[data-uri$='.md'] .mtk20": "font-family: 'LigaSauceCode Pro Nerd Font', 'SauceCodePro Nerd Font', Menlo, monospace !important;"
+    },
+    "markdown.marp.breaks": "off",
+    "markdown.marp.pdf.noteAnnotations": true,
+    "workbench.activityBar.location": "hidden",
+    "git.enableStatusBarSync": false,
+    "gitlens.statusBar.enabled": false,
+    "apc.statusBar": {},
+    "gitlens.statusBar.pullRequests.enabled": false,
+    "gitlens.graph.statusBar.enabled": false,
+    "terminal.integrated.stickyScroll.enabled": true,
+    "files.trimTrailingWhitespace": true,
+    "cursor.cpp.disabledLanguages": [
+        "scminput"
+    ],
+    "workbench.colorTheme": "Default Light Modern",
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "cursor.cpp.enablePartialAccepts": true,
+    "cursor.composer.shouldAllowCustomModes": true,
+    "makefile.configureOnOpen": false,
+    "cursor.diffs.useCharacterLevelDiffs": true,
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "cursorpyright.analysis.typeCheckingMode": "basic",
+    "claudeCode.preferredLocation": "sidebar",
+    "claudeCode.disableLoginPrompt": true
+}
