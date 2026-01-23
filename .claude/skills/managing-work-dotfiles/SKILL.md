@@ -3,20 +3,20 @@ name: managing-work-dotfiles
 description: Use this skill when working with work-specific dotfiles managed by yadm-work. This includes pulling remote changes, committing and pushing work dotfile changes, modifying work configuration files, viewing tracked work files, resolving merge conflicts, and maintaining the work dotfiles repository at Spotify GHE. Triggers on "work dotfiles", "yadm-work", "spotify dotfiles", or work-related config management.
 ---
 
-# Managing Work Dotfiles with Yadm
+# Managing Work Dotfiles
 
-This skill manages work-specific dotfiles using a separate yadm instance, keeping them isolated from personal dotfiles.
+This skill manages work-specific dotfiles using a separate git bare repo, keeping them isolated from personal dotfiles.
 
 ## Repository Info
 
 - **Remote**: `git@ghe.spotify.net:thopper/dotfiles.git`
 - **Work tree**: `$HOME`
-- **Yadm directory**: `~/.local/share/yadm-work`
-- **Alias**: `yadm-work` (defined in shell config)
+- **Git directory**: `~/.local/share/yadm-work/repo.git`
+- **Function**: `yadm-work` (defined in `~/.config/fish/fish-work.fish`)
 
 ## Key Principle: Use yadm-work
 
-All commands use the `yadm-work` alias (or `yadm -Y ~/.local/share/yadm-work`):
+The `yadm-work` function wraps git with the correct directories:
 
 ```bash
 yadm-work status
@@ -25,22 +25,24 @@ yadm-work commit -m "message"
 yadm-work push
 ```
 
-## Initial Setup
-
-If not yet initialized:
-
+This is equivalent to:
 ```bash
-# Clone the work dotfiles repo
-yadm -Y ~/.local/share/yadm-work clone git@ghe.spotify.net:thopper/dotfiles.git
-
-# Or initialize a new repo
-yadm -Y ~/.local/share/yadm-work init
-yadm -Y ~/.local/share/yadm-work remote add origin git@ghe.spotify.net:thopper/dotfiles.git
+git --git-dir="$HOME/.local/share/yadm-work/repo.git" --work-tree="$HOME" <command>
 ```
 
-Ensure the alias exists in your shell config:
+## Initial Setup
+
+If not yet initialized on a new machine:
+
 ```bash
-alias yadm-work='yadm -Y ~/.local/share/yadm-work'
+# Create the directory
+mkdir -p ~/.local/share/yadm-work
+
+# Clone as bare repo
+git clone --bare git@ghe.spotify.net:thopper/dotfiles.git ~/.local/share/yadm-work/repo.git
+
+# Checkout files to home directory
+yadm-work checkout
 ```
 
 ## Getting Current State
@@ -97,6 +99,15 @@ yadm-work commit -m "Add <file> to work dotfiles"
 yadm-work push
 ```
 
+**Important**: When adding new files under `~/.claude/`, also update `~/.claude/README.md` to document them:
+
+```bash
+# After adding new .claude files, update the README
+yadm-work add ~/.claude/README.md
+yadm-work commit -m "Update README with new <item>"
+yadm-work push
+```
+
 ### Stop tracking a file (without deleting it)
 
 ```bash
@@ -118,14 +129,15 @@ yadm ls-files | grep <filename>
 yadm-work ls-files | grep <filename>
 ```
 
-## Common Work Files to Track
+## Currently Tracked Files
 
-Typical work-specific configs that should be in yadm-work:
-- Work git config overrides
-- VPN configurations
-- Work-specific shell functions/aliases
-- IDE settings for work projects
-- Work SSH configs (if not in personal)
+```
+~/.claude/README.md
+~/.claude/skills/add-knowledge/
+~/.claude/skills/investigating-pagerduty-incidents/
+~/.claude/skills/managing-work-dotfiles/
+~/.claude/skills/monitor-deploy/
+```
 
 ## Useful Commands
 
@@ -134,14 +146,4 @@ yadm-work log --oneline -10    # Recent commits
 yadm-work show HEAD            # Last commit details
 yadm-work stash                # Stash changes temporarily
 yadm-work stash pop            # Restore stashed changes
-yadm-work enter <command>      # Run command in yadm context
-```
-
-## Encryption (if needed)
-
-yadm-work has its own encryption key separate from personal:
-
-```bash
-yadm-work encrypt              # Encrypt files in .config/yadm-work/encrypt
-yadm-work decrypt              # Decrypt encrypted files
 ```

@@ -1,5 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "fileSuggestion": {
+    "type": "command",
+    "command": "~/.claude/file-suggestion.sh"
+  },
   "cleanupPeriodDays": 90,
   "env": {
     "CLAUDE_CODE_USE_VERTEX": "1",
@@ -28,11 +32,8 @@
     "frontend-design@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "fileSuggestion": {
-    "type": "command",
-    "command": "~/.claude/file-suggestion.sh"
-  },
   "feedbackSurveyState": {
     "lastShownTime": 1754066412430
-  }
+  },
+  "autoUpdatesChannel": "stable"
 }
