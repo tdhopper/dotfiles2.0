@@ -163,6 +163,17 @@
     {
       "before": [
         "<leader>",
+        "c"
+      ],
+      "after": [
+        "\"",
+        "_",
+        "c"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
         "r"
       ],
       "commands": [
