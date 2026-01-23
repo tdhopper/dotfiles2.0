@@ -22,7 +22,10 @@ let mapleader = " "  " Sets the <leader> key to space
 map Y y$
 
 " Commenting with <leader>c in visual mode
-noremap <leader>c :Commentary<CR>
+xnoremap <leader>c :Commentary<CR>
+
+" Change with black hole register in normal mode (doesn't pollute clipboard)
+nnoremap <leader>c "_c
 
 " Escape mappings in insert mode
 inoremap jk <Esc>
