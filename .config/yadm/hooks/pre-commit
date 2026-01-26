@@ -6,5 +6,15 @@
 export GIT_DIR="$HOME/.local/share/yadm/repo.git"
 export GIT_WORK_TREE="$HOME"
 
+# Convert iTerm2 plist to XML for readable diffs
+ITERM_PLIST="$HOME/.config/iterm2/com.googlecode.iterm2.plist"
+if [[ -f "$ITERM_PLIST" ]]; then
+    if yadm diff --cached --name-only | grep -q "com.googlecode.iterm2.plist"; then
+        plutil -convert xml1 "$ITERM_PLIST"
+        yadm add "$ITERM_PLIST"
+        echo "Converted iTerm2 plist to XML format"
+    fi
+fi
+
 # Run pre-commit
 exec pre-commit run --hook-stage commit --config "$HOME/.pre-commit-config.yaml"
