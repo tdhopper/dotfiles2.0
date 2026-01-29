@@ -11,7 +11,9 @@
     "editor.accessibilitySupport": "off",
     "editor.codeActionsOnSave": {},
     "editor.cursorStyle": "line",
-    "editor.fontFamily": "SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+    "editor.renderWhitespace": "boundary",
+    "editor.cursorSmoothCaretAnimation": "off",
+    "editor.fontFamily": "LigaSauceCode Pro Nerd Font, SauceCodePro Nerd Font, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 17,
     "editor.inlineSuggest.enabled": true,
     "editor.largeFileOptimizations": false,
@@ -48,7 +50,6 @@
     },
     "gitlens.advanced.blame.delayAfterEdit": 2000,
     "gitlens.plusFeatures.enabled": false,
-    "gitlens.showWelcomeOnInstall": false,
     "gitlens.showWhatsNewAfterUpgrades": false,
     "gitlens.views.searchAndCompare.pullRequests.enabled": false,
     "json.schemas": [],
@@ -74,7 +75,8 @@
     ],
     "projectManager.git.baseFolders": [
         "/Users/tdhopper/c",
-        "/Users/tdhopper/repos"
+        "/Users/tdhopper/repos",
+        "/Users/thopper/c"
     ],
     "projectManager.vscode.ignoredFolders": [
         "node_modules",
@@ -100,11 +102,13 @@
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.inheritEnv": false,
     "terminal.integrated.scrollback": 50000,
-    "trailing-spaces.deleteModifiedLinesOnly": true,
-    "trailing-spaces.trimOnSave": true,
     "vim.easymotion": true,
     "vim.highlightedyank.enable": true,
     "vim.hlsearch": true,
+    "vim.camelCaseMotion.enable": false,
+    "vim.incsearch": true,
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
     "vim.insertModeKeyBindings": [
         {
             "before": [
@@ -160,6 +164,17 @@
     ],
     "vim.leader": " ",
     "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "c"
+            ],
+            "after": [
+                "\"",
+                "_",
+                "c"
+            ]
+        },
         {
             "before": [
                 "<leader>",
@@ -284,7 +299,6 @@
             ]
         }
     ],
-    "workbench.colorTheme": "Codesso Light",
     "workbench.colorCustomizations": {
         "terminal.background": "#fff",
         "sideBar.background": "#fff"
@@ -328,7 +342,6 @@
     ],
     "yaml.format.enable": false,
     "yaml.validate": false,
-    "zenMode.centerLayout": false,
     "workbench.sideBar.location": "right",
     "window.titleBarStyle": "native",
     "apc.electron": {
@@ -348,9 +361,9 @@
     "apc.stylesheet": {
         ".custom-sidebar-titlebar .sidebar .composite.title": "padding-left: 0;",
         ".custom-sidebar-titlebar .sidebar .composite.title .inline-titlebar-placeholder": "padding-left: 0 !important;",
-        ".monaco-workbench .part.statusbar>.items-container>.statusbar-item.left.first-visible-item": "padding-left: 0;"
+        ".monaco-workbench .part.statusbar>.items-container>.statusbar-item.left.first-visible-item": "padding-left: 0;",
+        ".monaco-editor[data-uri$='.md'] .mtk2, .monaco-editor[data-uri$='.md'] .mtk3, .monaco-editor[data-uri$='.md'] .mtk4, .monaco-editor[data-uri$='.md'] .mtk5, .monaco-editor[data-uri$='.md'] .mtk6, .monaco-editor[data-uri$='.md'] .mtk7, .monaco-editor[data-uri$='.md'] .mtk8, .monaco-editor[data-uri$='.md'] .mtk9, .monaco-editor[data-uri$='.md'] .mtk10, .monaco-editor[data-uri$='.md'] .mtk11, .monaco-editor[data-uri$='.md'] .mtk12, .monaco-editor[data-uri$='.md'] .mtk13, .monaco-editor[data-uri$='.md'] .mtk14, .monaco-editor[data-uri$='.md'] .mtk15, .monaco-editor[data-uri$='.md'] .mtk16, .monaco-editor[data-uri$='.md'] .mtk17, .monaco-editor[data-uri$='.md'] .mtk18, .monaco-editor[data-uri$='.md'] .mtk19, .monaco-editor[data-uri$='.md'] .mtk20": "font-family: 'LigaSauceCode Pro Nerd Font', 'SauceCodePro Nerd Font', Menlo, monospace !important;"
     },
-    "editor.glyphMargin": false,
     "markdown.marp.breaks": "off",
     "markdown.marp.pdf.noteAnnotations": true,
     "workbench.activityBar.location": "hidden",
@@ -360,8 +373,31 @@
     "gitlens.statusBar.pullRequests.enabled": false,
     "gitlens.graph.statusBar.enabled": false,
     "terminal.integrated.stickyScroll.enabled": true,
+    "files.trimTrailingWhitespace": true,
     "cursor.cpp.disabledLanguages": [
-        "plaintext",
         "scminput"
-    ]
+    ],
+    "workbench.colorTheme": "Default Light Modern",
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "cursor.cpp.enablePartialAccepts": true,
+    "cursor.composer.shouldAllowCustomModes": true,
+    "makefile.configureOnOpen": false,
+    "cursor.diffs.useCharacterLevelDiffs": true,
+    "[dockercompose]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.autoIndent": "advanced",
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        },
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "cursorpyright.analysis.typeCheckingMode": "basic",
+    "claudeCode.preferredLocation": "sidebar",
+    "claudeCode.disableLoginPrompt": true
 }
