@@ -23,7 +23,32 @@ MagicDNS is enabled. Run `tailscale status` to discover the tailnet name. Device
 
 - **Type**: Mac
 - **Tailscale IP**: 100.80.29.92
+- **LAN IP**: 192.168.68.84
 - **SSH**: `ssh dobro` (default port 22, user `thopper`)
+- **Caddy reverse proxy**: runs on dobro, serves `*.hopperhosted.com` with Cloudflare DNS-01 TLS
+- **Caddyfile**: `~/Caddyfile` (tracked in yadm dotfiles)
+
+## Caddy Reverse Proxy (on dobro)
+
+Caddy on dobro provides HTTPS reverse proxy for internal services under `*.hopperhosted.com`. TLS certs are obtained via Cloudflare DNS-01 challenge using `CLOUDFLARE_API_TOKEN` env var.
+
+### Proxied Services
+
+| Subdomain | Backend | Notes |
+|-----------|---------|-------|
+| hopperhosted.com (apex) | Local MkDocs site (`~/repos/hopperhosted/site`) | Static file server |
+| synology.hopperhosted.com | 192.168.68.89:5001 (HTTPS) | Synology DSM web UI |
+| pihole.hopperhosted.com | 192.168.68.89:8765 | Pi-hole admin |
+| photos.hopperhosted.com | 192.168.68.89:5443 | Synology Photos |
+| drive.hopperhosted.com | 192.168.68.89:10003 | Synology Drive |
+| files.hopperhosted.com / file.hopperhosted.com | 192.168.68.89:7001 | Synology File Station |
+| download.hopperhosted.com | 192.168.68.89:8001 | Synology Download Station |
+| webdav.hopperhosted.com | 192.168.68.89:5006 (HTTPS) | WebDAV |
+| mail.hopperhosted.com | 192.168.68.89:21681 | Synology MailPlus |
+| cam.hopperhosted.com | 192.168.68.89:9901 | Surveillance Station |
+| audible.hopperhosted.com | 192.168.68.89:3000 | Audible app |
+| jellyfin.hopperhosted.com | 192.168.68.84:8096 | Jellyfin media server (on dobro) |
+| shiloh-companion.hopperhosted.com | 100.108.169.83:8888 | Shiloh Companion (Tailscale device) |
 
 ## Network Topology
 
