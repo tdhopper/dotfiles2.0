@@ -2,22 +2,24 @@
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [
-#     "google-genai>=1.0.0",
+#     "openai>=1.0.0",
 #     "pillow>=10.0.0",
 # ]
 # ///
 """
-Generate images using Google's Nano Banana Pro (Gemini 3 Pro Image) API.
+Generate images using Nano Banana Pro (Gemini 3 Pro Image) via Spotify's AI Gateway.
 
 Usage:
     uv run generate_image.py --prompt "your image description" --filename "output.png" [--resolution 1K|2K|4K] [--api-key KEY] [--compress] [--max-size MB]
 """
 
 import argparse
+import base64
 import os
 import shutil
 import subprocess
 import sys
+from io import BytesIO
 from pathlib import Path
 
 
@@ -25,7 +27,22 @@ def get_api_key(provided_key: str | None) -> str | None:
     """Get API key from argument first, then environment."""
     if provided_key:
         return provided_key
-    return os.environ.get("GEMINI_API_KEY")
+    return os.environ.get("SPOTIFY_AI_GATEWAY_KEY")
+
+
+def save_image(image, output_path: Path) -> None:
+    """Save PIL image to path, handling mode conversion."""
+    from PIL import Image as PILImage
+
+    # Ensure RGB mode for PNG (convert RGBA to RGB with white background if needed)
+    if image.mode == 'RGBA':
+        rgb_image = PILImage.new('RGB', image.size, (255, 255, 255))
+        rgb_image.paste(image, mask=image.split()[3])
+        rgb_image.save(str(output_path), 'PNG')
+    elif image.mode == 'RGB':
+        image.save(str(output_path), 'PNG')
+    else:
+        image.convert('RGB').save(str(output_path), 'PNG')
 
 
 def compress_png(filepath: Path, max_size_mb: float = 8.0, quality_min: int = 65, quality_max: int = 95) -> bool:
@@ -97,7 +114,7 @@ def main():
     )
     parser.add_argument(
         "--api-key", "-k",
-        help="Gemini API key (overrides GEMINI_API_KEY env var)"
+        help="Spotify AI Gateway API key (overrides SPOTIFY_AI_GATEWAY_KEY env var)"
     )
     parser.add_argument(
         "--compress", "-c",
@@ -129,16 +146,19 @@ def main():
         print("Error: No API key provided.", file=sys.stderr)
         print("Please either:", file=sys.stderr)
         print("  1. Provide --api-key argument", file=sys.stderr)
-        print("  2. Set GEMINI_API_KEY environment variable", file=sys.stderr)
+        print("  2. Set SPOTIFY_AI_GATEWAY_KEY environment variable", file=sys.stderr)
         sys.exit(1)
 
     # Import here after checking API key to avoid slow import on error
-    from google import genai
-    from google.genai import types
+    from openai import OpenAI
     from PIL import Image as PILImage
 
-    # Initialise client
-    client = genai.Client(api_key=api_key)
+    # Initialize client with Spotify AI Gateway
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://hendrix-genai.spotify.net/taskforce/google/v1",
+        default_headers={"apikey": api_key}
+    )
 
     # Set up output path
     output_path = Path(args.filename)
@@ -168,54 +188,72 @@ def main():
             print(f"Error loading input image: {e}", file=sys.stderr)
             sys.exit(1)
 
-    # Build contents (image first if editing, prompt only if generating)
+    # Build messages for the API call
+    messages = []
+
     if input_image:
-        contents = [input_image, args.prompt]
+        # Convert input image to base64 for editing
+        buffered = BytesIO()
+        input_image.save(buffered, format="PNG")
+        img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+        messages.append({
+            "role": "user",
+            "content": [
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/png;base64,{img_base64}"}
+                },
+                {"type": "text", "text": args.prompt}
+            ]
+        })
         print(f"Editing image with resolution {output_resolution}...")
     else:
-        contents = args.prompt
+        messages.append({
+            "role": "user",
+            "content": args.prompt
+        })
         print(f"Generating image with resolution {output_resolution}...")
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3-pro-image-preview",
-            contents=contents,
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT", "IMAGE"],
-                image_config=types.ImageConfig(
-                    image_size=output_resolution
-                )
-            )
+        response = client.chat.completions.create(
+            model="gemini-2.5-flash-image",
+            messages=messages,
+            extra_body={
+                "response_modalities": ["TEXT", "IMAGE"],
+                "image_config": {"image_size": output_resolution}
+            }
         )
 
-        # Process response and convert to PNG
+        # Process response and extract image
         image_saved = False
-        for part in response.parts:
-            if part.text is not None:
-                print(f"Model response: {part.text}")
-            elif part.inline_data is not None:
-                # Convert inline data to PIL Image and save as PNG
-                from io import BytesIO
+        import re
 
-                # inline_data.data is already bytes, not base64
-                image_data = part.inline_data.data
-                if isinstance(image_data, str):
-                    # If it's a string, it might be base64
-                    import base64
-                    image_data = base64.b64decode(image_data)
+        for choice in response.choices:
+            message = choice.message
 
-                image = PILImage.open(BytesIO(image_data))
+            if message.content:
+                # Parse the content - it contains both text and inline image data
+                # Format: "text response\n[inlineData]: data:image/png;base64,<base64_data>"
+                content = message.content
 
-                # Ensure RGB mode for PNG (convert RGBA to RGB with white background if needed)
-                if image.mode == 'RGBA':
-                    rgb_image = PILImage.new('RGB', image.size, (255, 255, 255))
-                    rgb_image.paste(image, mask=image.split()[3])
-                    rgb_image.save(str(output_path), 'PNG')
-                elif image.mode == 'RGB':
-                    image.save(str(output_path), 'PNG')
+                # Extract text before [inlineData]
+                if "[inlineData]:" in content:
+                    text_part = content.split("[inlineData]:")[0].strip()
+                    if text_part:
+                        print(f"Model response: {text_part}")
+
+                    # Extract base64 image data
+                    match = re.search(r'\[inlineData\]:\s*data:image/[^;]+;base64,(.+)', content, re.DOTALL)
+                    if match:
+                        b64_data = match.group(1).strip()
+                        image_bytes = base64.b64decode(b64_data)
+                        image = PILImage.open(BytesIO(image_bytes))
+                        save_image(image, output_path)
+                        image_saved = True
                 else:
-                    image.convert('RGB').save(str(output_path), 'PNG')
-                image_saved = True
+                    # No image in response, just text
+                    print(f"Model response: {content}")
 
         if image_saved:
             full_path = output_path.resolve()
@@ -226,6 +264,7 @@ def main():
                 compress_png(output_path, max_size_mb=args.max_size)
         else:
             print("Error: No image was generated in the response.", file=sys.stderr)
+            print(f"Response: {response}", file=sys.stderr)
             sys.exit(1)
 
     except Exception as e:
