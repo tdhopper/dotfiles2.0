@@ -60,23 +60,27 @@ Requires pngquant installed (`brew install pngquant`). If not installed, compres
 
 ## API Key
 
-The script checks for API key in this order:
+The script uses Spotify's AI Gateway and checks for API key in this order:
 1. `--api-key` argument (use if user provided key in chat)
-2. `GEMINI_API_KEY` environment variable
+2. `SPOTIFY_AI_GATEWAY_KEY` environment variable
 
 If neither is available, the script exits with an error message.
+
+**Gateway endpoint:** `https://hendrix-genai.spotify.net/taskforce/google/v1`
 
 ## Preflight + Common Failures (fast fixes)
 
 - Preflight:
   - `command -v uv` (must exist)
-  - `test -n \"$GEMINI_API_KEY\"` (or pass `--api-key`)
+  - VPN must be connected (required for AI Gateway access)
+  - `test -n \"$SPOTIFY_AI_GATEWAY_KEY\"` (or pass `--api-key`)
   - If editing: `test -f \"path/to/input.png\"`
 
 - Common failures:
-  - `Error: No API key provided.` → set `GEMINI_API_KEY` or pass `--api-key`
+  - `Error: No API key provided.` → set `SPOTIFY_AI_GATEWAY_KEY` or pass `--api-key`
   - `Error loading input image:` → wrong path / unreadable file; verify `--input-image` points to a real image
-  - “quota/permission/403” style API errors → wrong key, no access, or quota exceeded; try a different key/account
+  - Connection errors → check VPN connection
+  - "quota/permission/403" style API errors → wrong key, no access, or quota exceeded
 
 ## Filename Generation
 
