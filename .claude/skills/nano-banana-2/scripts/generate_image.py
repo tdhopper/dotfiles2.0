@@ -7,10 +7,10 @@
 # ]
 # ///
 """
-Generate images using Nano Banana Pro (Gemini 3 Pro Image) via Spotify's AI Gateway.
+Generate images using Nano Banana 2 (Gemini 3.1 Flash Image) via Spotify's AI Gateway.
 
 Usage:
-    uv run generate_image.py --prompt "your image description" --filename "output.png" [--resolution 1K|2K|4K] [--api-key KEY] [--compress] [--max-size MB]
+    uv run generate_image.py --prompt "your image description" --filename "output.png" [--resolution 0.5K|1K|2K|4K] [--api-key KEY] [--compress] [--max-size MB]
 """
 
 import argparse
@@ -90,7 +90,7 @@ def compress_png(filepath: Path, max_size_mb: float = 8.0, quality_min: int = 65
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate images using Nano Banana Pro (Gemini 3 Pro Image)"
+        description="Generate images using Nano Banana 2 (Gemini 3.1 Flash Image)"
     )
     parser.add_argument(
         "--prompt", "-p",
@@ -108,9 +108,9 @@ def main():
     )
     parser.add_argument(
         "--resolution", "-r",
-        choices=["1K", "2K", "4K"],
+        choices=["0.5K", "1K", "2K", "4K"],
         default="1K",
-        help="Output resolution: 1K (default), 2K, or 4K"
+        help="Output resolution: 0.5K, 1K (default), 2K, or 4K"
     )
     parser.add_argument(
         "--api-key", "-k",
@@ -217,7 +217,7 @@ def main():
 
     try:
         response = client.chat.completions.create(
-            model="gemini-2.5-flash-image",
+            model="gemini-3.1-flash-image-preview",
             messages=messages,
             extra_body={
                 "response_modalities": ["TEXT", "IMAGE"],
