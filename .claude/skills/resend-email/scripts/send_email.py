@@ -108,7 +108,7 @@ def main():
     parser = argparse.ArgumentParser(description="Send email via Resend API")
     parser.add_argument("--to", required=True, help="Recipient email(s), comma-separated")
     parser.add_argument("--subject", required=True, help="Email subject")
-    parser.add_argument("--from", dest="from_addr", required=True, help="Sender email")
+    parser.add_argument("--from", dest="from_addr", default="Claude <claude@ehop.me>", help="Sender email (default: Claude <claude@ehop.me>)")
     parser.add_argument("--html", help="HTML body content")
     parser.add_argument("--text", help="Plain text body")
     parser.add_argument("--cc", help="CC recipient(s), comma-separated")
