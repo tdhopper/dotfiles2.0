@@ -15,7 +15,6 @@ Use `scripts/send_email.py` to send emails:
 python3 scripts/send_email.py \
   --to "recipient@example.com" \
   --subject "Hello" \
-  --from "Your Name <you@yourdomain.com>" \
   --text "Email body here"
 ```
 
@@ -25,7 +24,7 @@ python3 scripts/send_email.py \
 |-----------|-------------|
 | `--to` | Recipient(s), comma-separated for multiple |
 | `--subject` | Email subject line |
-| `--from` | Sender address (format: `Name <email>` or just `email`) |
+| `--from` | Sender address (default: `Claude <claude@ehop.me>`) |
 | `--text` or `--html` | Body content (at least one required) |
 
 ### Optional Parameters
