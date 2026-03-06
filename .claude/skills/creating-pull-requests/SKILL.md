@@ -1,11 +1,11 @@
 ---
 name: creating-pull-requests
-description: Use this skill when creating pull requests, drafting PR descriptions, or running `gh pr create`. Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links.
+description: Use this skill when creating or updating pull requests. Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links. Also use when the user says "update PR", "refresh PR description", "rewrite PR", or wants to sync a PR's title/description with the current branch state.
 ---
 
-# Creating Pull Requests
+# Creating & Updating Pull Requests
 
-Create well-structured pull requests with clear titles and comprehensive descriptions.
+Create well-structured pull requests, or update existing ones to reflect the current state of the branch.
 
 # Critical Rules
 
@@ -145,11 +145,95 @@ gh pr create --base develop --title "Add X" --body "..."
 gh pr create --title "Add X" --body "..." --web
 ```
 
+# Updating an Existing PR
+
+When updating an existing PR's title and description, the goal is to make them reflect the **current full state** of the branch vs the base — not a changelog of what changed since the last update.
+
+## Detecting Update vs Create
+
+- If there's already an open PR for the current branch, this is an **update**
+- Check with: `gh pr view --json number,title,body,baseRefName`
+- If no PR exists, fall back to the create flow above
+
+## Update Process
+
+### 1. Get the current PR and base branch
+
+```bash
+# Get existing PR details
+gh pr view --json number,title,body,baseRefName,url
+
+# Get the base branch name from the PR
+BASE=$(gh pr view --json baseRefName -q '.baseRefName')
+```
+
+### 2. Review the full branch state (not just recent changes)
+
+```bash
+# Full diff against base — this is what the PR represents
+git diff $BASE...HEAD
+
+# All commits on this branch
+git log $BASE..HEAD --oneline
+
+# Optionally read key changed files for deeper understanding
+git diff $BASE...HEAD --stat
+```
+
+**Important**: Read the actual diff, not just the stat. Understand what the code does now, not what changed between pushes.
+
+### 3. Draft new title and description
+
+Write the title and description as if creating the PR fresh:
+- The title should describe what the PR **does** (full scope), not what changed recently
+- The description should explain the current state: why this branch exists, how the code works now
+- Do NOT use language like "also adds", "additionally", "now includes" — just describe the whole thing
+- Preserve any links from the existing description (Jira tickets, Slack threads, etc.)
+
+### 4. Apply the update
+
+```bash
+# Update title and body
+gh pr edit <number> --title "New title here" --body "$(cat <<'EOF'
+## Why
+
+[Full motivation for this PR]
+
+## Approach
+
+[Why this implementation approach]
+
+## How it works
+
+[Technical description of the complete PR]
+
+## Links
+
+- [Ticket](url)
+EOF
+)"
+```
+
+## Update Example
+
+**Existing PR title**: `Add retry logic to HTTP client`
+**Since then**: Added circuit breaker, updated tests, added config options
+
+**Bad update** (changelog style):
+> Title: `Add retry logic and circuit breaker to HTTP client`
+> "This PR now also adds a circuit breaker pattern and configuration options..."
+
+**Good update** (reflects current state):
+> Title: `Add resilient HTTP client with retry and circuit breaker`
+> "HTTP requests to external services fail under load. This PR wraps the HTTP client with exponential backoff retry and a circuit breaker that opens after repeated failures..."
+
 # Validation Checklist
 
-Before creating the PR, verify:
+Before creating or updating the PR, verify:
 - [ ] Title uses active voice with present-tense verb
+- [ ] Title describes the full scope of the PR, not just recent changes
 - [ ] Description has Why, Approach, and How sections
-- [ ] All relevant links are included
+- [ ] Description reflects current branch state, not a changelog
+- [ ] All relevant links are included (preserved from existing PR if updating)
 - [ ] No AI/Claude attribution anywhere
 - [ ] No Co-Authored-By headers in commits
