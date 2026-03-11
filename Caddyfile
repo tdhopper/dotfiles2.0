@@ -35,10 +35,10 @@
 
 # ----- subdomains -----
 pihole.hopperhosted.com {
-	reverse_proxy 192.168.68.89:8765
+	reverse_proxy 192.168.68.63:8765
 }
 webdav.hopperhosted.com {
-	reverse_proxy https://192.168.68.89:5006 {
+	reverse_proxy https://192.168.68.63:5006 {
 		import tls_skip_verify
 	}
 }
@@ -48,48 +48,48 @@ synology.hopperhosted.com {
 	}
 }
 audible.hopperhosted.com {
-	reverse_proxy 192.168.68.89:3000
+	reverse_proxy 192.168.68.63:3000
 }
 shiloh-companion.hopperhosted.com {
 	reverse_proxy http://100.108.169.83:8888
 }
 cam.hopperhosted.com {
-	reverse_proxy 192.168.68.89:9901 {
+	reverse_proxy 192.168.68.63:9901 {
 		import tls_skip_verify
 	}
 }
 mail.hopperhosted.com {
-	reverse_proxy 192.168.68.89:21681 {
+	reverse_proxy 192.168.68.63:21681 {
 		import tls_skip_verify
 	}
 }
 photos.hopperhosted.com {
-	reverse_proxy 192.168.68.89:5443 {
+	reverse_proxy 192.168.68.63:5443 {
 		import tls_skip_verify
 	}
 }
 drive.hopperhosted.com {
-	reverse_proxy 192.168.68.89:10003 {
+	reverse_proxy 192.168.68.63:10003 {
 		import tls_skip_verify
 	}
 }
 files.hopperhosted.com {
-	reverse_proxy 192.168.68.89:7001 {
+	reverse_proxy 192.168.68.63:7001 {
 		import tls_skip_verify
 	}
 }
 file.hopperhosted.com {
-	reverse_proxy 192.168.68.89:7001 {
+	reverse_proxy 192.168.68.63:7001 {
 		import tls_skip_verify
 	}
 }
 download.hopperhosted.com {
-	reverse_proxy 192.168.68.89:8001 {
+	reverse_proxy 192.168.68.63:8001 {
 		import tls_skip_verify
 	}
 }
 jellyfin.hopperhosted.com {
-	reverse_proxy 192.168.68.84:8096
+	reverse_proxy 100.86.145.18:8096
 }
 elwood.hopperhosted.com {
     reverse_proxy http://100.119.124.86:8765
@@ -98,4 +98,10 @@ scrypted.hopperhosted.com {
 	reverse_proxy https://127.0.0.1:10443 {
 		import tls_skip_verify
 	}
+}
+metube.hopperhosted.com {
+	reverse_proxy 100.86.145.18:5992
+}
+pinchflat.hopperhosted.com {
+	reverse_proxy 100.86.145.18:8945
 }
