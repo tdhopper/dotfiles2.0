@@ -16,5 +16,14 @@ if [[ -f "$ITERM_PLIST" ]]; then
     fi
 fi
 
+# Block files with "spotify" in the name (case-insensitive)
+spotify_files=$(yadm diff --cached --name-only | grep -i spotify)
+if [[ -n "$spotify_files" ]]; then
+    echo "ERROR: Refusing to commit files with 'spotify' in the name."
+    echo "These likely belong in work yadm instead:"
+    echo "$spotify_files"
+    exit 1
+fi
+
 # Run pre-commit
 exec pre-commit run --hook-stage commit --config "$HOME/.pre-commit-config.yaml"
