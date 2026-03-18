@@ -31,16 +31,29 @@ Installed at: `/opt/homebrew/bin/nightshift`
 nightshift run
 nightshift run --yes                        # Skip confirmation
 nightshift run --dry-run                    # Preview only
-nightshift run -p ./my-project -t lint-fix  # Specific project + task
+nightshift run -p ./my-project -t my-task   # Specific project + task
 nightshift run --random-task                # Pick random eligible task
 nightshift run --max-tasks 3                # Up to 3 tasks per project
 nightshift run --max-projects 3             # Process up to 3 projects
 nightshift run --ignore-budget              # Bypass budget checks
 
-# Task management
-nightshift task list                        # List all tasks with budget info
-nightshift task show <task-name>            # Show task details and prompt
-nightshift task run <task-name>             # Run a specific task immediately
+# Task catalog (built-in tasks only)
+nightshift task list                        # List all built-in tasks
+nightshift task show <task-name>            # Show built-in task details
+nightshift task run <task-name>             # Run a built-in task immediately
+```
+
+### Important: `nightshift run` vs `nightshift task run`
+
+These are different commands with different task registries:
+
+- **`nightshift run`** loads project config (`nightshift.yaml`), registers custom tasks, and runs them through the full scheduler. Use `-t <task-id>` to target a specific custom task.
+- **`nightshift task run`** only knows about the ~59 built-in catalog tasks. It does NOT load custom tasks from project config. Custom task IDs will fail with `Error: unknown task`.
+
+To test or manually execute a custom task, always use `nightshift run`:
+```bash
+nightshift run --dry-run -p . -t content-rewrite   # dry-run a custom task
+nightshift run -y -p . -t content-rewrite          # execute a custom task
 ```
 
 ### Monitoring & Reporting
@@ -124,7 +137,7 @@ tasks:
     - content-freshness
 
   custom:
-    - type: content-rewrite    # Must match a built-in task type
+    - type: content-rewrite    # Arbitrary ID; does NOT need to match a built-in
       name: "Human-readable name"
       category: pr             # pr | options | analysis | safe | map | emergency
       cost_tier: low           # low | med | high | vhigh
@@ -153,7 +166,8 @@ nightshift report --period last-night --paths
 
 ### Manually trigger a specific task
 ```bash
-nightshift run -t "Develop Content Gap Idea" --yes
+nightshift run -y -p . -t content-gap              # custom task by ID
+nightshift task run idea-generator --provider claude # built-in task only
 ```
 
 ### Debug why a task didn't run
@@ -162,6 +176,13 @@ nightshift doctor
 nightshift preview --explain
 nightshift logs --level error --since "yesterday"
 ```
+
+### Gotchas
+
+- **"already processed today"**: `nightshift run` (without `-t`) will skip a project if it already ran today. Using `-t` to target a specific task bypasses this.
+- **Cannot run nightshift while Claude Code is active**: Nightshift spawns its own Claude agent. If a Claude Code session is already running, the agent may fail with `exit status 1`. Close Claude Code first or wait for the scheduled overnight run.
+- **Budget calibration**: If `nightshift budget` shows `none confidence`, the weekly_tokens value in `~/.config/nightshift/config.yaml` is a manual estimate. Adjust based on your plan (Max $100 = ~25M/week).
+- **Global vs project config**: Global config lives at `~/.config/nightshift/config.yaml` (schedule, budget, providers, global enabled list). Project config lives at `nightshift.yaml` in the repo root (task definitions, project-level enabled list). Both enabled lists must include a task for it to run.
 
 ### See budget remaining
 ```bash

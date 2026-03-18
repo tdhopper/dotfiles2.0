@@ -4,6 +4,21 @@ theme "catppuccin-latte"
 keybinds clear-defaults=true {
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
+        // Pane focus movement (works with Alt locked in Moshi)
+        bind "Alt h" "Alt Left"  { MoveFocusOrTab "Left"; }
+        bind "Alt j" "Alt Down"  { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up"    { MoveFocus "Up"; }
+        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        // New pane + close current
+        bind "Alt n" { NewPane; }
+        bind "Alt w" { CloseFocus; }
+        // Resize without entering resize mode
+        bind "Alt =" "Alt +" { Resize "Increase"; }
+        bind "Alt -"         { Resize "Decrease"; }
+        // Tabs
+        bind "Alt t" { NewTab; }
+        bind "Alt [" { GoToPreviousTab; }
+        bind "Alt ]" { GoToNextTab; }
     }
     pane {
         bind "left" { MoveFocus "left"; }
@@ -274,14 +289,17 @@ load_plugins {
 web_client {
     font "monospace"
 }
-
+ui {
+    mouse_mode true
+}
+ 
 // Use a simplified UI without special fonts (arrow glyphs)
 // Options:
 //   - true
 //   - false (Default)
-//
-// simplified_ui true
-
+// 
+simplified_ui true
+ 
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
@@ -289,9 +307,9 @@ web_client {
 
 // Choose the base input mode of zellij.
 // Default: normal
-//
-// default_mode "locked"
-
+// 
+default_mode "locked"
+ 
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 //
@@ -303,9 +321,9 @@ web_client {
 
 // The name of the default layout to load on startup
 // Default: "default"
-//
-// default_layout "compact"
-
+// 
+default_layout "compact"
+ 
 // The folder in which Zellij will look for layouts
 // (Requires restart)
 //
@@ -505,9 +523,9 @@ web_client {
 
 // Whether to show tips on startup
 // Default: true
-//
-// show_startup_tips false
-
+// 
+show_startup_tips false
+ 
 // Whether to show release notes on first version run
 // Default: true
 //

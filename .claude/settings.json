@@ -1,5 +1,8 @@
 {
   "cleanupPeriodDays": 90,
+  "env": {
+    "ANTHROPIC_API_KEY": ""
+  },
   "permissions": {
     "defaultMode": "bypassPermissions"
   },
@@ -10,5 +13,78 @@
   "statusLine": {
     "type": "command",
     "command": "cship"
+  },
+  "enabledPlugins": {
+    "agent-sdk-dev@claude-plugins-official": true
+  },
+  "effortLevel": "medium",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ],
+        "matcher": "permission_prompt|idle_prompt"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun /private/var/folders/tx/l_dm51lx05j9zrph1365wvs80000gn/T/bunx-501-moshi-hooks@latest/node_modules/moshi-hooks/src/index.ts # moshi-hooks",
+            "async": true
+          }
+        ]
+      }
+    ]
   }
 }
