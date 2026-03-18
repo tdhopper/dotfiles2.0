@@ -12,4 +12,3 @@ custom-shader-animation = always
 
 theme = dark:Catppuccin Frappe,light:Catppuccin Latte
 minimum-contrast = 4.5  # needed for cmux (doesn't honor this yet)
-
