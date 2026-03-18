@@ -146,3 +146,6 @@ Temporary Items
 
 # Work-specific git config (keep local only)
 .gitconfig-work
+
+# Fish variables (may contain secrets)
+.config/fish/fish_variables
