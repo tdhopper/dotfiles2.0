@@ -3,6 +3,6 @@ style: "auto"
 # mouse support (TUI-mode only)
 mouse: True
 # use pager to display markdown
-pager: True
+#pager: True
 # word-wrap at width
 width: 100
