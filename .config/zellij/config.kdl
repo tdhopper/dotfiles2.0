@@ -292,14 +292,14 @@ web_client {
 ui {
     mouse_mode true
 }
- 
+
 // Use a simplified UI without special fonts (arrow glyphs)
 // Options:
 //   - true
 //   - false (Default)
-// 
+//
 simplified_ui true
- 
+
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
@@ -307,9 +307,9 @@ simplified_ui true
 
 // Choose the base input mode of zellij.
 // Default: normal
-// 
+//
 default_mode "locked"
- 
+
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 //
@@ -321,9 +321,9 @@ default_mode "locked"
 
 // The name of the default layout to load on startup
 // Default: "default"
-// 
+//
 default_layout "compact"
- 
+
 // The folder in which Zellij will look for layouts
 // (Requires restart)
 //
@@ -523,9 +523,9 @@ default_layout "compact"
 
 // Whether to show tips on startup
 // Default: true
-// 
+//
 show_startup_tips false
- 
+
 // Whether to show release notes on first version run
 // Default: true
 //
