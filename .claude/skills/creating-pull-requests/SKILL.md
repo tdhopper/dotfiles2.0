@@ -34,7 +34,7 @@ Active voice, present tense, full scope.
 |------|-----|
 | Add user authentication | Added user authentication |
 | Fix memory leak in cache | Fixing memory leak |
-| Use AnnotationHub sample sources for listening-test progress | Update bq_export.py |
+| Use Redis cache for session lookup instead of DB query | Update session.py |
 
 Pattern: `<Verb> <what> [in/for/to <context>]`
 
@@ -210,8 +210,6 @@ Before submitting, verify:
 gh pr view --json number,title,body,baseRefName,url 2>/dev/null
 ```
 
-For Spotify GHE: `GH_HOST=ghe.spotify.net gh pr view --repo <org>/<repo> <num> ...`.
-
 ## 2. Gather context
 
 ```bash
@@ -231,10 +229,10 @@ Every claim in the description that a reviewer might want to verify ("caused div
 **Actively search** — don't just ask the user:
 1. **Git history.** `git log --all --oneline --grep="keyword"` for related PRs, fix commits, and reverts.
 2. **Slack.** Search for error messages, feature names, or incident keywords using `slack_search_public_and_private`. Prefer linking to the thread where the root cause was identified, not the thread where someone first noticed something was wrong.
-3. **Coda.** Search for tickets referencing the feature, bug, or area of code.
+3. **Issue tracker.** Search for tickets referencing the feature, bug, or area of code.
 4. **Branch name and commits.** Ticket numbers and keywords often hide here.
 
-Ask the user only for links you can't find yourself (private docs, external dashboards, Fusion run IDs).
+Ask the user only for links you can't find yourself (private docs, external dashboards, job run IDs).
 
 When updating, preserve every link from the existing description.
 
@@ -310,9 +308,9 @@ features to Bigtable (p50: 3 ms) and keeps large features on GCS.
 
 | File | Why |
 |---|---|
-| `diffusify_core/utils/caching.py` *(start here)* | New `RoutingCacheContext` — all routing logic lives here. |
-| `diffusify_core/constants.py` | `FeatureSizeHint` enum and Bigtable constants. |
-| `diffusify/converters/base.py` | Converters declare `feature_size_hint`. |
+| `core/utils/caching.py` *(start here)* | New `RoutingCacheContext` — all routing logic lives here. |
+| `core/constants.py` | `FeatureSizeHint` enum and Bigtable constants. |
+| `converters/base.py` | Converters declare `feature_size_hint`. |
 | `tests/.../test_routing_cache.py` *(new)* | 12 tests covering routing, fallback, and threshold edge cases. |
 | `kubernetes/bigtable/bigtable.yaml` | Column family for converter cache. |
 
