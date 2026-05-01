@@ -3,237 +3,209 @@ name: creating-pull-requests
 description: Use this skill when creating or updating pull requests. Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links. Also use when the user says "update PR", "refresh PR description", "rewrite PR", or wants to sync a PR's title/description with the current branch state.
 ---
 
-# Creating & Updating Pull Requests
+# Creating & updating pull requests
 
-Create well-structured pull requests, or update existing ones to reflect the current state of the branch.
+A PR description is prose written to manage a reviewer's attention. Optimise for review speed, not comprehensiveness: a good description gets the reviewer oriented in 30 seconds and answers "what changed, why, and where do I start reading?" before they open the diff.
 
-# Critical Rules
+# Critical rules
 
-**NEVER do these:**
-- Do NOT add yourself as a coauthor on commits (no `Co-Authored-By` headers)
-- Do NOT include phrases like "Generated with Claude Code" or "Created by Claude"
-- Do NOT mention AI or Claude anywhere in commits or PR descriptions
+NEVER:
+- Add `Co-Authored-By` headers on commits.
+- Include "Generated with Claude Code" or any AI/Claude attribution.
+- Mention Claude, AI, agents, or assistants anywhere in the PR.
 
-# PR Title Format
+# Load PROSE.md before drafting
 
-Use **active voice** with a present-tense verb:
+If `~/.claude/PROSE.md` exists, read it before writing the description. PR descriptions are prose; the rules there apply directly. Most load-bearing for PRs:
+
+- **Active voice, present tense.** "X overrides Y" not "Y is overridden by X". "`total_pairs` came from the CSV" not "`total_pairs` was derived from the CSV".
+- **Omit needless words.** Cut "in order to", "the fact that", hedges like "rather", "quite", "very".
+- **Front-load keywords.** Put the most important word in the first two words of each paragraph and header.
+- **Bold sparingly (Von Restorff).** One bolded headline per Reviewer-notes bullet. If you bold everything, nothing stands out.
+- **Concrete > abstract.** "showed `71 / 113  63%` instead of `71 / 160  44%`" lands harder than "showed an inflated percentage".
+- **Paragraphs 2–4 lines.** Long blocks get skipped; one-line fragments fragment.
+- **No "In conclusion", "Overall", "In summary".** End with a next step or a final fact.
+
+# Title format
+
+Active voice, present tense, full scope.
 
 | Good | Bad |
 |------|-----|
 | Add user authentication | Added user authentication |
 | Fix memory leak in cache | Fixing memory leak |
-| Update dependencies to latest | Dependency updates |
-| Remove deprecated API endpoints | Removed deprecated API |
-| Refactor database connection pool | Database refactoring |
+| Use AnnotationHub sample sources for listening-test progress | Update bq_export.py |
 
-**Pattern**: `<Verb> <what> [to/in/for <context>]`
+Pattern: `<Verb> <what> [in/for/to <context>]`
 
-Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, Enable, Disable
+Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, Enable, Disable, Use, Make.
 
-# PR Description Structure
+# Description structure
+
+Pick the template that matches the PR's complexity. Don't bloat a 30-line bug fix with a TL;DR and files table; don't bury a 400-line refactor in a single paragraph.
+
+## Small PR (one concern, < ~50 lines)
 
 ```markdown
 ## Why
 
-[Explain the motivation for this change. What problem does it solve? What feature does it enable?]
-
-## Approach
-
-[Explain why this implementation was chosen over alternatives. What trade-offs were considered?]
+[2–3 sentences: what problem, what the PR does about it. Concrete example or number if possible.]
 
 ## How it works
 
-[Describe the technical implementation. How does the code achieve the goal?]
+[Brief technical description. Bullets if there are 3+ moving parts.]
 
 ## Links
 
-- [Ticket](url) or JIRA-123
+- [Ticket](url)
+```
+
+## Non-trivial PR (multiple files, non-obvious tradeoffs, or > ~50 lines)
+
+```markdown
+## TL;DR
+
+[Two sentences. First names the symptom with a concrete number/example. Second names the fix.]
+
+**Files to review (N, +X / -Y):**
+
+| File | Why |
+|---|---|
+| `path/to/start_here.py` *(new)* | One-line pointer. Mark one file as the natural entry point. |
+| `path/to/other.py` | Short reason. |
+
+## Root cause / Why
+
+[Why the PR exists. Show the problem with concrete numbers, error messages, or a before/after.]
+
+## Fix / How
+
+[The change, top-down. Numbered steps work well for pipelines; bullets for parallel changes.]
+
+## Reviewer notes
+
+**One key fact per note (bolded headline).** Use these for tradeoffs you considered, fallback behaviour, why a helper lives in a separate module — anything the reviewer would otherwise stop and ask about.
+
+## Tests
+
+[Bullets: what's covered, what isn't, how many tests pass.]
+
+## Follow-up
+
+[Out-of-scope items this PR sets up for later. Optional.]
+
+## Links
+
+- [Ticket](url)
 - [Slack thread](url)
 ```
 
-# Step-by-Step Process
+# Reviewer-friendliness checklist
 
-## 1. Gather Context
+A reviewer should be able to:
 
-Before creating the PR, understand what's being changed:
+- Read the title → know the full scope.
+- Read the TL;DR → know symptom + fix without scrolling.
+- Read the files-to-review table → know where to start (mark one file "start here" when there's a natural entry point).
+- Find non-obvious gotchas in **Reviewer notes** instead of hunting in the diff.
+
+If you can't draft the TL;DR in two clean sentences, you don't yet understand the PR well enough to describe it. Re-read the diff first.
+
+# Process
+
+## 1. Detect: create or update?
 
 ```bash
-# See all commits on this branch vs main
-git log main..HEAD --oneline
-
-# See the full diff
-git diff main...HEAD
-
-# Check current branch name
-git branch --show-current
+# If a PR exists for this branch, this is an update.
+gh pr view --json number,title,body,baseRefName,url 2>/dev/null
 ```
 
-## 2. Identify Links and References
+For Spotify GHE: `GH_HOST=ghe.spotify.net gh pr view --repo <org>/<repo> <num> ...`.
 
-Ask the user or search for:
-- Jira/ticket numbers (look in commit messages or branch name)
-- Related Slack conversations
-- Fusion run URLs
-- GCS paths for data or artifacts
-
-## 3. Draft the PR
+## 2. Gather context
 
 ```bash
-gh pr create --title "Add feature X to service Y" --body "$(cat <<'EOF'
-## Why
+BASE=$(gh pr view --json baseRefName -q '.baseRefName' 2>/dev/null || echo "main")
 
-[Motivation here]
+git diff $BASE...HEAD          # full diff — what the PR represents
+git diff $BASE...HEAD --stat   # shape: files, +/- counts
+git log $BASE..HEAD --oneline  # commits
+```
 
-## Approach
+Read the actual diff, not just the stat. The description must reflect what the code does now.
 
-[Implementation rationale here]
+## 3. Find links
 
-## How it works
+Pull from commits, branch name, and ask the user for:
+- Jira/ticket numbers
+- Slack threads
+- Fusion runs, GCS paths, dashboards
 
-[Technical details here]
+When updating, preserve every link from the existing description.
 
-## Links
+## 4. Draft
 
-- [Ticket](url)
+Apply PROSE.md. Sketch the TL;DR first — it forces clarity before you commit to a structure.
+
+## 5. Apply
+
+```bash
+gh pr create --title "..." --body "$(cat <<'EOF'
+...
+EOF
+)"
+
+gh pr edit <number> --title "..." --body "$(cat <<'EOF'
+...
 EOF
 )"
 ```
 
-# Example
+# Updating an existing PR
 
-**Branch**: `feature/add-retry-logic`
-**Commits**: Adds exponential backoff retry to HTTP client
+The description must reflect the **current full state** of the branch vs base — not a changelog of changes since the last push. Drop "also adds", "additionally", "now includes". Just describe what the PR does.
 
-**Title**: `Add exponential backoff retry to HTTP client`
-
-**Description**:
-```markdown
-## Why
-
-HTTP requests to external services occasionally fail due to transient network issues. Without retry logic, these failures cascade to users as errors.
-
-## Approach
-
-Chose exponential backoff over fixed-interval retry to avoid thundering herd problems during partial outages. Used a max of 3 retries with jitter to spread out retry attempts.
-
-## How it works
-
-Wraps the existing HTTP client with a retry decorator. On 5xx responses or network errors, waits `2^attempt * 100ms + random(0-50ms)` before retrying. Logs each retry attempt for observability.
-
-## Links
-
-- [PROJ-1234](https://jira.example.com/browse/PROJ-1234)
-- [Slack discussion](https://slack.com/archives/...)
-```
-
-# CLI Commands
-
-```bash
-# Create PR interactively
-gh pr create
-
-# Create with title and body
-gh pr create --title "Add X" --body "Description here"
-
-# Create as draft
-gh pr create --draft --title "Add X" --body "..."
-
-# Create with specific base branch
-gh pr create --base develop --title "Add X" --body "..."
-
-# Create and immediately open in browser
-gh pr create --title "Add X" --body "..." --web
-```
-
-# Updating an Existing PR
-
-When updating an existing PR's title and description, the goal is to make them reflect the **current full state** of the branch vs the base — not a changelog of what changed since the last update.
-
-## Detecting Update vs Create
-
-- If there's already an open PR for the current branch, this is an **update**
-- Check with: `gh pr view --json number,title,body,baseRefName`
-- If no PR exists, fall back to the create flow above
-
-## Update Process
-
-### 1. Get the current PR and base branch
-
-```bash
-# Get existing PR details
-gh pr view --json number,title,body,baseRefName,url
-
-# Get the base branch name from the PR
-BASE=$(gh pr view --json baseRefName -q '.baseRefName')
-```
-
-### 2. Review the full branch state (not just recent changes)
-
-```bash
-# Full diff against base — this is what the PR represents
-git diff $BASE...HEAD
-
-# All commits on this branch
-git log $BASE..HEAD --oneline
-
-# Optionally read key changed files for deeper understanding
-git diff $BASE...HEAD --stat
-```
-
-**Important**: Read the actual diff, not just the stat. Understand what the code does now, not what changed between pushes.
-
-### 3. Draft new title and description
-
-Write the title and description as if creating the PR fresh:
-- The title should describe what the PR **does** (full scope), not what changed recently
-- The description should explain the current state: why this branch exists, how the code works now
-- Do NOT use language like "also adds", "additionally", "now includes" — just describe the whole thing
-- Preserve any links from the existing description (Jira tickets, Slack threads, etc.)
-
-### 4. Apply the update
-
-```bash
-# Update title and body
-gh pr edit <number> --title "New title here" --body "$(cat <<'EOF'
-## Why
-
-[Full motivation for this PR]
-
-## Approach
-
-[Why this implementation approach]
-
-## How it works
-
-[Technical description of the complete PR]
-
-## Links
-
-- [Ticket](url)
-EOF
-)"
-```
-
-## Update Example
-
-**Existing PR title**: `Add retry logic to HTTP client`
-**Since then**: Added circuit breaker, updated tests, added config options
-
-**Bad update** (changelog style):
+**Bad** (changelog style):
 > Title: `Add retry logic and circuit breaker to HTTP client`
-> "This PR now also adds a circuit breaker pattern and configuration options..."
+> "This PR now also adds a circuit breaker pattern…"
 
-**Good update** (reflects current state):
+**Good** (current state):
 > Title: `Add resilient HTTP client with retry and circuit breaker`
-> "HTTP requests to external services fail under load. This PR wraps the HTTP client with exponential backoff retry and a circuit breaker that opens after repeated failures..."
+> "HTTP requests to external services fail under load. This PR wraps the HTTP client with exponential backoff retry and a circuit breaker that opens after repeated failures…"
 
-# Validation Checklist
+# Worked example (non-trivial PR)
 
-Before creating or updating the PR, verify:
-- [ ] Title uses active voice with present-tense verb
-- [ ] Title describes the full scope of the PR, not just recent changes
-- [ ] Description has Why, Approach, and How sections
-- [ ] Description reflects current branch state, not a changelog
-- [ ] All relevant links are included (preserved from existing PR if updating)
-- [ ] No AI/Claude attribution anywhere
-- [ ] No Co-Authored-By headers in commits
+Title: `Use AnnotationHub sample sources for listening-test pair progress`
+
+```markdown
+## TL;DR
+
+The soundboard UI overstated listening-test progress: a 160-pair test would show `71 / 113  63%` instead of `71 / 160  44%`, and could flip to `complete` while a third of the manifest had never been annotated. This PR reads the true pair count from AnnotationHub's `download_sample_sources` API and patches `total_pairs` / `completion_pct` / `status` before they reach BigQuery.
+
+**Files to review (4, +342 / -7):**
+
+| File | Why |
+|---|---|
+| `diffusify/listening_tests/sample_sources.py` *(new)* | Pure helpers. Start here. |
+| `diffusify/listening_tests/bq_export.py` | Calls AnnotationHub per tier; applies the override. |
+| `tests/diffusify_tests/test_lt_sample_sources.py` *(new)* | 10 unit tests for the helpers. |
+
+## Root cause
+
+`total_pairs` came from the annotation download CSV, which only contains pairs with ≥1 annotation. Unannotated pairs silently dropped out, so the percentage was always wrong by a different amount and `status=complete` could trigger before annotators saw every uploaded pair.
+
+## Reviewer notes
+
+**Match by `comparison_id`, not by model pair.** Tier projects are shared across many tests, so the same model pair appears under different test names…
+
+**Falls back on every failure mode.** If the AnnotationHub fetch fails or returns malformed data, the helper logs and returns `None`; the export keeps the legacy denominator…
+```
+
+# Final checks
+
+- Title: active voice, present tense, describes full scope.
+- TL;DR (if present): two sentences, concrete example/number.
+- Each Reviewer note: one bolded headline, one fact per note.
+- No `Co-Authored-By`, no "Generated with…", no AI/Claude mentions.
+- Links preserved on update.
+- Description describes current state, not a changelog.
