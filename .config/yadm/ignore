@@ -1,2 +1,4 @@
 Library/LaunchAgents/homebrew.mxcl.caddy.plist
 Caddyfile
+.claude/settings.json
+.claude/settings.local.json
