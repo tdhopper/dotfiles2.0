@@ -84,4 +84,3 @@ with the pattern
 - Go fix failing CI tests without being told how
 
 ## Core Principles
-
