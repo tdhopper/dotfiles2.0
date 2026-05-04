@@ -65,7 +65,7 @@ set nowrap
 augroup markdown
   autocmd!
   autocmd FileType markdown setlocal wrap linebreak nolist
-  autocmd FileType markdown setlocal textwidth=0 wrapmargin=0
+  autocmd FileType markdown setlocal textwidth=80
   autocmd FileType markdown setlocal conceallevel=2
   autocmd FileType markdown setlocal colorcolumn=
   autocmd FileType markdown setlocal spell
