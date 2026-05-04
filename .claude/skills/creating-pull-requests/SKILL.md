@@ -1,6 +1,6 @@
 ---
 name: creating-pull-requests
-description: Use this skill when creating or updating pull requests. Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links. Also use when the user says "update PR", "refresh PR description", "rewrite PR", or wants to sync a PR's title/description with the current branch state.
+description: Use this skill when creating or updating pull requests. MUST trigger on any `gh pr create` or `gh pr edit` call, including when you initiate one yourself after pushing code. Also triggers when pushing to a branch with an open PR (the description may need updating to reflect new commits). Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links. Also use when the user says "update PR", "refresh PR description", "rewrite PR", or wants to sync a PR's title/description with the current branch state.
 ---
 
 # Creating & updating pull requests
