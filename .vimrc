@@ -57,9 +57,21 @@ nnoremap <leader>d "_dd
 " Highlight yanked text
 au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}
 
-" Disable cursor line and word wrapping
+" Disable cursor line
 set nocursorline
 set nowrap
+
+" Markdown: soft wrap, readable settings
+augroup markdown
+  autocmd!
+  autocmd FileType markdown setlocal wrap linebreak nolist
+  autocmd FileType markdown setlocal textwidth=0 wrapmargin=0
+  autocmd FileType markdown setlocal conceallevel=2
+  autocmd FileType markdown setlocal colorcolumn=
+  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown nnoremap <buffer> j gj
+  autocmd FileType markdown nnoremap <buffer> k gk
+augroup END
 
 " EasyMotion
 let g:EasyMotion_do_mapping = 0  " Disable default mappings
