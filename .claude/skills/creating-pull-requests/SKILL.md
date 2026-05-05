@@ -1,6 +1,6 @@
 ---
 name: creating-pull-requests
-description: Use this skill when creating or updating pull requests. MUST trigger on any `gh pr create` or `gh pr edit` call, including when you initiate one yourself after pushing code. Also triggers when pushing to a branch with an open PR (the description may need updating to reflect new commits). Ensures proper PR formatting with active-voice titles and structured descriptions explaining why, how, and context links. Also use when the user says "update PR", "refresh PR description", "rewrite PR", or wants to sync a PR's title/description with the current branch state.
+description: Use this skill BEFORE drafting or writing any pull request content. Trigger as soon as you decide a PR will be created or updated — not at the moment you run the shell command. This means: when the user asks to create a PR, when you're about to push code and open a PR, when splitting work into a separate PR, or when updating an existing PR description. Load this skill first, then draft. Also triggers on "update PR", "refresh PR description", "rewrite PR", or syncing a PR with current branch state.
 ---
 
 # Creating & updating pull requests
@@ -244,17 +244,25 @@ Apply PROSE.md. Check every sentence against the "does this exist in the diff?" 
 
 ## 5. Apply
 
-```bash
-gh pr create --title "..." --body "$(cat <<'EOF'
-...
-EOF
-)"
+Write the body to a temp file, then pass it with `-F body=@<path>`. This avoids shell escaping that mangles backticks and other markdown.
 
-gh pr edit <number> --title "..." --body "$(cat <<'EOF'
-...
-EOF
-)"
+```bash
+# Write body to file first
+# (use the Write tool to create /tmp/pr-body.md with the full description)
+
+# Create
+gh pr create --title "..." --body-file /tmp/pr-body.md
+
+# Update
+gh pr edit <number> --title "..." --body-file /tmp/pr-body.md
+
+# If using gh api directly (e.g. for GHE):
+gh api repos/OWNER/REPO/pulls/NUMBER -X PATCH \
+  -F title="..." \
+  -F body=@/tmp/pr-body.md
 ```
+
+**Never** pass the body inline via HEREDOC or `--body`/`--field body=` — backticks, quotes, and special characters get double-interpreted by the shell.
 
 # Updating an existing PR
 
