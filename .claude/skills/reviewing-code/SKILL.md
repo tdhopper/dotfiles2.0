@@ -82,4 +82,4 @@ Fix everything Tim marked "Fix". Then present a final summary:
 - [concerns Tim chose to flag, with file:line references]
 ```
 
-**Do NOT post comments on the PR.** Tim will handle that himself. Just present the summary so he can copy or adapt it.
+**Do NOT post comments on the PR** unless Tim asks. If he wants findings posted as a draft review with inline comments, use the `/draft-pr-review` skill to create a pending review.
