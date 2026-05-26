@@ -27,6 +27,27 @@
 * **No "Conclusion" Clichés:** Prohibit "In conclusion," "Overall," and "In summary." Finish with a "next step" or a final insight.
 * **Modifier Audit:** Delete dangling "-ing" clauses that gesture at meaning without adding facts (e.g., "...thereby highlighting the importance of X").
 
+## 5b. Stop Slop — AI Tells to Eliminate
+
+### Punctuation
+* **No em dashes.** Use commas, periods, colons, or parentheses. Em dashes before reveals and for dramatic pause are an AI fingerprint.
+* **No ellipses** for trailing off or building suspense.
+
+### Formulaic structures
+* **No binary contrasts:** "Not X. Y." / "The answer isn't X. It's Y." / "It feels like X. It's actually Y." State Y directly.
+* **No dramatic fragmentation:** "[Noun]. That's it." / "X. And Y. And Z." Use complete sentences.
+* **No rhetorical setups:** "What if [reframe]?" / "Here's what I mean:" / "Think about it:" Make the point.
+
+### Phrases to cut on sight
+* **Throat-clearing:** "Here's the thing," "The uncomfortable truth is," "It turns out," "Let me be clear."
+* **Emphasis crutches:** "Full stop." / "Let that sink in." / "This matters because" / "Make no mistake."
+* **Filler adverbs:** "At its core," "It's worth noting," "Interestingly," "Importantly," "At the end of the day."
+* **AI-overused intensifiers:** deeply, truly, fundamentally, inherently, simply, literally, inevitably.
+
+### Rhythm
+* **Vary sentence length.** Stacking short punchy sentences is as monotonous as stacking long ones.
+* **Don't end every paragraph with a kicker.** Vary endings; not every paragraph needs a mic drop.
+
 ## 6. Linguistic Constraints (Nielsen)
 * **The Spoken Word Test:** Use words you would use in a professional conversation. Avoid "writing-only" vocabulary.
 * **The "Interesting" Tax:** Never tell the reader something is "interesting." Make it so through the prose.
