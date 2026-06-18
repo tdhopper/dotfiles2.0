@@ -1,18 +1,23 @@
 ---
 name: creating-pull-requests
 description: Use this skill BEFORE drafting or writing any pull request content. Trigger as soon as you decide a PR will be created or updated — not at the moment you run the shell command. This means: when the user asks to create a PR, when you're about to push code and open a PR, when splitting work into a separate PR, or when updating an existing PR description. Load this skill first, then draft. Also triggers on "update PR", "refresh PR description", "rewrite PR", or syncing a PR with current branch state.
+effort: low
 ---
 
 # Creating & updating pull requests
 
-A PR description manages a reviewer's attention. Optimize for review speed: a good description gets the reviewer oriented in 30 seconds and answers "what changed, why, and where do I start reading?" before they open the diff.
+A PR description manages a reviewer's attention. Optimize for review speed: orient the reviewer in 30 seconds, answer "what changed, why, and where do I start reading?" before they open the diff.
 
 # Critical rules
+
+ALWAYS:
+- Create PRs in draft mode (`--draft`). The user will mark them ready for review.
 
 NEVER:
 - Add `Co-Authored-By` headers on commits.
 - Include "Generated with Claude Code" or any AI/Claude attribution.
 - Mention Claude, AI, agents, or assistants anywhere in the PR.
+- Open a sentence with "This PR introduces/adds/implements...", "In this pull request...", or "This change...". Start with the problem, the action, or the component name.
 
 # Load PROSE.md before drafting
 
@@ -26,6 +31,18 @@ If `~/.claude/PROSE.md` exists, read it before writing the description. PR descr
 - **Paragraphs 2–4 lines.** Long blocks get skipped; one-line fragments fragment.
 - **No "In conclusion", "Overall", "In summary".** End with a next step or a final fact.
 
+# Size gate — classify before you draft
+
+This is the single most important rule. A small PR with a verbose multi-section description is the fastest way to trigger "I'll ignore this LLM-generated description." Classify by `git diff --stat` and lock in a section budget before writing a single word.
+
+**Small (< 50 lines, one concern):** TL;DR + Links. That's it. Fold any non-obvious reviewer note into the TL;DR as a trailing sentence. No files table (the diff is the map), no Why, no How, no Tests. If the description is longer than the diff, you've over-described.
+
+**Medium (50–200 lines):** TL;DR + files table + at most two more sections that earn their space. The How section must describe a *design pattern* across files, not a per-file tour — if it reads like the files table with more words, cut it.
+
+**Large (200+ lines or multiple concerns):** Use every section that applies. The files table and Reviewer notes are mandatory.
+
+**The budget rule:** for small and medium PRs, the description body (excluding the files table) must be shorter than the diff. If it isn't, you're restating the diff in prose.
+
 # Title format
 
 Active voice, present tense, full scope.
@@ -34,11 +51,24 @@ Active voice, present tense, full scope.
 |------|-----|
 | Add user authentication | Added user authentication |
 | Fix memory leak in cache | Fixing memory leak |
-| Use Redis cache for session lookup instead of DB query | Update session.py |
+| Use Redis for session lookup instead of DB query | Update session.py |
 
 Pattern: `<Verb> <what> [in/for/to <context>]`
 
-Common verbs: Add, Fix, Update, Remove, Refactor, Implement, Improve, Replace, Enable, Disable, Use, Make.
+Common verbs: Add, Fix, Update, Remove, Refactor, Improve, Replace, Enable, Disable, Use, Make.
+
+### Noun stacking — hard cap at two consecutive nouns
+
+More than two consecutive nouns creates a garden-path sentence — the reader backtracks to parse it. If the title has a cluster of three or more nouns, rewrite before proceeding.
+
+**Read-aloud test:** if you wouldn't say the title naturally in conversation, rewrite it.
+
+| Bad (garden path) | Good (reads left-to-right) |
+|---|---|
+| Add Tingle check-posting observability for executor drain diagnosis | Add counters to Tingle check posts to diagnose slow executor drain |
+| Fix converter cache routing threshold boundary validation | Fix boundary check in converter cache routing |
+| Update model config diff summary generation error handling | Handle errors when generating model config diff summaries |
+| Fix listening test Slack notifications lost on pipeline retry | Fix lost Slack notifications for listening tests after pipeline retry |
 
 # The above-the-fold contract
 
@@ -71,8 +101,7 @@ Second names what the PR does about it.]
 
 [Why the PR exists. Show the problem: error messages, wrong output, missing
 capability. Use a before/after table or screenshot if the difference is visual
-or numeric. Skip this section for PRs where the TL;DR already covers the "why"
-completely — don't repeat yourself.]
+or numeric. Skip when the TL;DR already covers the "why" completely.]
 
 ## How
 
@@ -81,17 +110,20 @@ changes. Focus on design decisions, not line-by-line narration.]
 
 ## Reviewer notes
 
-[One bullet per non-obvious fact. Bold the headline of each.]
+[One bullet per non-obvious fact. Bold the headline of each. End with a
+focus-area bullet when you want specific feedback.]
 
 - **Match by `comparison_id`, not model pair.** Tier projects share pairs
   across tests, so matching by model pair would conflate results.
 - **Falls back gracefully.** If the API call fails, logs and keeps the
   legacy denominator — no silent breakage.
+- **Focus area:** routing logic is straightforward; I want a second
+  opinion on the fallback behavior under concurrent writes.
 
 ## Visual aids
 
 [Include when they earn their space. See "When to use visual aids" below.
-Mermaid diagrams, before/after tables, code snippets, screenshots.]
+Use collapsible sections for supporting evidence.]
 
 ## Tests
 
@@ -99,8 +131,7 @@ Mermaid diagrams, before/after tables, code snippets, screenshots.]
 
 ## Follow-up
 
-[Out-of-scope work this PR sets up. Optional — only if the PR is
-deliberately incomplete.]
+[Out-of-scope work this PR sets up. Only if deliberately incomplete.]
 
 ## Links
 
@@ -108,31 +139,58 @@ deliberately incomplete.]
 - [Slack thread](url)
 ```
 
-### Scaling the template
-
-**Small PR (< ~50 lines, one concern):** TL;DR + Why (2–3 sentences) + Links. Skip the files table, Reviewer notes, and Tests unless they add something the diff doesn't show.
-
-**Medium PR (50–200 lines):** TL;DR + files table + Why + How + Links. Add Reviewer notes only for non-obvious tradeoffs.
-
-**Large PR (200+ lines or multiple concerns):** Use every section that applies. The files table and Reviewer notes are mandatory — reviewers need a map.
-
 # Don't repeat the diff
 
 The diff is right there. The description's job is to explain what the diff *can't* show: motivation, tradeoffs, context that lives outside the code.
 
 ### Cut these every time
 
-- **File-by-file narration.** "In `foo.py`, changed X. In `bar.py`, changed Y." The files table covers this in one line each; the diff shows the rest.
-- **How bullets that re-explain the files table.** If How has per-file bullets that say roughly what the files table already says with more words, cut the bullets. How should state the shared design approach or architecture — the *pattern* across files, not a tour of each one.
+- **File-by-file narration.** "In `foo.py`, changed X. In `bar.py`, changed Y." The files table and diff cover this.
 - **Implementation play-by-play.** "First, I added a helper function. Then I called it from…" Describe the design, not the steps you took.
-- **Motivation the reviewer already knows.** If the ticket/issue fully explains the problem, link it and write one sentence — don't restate the whole ticket.
-- **Restating obvious type/signature changes.** "Changed `foo(x: int)` to `foo(x: float)`" — the diff shows this. Say *why* it changed.
-- **Defensive disclaimers.** "This is a first pass", "open to suggestions", "not sure if this is the right approach." If you're not sure, figure it out before opening the PR, or put the specific question in Reviewer notes.
-- **Commit-message archaeology.** "In the first commit I did X, then in the second commit I did Y." Describe the final state.
+- **Motivation the reviewer already knows.** If the ticket fully explains the problem, link it and write one sentence.
+- **Restating obvious type/signature changes.** "Changed `foo(x: int)` to `foo(x: float)`" — say *why* it changed.
+- **Defensive disclaimers.** "This is a first pass", "open to suggestions." Put specific questions in Reviewer notes as a focus area instead.
+- **Commit-message archaeology.** "In the first commit I did X, then in the second…" Describe the final state.
 
 ### The test: does this sentence exist in the diff?
 
-For every sentence in the description, ask: could a reviewer learn this by reading the diff? If yes, cut it. The description should be the *complement* of the diff, not a summary of it.
+For every sentence, ask: could a reviewer learn this by reading the diff? If yes, cut it. The description is the *complement* of the diff, not a summary.
+
+# Avoiding AI tells
+
+A single AI pattern isn't damning. Multiple patterns stacking together — that clustering is what triggers "I'm ignoring this LLM-generated description." Avoid clustering.
+
+### Openers
+
+Never start a sentence with "This PR", "This change", "This commit", or "In this pull request." Start with the subject of the action, the problem, or a concrete fact.
+
+| AI opener | Human opener |
+|---|---|
+| This PR adds retry logic to... | Retry logic in the ingestion pipeline now... |
+| This change fixes a bug where... | The chunker produced a zero-length trailing chunk when... |
+| In this pull request, we update... | `RoutingCacheContext` now routes small features to Bigtable. |
+
+### Concrete specificity
+
+Concrete numbers and specific examples are the strongest trust signal. Use them everywhere, not just the TL;DR.
+
+| Vague (reads as AI) | Specific (reads as human) |
+|---|---|
+| improved performance significantly | p50 dropped from 45 ms to 3 ms |
+| fixed an edge case in validation | fixed boundary check: 49 kB routes to Bigtable, 51 kB to GCS |
+| updated error handling | catch `ServiceUnavailable` instead of bare `Exception` |
+
+### Variety
+
+Vary section openings, sentence lengths, and structures. If every bullet in Reviewer notes starts with a bold word followed by a period and explanation, that regularity itself becomes a tell. Mix it up: some bullets lead with a question the reviewer might ask, some with a constraint, some with a concrete example.
+
+### Self-contained context
+
+The PR description is permanent project documentation. Companies migrate issue trackers; git history persists. Inline essential context directly — use links for depth, not as the sole reference. A description that says only "See JIRA-123" forces a context switch and may be unresolvable in two years.
+
+### The 6-month test
+
+Before finishing, ask: if a stranger revisits this PR in 6 months through `git log`, will they understand why the change was made? If not, add the missing context.
 
 # When to use visual aids
 
@@ -151,7 +209,7 @@ Use when the PR changes observable behavior (output format, API response shape, 
 
 ### Mermaid diagrams
 
-Use when the PR changes data flow, adds a pipeline stage, or restructures how components interact. Don't diagram things that haven't changed.
+Use when the PR changes data flow, adds a pipeline stage, or restructures component interactions. Don't diagram things that haven't changed. Keep under ~15 nodes.
 
 ````markdown
 ```mermaid
@@ -166,47 +224,65 @@ graph LR
 
 ### Code snippets
 
-Use when the PR changes a public API surface and the reviewer needs to see the new call site or signature without hunting through the diff.
-
-````markdown
-Before:
-```python
-result = process(audio, sample_rate=44100)
-```
-
-After:
-```python
-result = process(audio, config=ProcessConfig(sample_rate=44100, normalize=True))
-```
-````
+Use when the PR changes a public API surface and the reviewer needs to see the new call site without hunting through the diff.
 
 ### Screenshots / terminal output
 
-Use for UI changes, CLI output changes, or log format changes. Paste the image or terminal block directly — don't describe what it looks like in prose.
+Use for UI changes, CLI output changes, or log format changes. Paste directly.
+
+### Collapsible sections
+
+Use `<details>/<summary>` for supporting evidence: benchmarks, migration plans, full tracebacks, large config diffs. The PR must be fully understandable without expanding anything.
+
+```markdown
+<details>
+<summary>Performance benchmarks</summary>
+
+| Operation | Before (GCS) | After (Bigtable) |
+|-----------|-------------|-------------------|
+| Read 1 kB feature | 45 ms | 8 ms |
+| Read 100 kB feature | 52 ms | 51 ms (still GCS) |
+
+</details>
+```
+
+Rules: always include a `<summary>` with a descriptive label. Blank line after `<summary>` and before `</details>` for markdown to render. Don't collapse the core "what and why."
+
+### GFM alerts
+
+Use `> [!IMPORTANT]` or `> [!WARNING]` for breaking changes, migration requirements, or facts a reviewer must not miss. More visually distinct than bold text.
+
+```markdown
+> [!IMPORTANT]
+> Cache key format changes. Existing entries remain valid but new writes
+> go to Bigtable for features under 50 kB.
+```
 
 ### When NOT to use visual aids
 
-- The change is purely internal (refactor, rename, test-only). A diagram of unchanged architecture wastes space.
-- The "before" state is obvious. A before/after table for a one-line bug fix is overhead.
-- You're diagramming the whole system. Scope diagrams to what the PR *changes*, not what it touches.
+- Purely internal changes (refactor, rename, test-only).
+- The "before" state is obvious. A before/after table for a one-line fix is overhead.
+- You're diagramming the whole system. Scope diagrams to what the PR *changes*.
 
 # Reviewer-friendliness checklist
 
 Before submitting, verify:
 
-- [ ] **Title** → a reviewer who reads only this knows the full scope.
-- [ ] **TL;DR** → a reviewer who reads only this knows symptom + fix.
-- [ ] **Files table** → marks one file "start here" when there's a natural entry point.
+- [ ] **Size gate** → section count matches the diff size classification.
+- [ ] **Title** → full scope, active voice, no noun clusters > 2.
+- [ ] **TL;DR** → symptom + fix, concrete number or example.
+- [ ] **No AI openers** → no sentence starts with "This PR", "This change", or "In this pull request."
 - [ ] **No diff echoing** → every sentence tells the reviewer something the diff can't.
-- [ ] **Visual aids** → included where they're faster than prose, absent where they're not.
-- [ ] **Reviewer notes** → each one answers a question the reviewer would otherwise stop to ask.
+- [ ] **Files table** → marks a "start here" entry point (medium+ PRs).
+- [ ] **Focus area** → stated explicitly if specific feedback is wanted.
+- [ ] **Visual aids** → present where faster than prose, absent where decorative.
+- [ ] **6-month test** → a stranger reading `git log` would understand the why.
 
 # Process
 
 ## 1. Detect: create or update?
 
 ```bash
-# If a PR exists for this branch, this is an update.
 gh pr view --json number,title,body,baseRefName,url 2>/dev/null
 ```
 
@@ -215,7 +291,7 @@ gh pr view --json number,title,body,baseRefName,url 2>/dev/null
 ```bash
 BASE=$(gh pr view --json baseRefName -q '.baseRefName' 2>/dev/null || echo "main")
 
-git diff $BASE...HEAD          # full diff — what the PR represents
+git diff $BASE...HEAD          # full diff
 git diff $BASE...HEAD --stat   # shape: files, +/- counts
 git log $BASE..HEAD --oneline  # commits
 ```
@@ -224,59 +300,49 @@ Read the actual diff, not just the stat. The description must reflect what the c
 
 ## 3. Find links
 
-Every claim in the description that a reviewer might want to verify ("caused divergence after ~500 steps", "legal flagged the token storage") needs a link. Don't make reviewers take facts on faith.
+Search for supporting evidence — don't ask the user for what you can find:
+- `git log --all --oneline --grep="keyword"` for related PRs and reverts
+- Slack search for error messages or feature names
+- Issue tracker for tickets referencing the area
+- Branch name and commits for embedded ticket numbers
 
-**Actively search** — don't just ask the user:
-1. **Git history.** `git log --all --oneline --grep="keyword"` for related PRs, fix commits, and reverts.
-2. **Slack.** Search for error messages, feature names, or incident keywords using `slack_search_public_and_private`. Prefer linking to the thread where the root cause was identified, not the thread where someone first noticed something was wrong.
-3. **Issue tracker.** Search for tickets referencing the feature, bug, or area of code.
-4. **Branch name and commits.** Ticket numbers and keywords often hide here.
+Inline essential context directly. Link for depth, not as the sole reference. When updating, preserve every existing link.
 
-Ask the user only for links you can't find yourself (private docs, external dashboards, job run IDs).
+## 4. Classify and draft
 
-When updating, preserve every link from the existing description.
+Check `git diff --stat` line count. Apply the size gate to lock in which sections you'll write *before* drafting. If the PR is small, write the TL;DR and stop — don't keep going because the template has more sections.
 
-## 4. Draft
+Sketch the TL;DR first — it forces clarity. Then fill in only the sections the size gate allows. Apply PROSE.md rules throughout.
 
-Read the diff first. Sketch the TL;DR — it forces clarity before you commit to a structure. Then decide which optional sections earn their space.
+## 5. Post-generation review
 
-Apply PROSE.md. Check every sentence against the "does this exist in the diff?" test.
+Re-read the diff one more time. For each sentence in the description:
+1. Could the reviewer learn this from the diff alone? Cut it.
+2. Does it start with "This PR" or "This change"? Rewrite.
+3. Is this section earning its space for a PR this size? Cut the section.
+4. Would you say this sentence out loud to a colleague? If not, simplify.
 
-## 5. Apply
+## 6. Apply
 
-Write the body to a temp file, then pass it with `-F body=@<path>`. This avoids shell escaping that mangles backticks and other markdown.
+Write the body to a temp file, then pass it with `--body-file`. This avoids shell escaping issues with backticks and markdown.
 
 ```bash
-# Write body to file first
-# (use the Write tool to create /tmp/pr-body.md with the full description)
-
-# Create
-gh pr create --title "..." --body-file /tmp/pr-body.md
+# Create — always draft
+gh pr create --draft --title "..." --body-file /tmp/pr-body.md
 
 # Update
 gh pr edit <number> --title "..." --body-file /tmp/pr-body.md
-
-# If using gh api directly (e.g. for GHE):
-gh api repos/OWNER/REPO/pulls/NUMBER -X PATCH \
-  -F title="..." \
-  -F body=@/tmp/pr-body.md
 ```
 
-**Never** pass the body inline via HEREDOC or `--body`/`--field body=` — backticks, quotes, and special characters get double-interpreted by the shell.
+**Never** pass the body inline via HEREDOC or `--body`.
 
 # Updating an existing PR
 
-The description must reflect the **current full state** of the branch vs base — not a changelog of changes since the last push. Drop "also adds", "additionally", "now includes." Describe what the PR does as if writing it fresh.
-
-**Bad** (changelog):
-> "This PR now also adds a circuit breaker pattern…"
-
-**Good** (current state):
-> "HTTP requests to external services fail under load. This PR wraps the HTTP client with exponential backoff retry and a circuit breaker…"
+The description must reflect the **current full state** of the branch vs base — not a changelog. Drop "also adds", "additionally", "now includes." Describe what the PR does as if writing it fresh.
 
 # Worked examples
 
-## Small PR: one-concern bug fix
+## Small PR: one-concern bug fix (~20 lines)
 
 Title: `Fix off-by-one in chunk boundary calculation`
 
@@ -284,23 +350,31 @@ Title: `Fix off-by-one in chunk boundary calculation`
 ## TL;DR
 
 Chunking a 10-second stereo clip at 5-second boundaries produced three chunks
-instead of two — the final chunk contained a single repeated sample.
-`_compute_boundaries` now uses exclusive end indices.
+instead of two — the boundary loop used `<=` instead of `<`, generating a
+zero-length trailing chunk. Now uses exclusive end indices.
 
-## Why
-
-The boundary loop used `<=` instead of `<` for the end condition, so a clip
-whose length exactly divided the chunk size generated a zero-length trailing
-chunk that round-up logic then padded to one sample.
-
-## Links
-
-- [DIFF-1234](url)
+[DIFF-1234](url)
 ```
 
-No files table (two files changed, obvious from the diff). No Reviewer notes (straightforward fix). No visual aids (the before/after is one operator).
+That's the entire description. The diff is 20 lines — everything else the reviewer needs is in the code.
 
-## Non-trivial PR with visual aids
+## Small PR: additive config registration (~30 lines)
+
+Title: `Register foundation model preference axes in analysis pipeline`
+
+```markdown
+## TL;DR
+
+Foundation model listening tests (project `257473`) use three preference
+questions — `composition`, `fidelity`, `sound-design` — that the analysis
+pipeline silently drops. Registers them in the four places the pipeline
+checks. **No migration needed:** BQ uses `ALLOW_FIELD_ADDITION`; Cloud SQL
+stores preferences as JSONB.
+
+Complements `venice/foundation-listening-test` (test creation side).
+```
+
+## Non-trivial PR with visual aids and focus area
 
 Title: `Route small converter outputs to Bigtable instead of GCS`
 
@@ -308,9 +382,9 @@ Title: `Route small converter outputs to Bigtable instead of GCS`
 ## TL;DR
 
 Converter cache reads for small features (< 50 kB) hit GCS with per-object
-latency — p50 of 45 ms per read adds up to ~8 minutes per preprocessing job
-on a 10k-track dataset. This PR adds a `RoutingCacheContext` that sends small
-features to Bigtable (p50: 3 ms) and keeps large features on GCS.
+latency — p50 of 45 ms adds up to ~8 minutes per preprocessing job on a
+10k-track dataset. `RoutingCacheContext` sends small features to Bigtable
+(p50: 3 ms) and keeps large features on GCS.
 
 **Files to review (5, +287 / -34):**
 
@@ -336,7 +410,7 @@ Bigtable's 10 MB cell limit and a poor fit for GCS's per-object overhead.
 ## How
 
 1. Converters declare `feature_size_hint = FeatureSizeHint.BIGTABLE` or `.GCS`.
-2. `RoutingCacheContext` wraps both `BigtableCacheContext` and `GCSCacheContext`.
+2. `RoutingCacheContext` wraps both backends.
 3. On read/write, routes by the converter's declared hint.
 
 ```mermaid
@@ -349,35 +423,28 @@ graph LR
 
 ## Reviewer notes
 
-- **Fallback on Bigtable failure.** If a Bigtable write fails, the router
-  retries once, then falls back to GCS and logs a warning. Reads check both
-  backends. No silent data loss.
+- **Fallback on Bigtable failure.** The router retries once, then falls back
+  to GCS and logs a warning. Reads check both backends.
 - **Threshold is declared, not measured.** Converters declare their hint
-  statically. Runtime size checks would add latency and complexity for
-  marginal benefit — the outputs are stable sizes.
-- **No migration needed.** Existing GCS cache entries stay. New writes go to
-  the declared backend. Over time, Bigtable fills in as jobs re-run.
+  statically — runtime size checks would add latency for marginal benefit.
+- No migration needed: existing GCS entries stay; new writes route by hint.
+- **Focus area:** the fallback logic in `RoutingCacheContext.write()` handles
+  concurrent writes. I'd like a second opinion on the retry semantics.
 
-## Tests
+> [!IMPORTANT]
+> Cache key format is unchanged. Existing GCS entries remain valid.
 
-12 new tests in `test_routing_cache.py`: routing logic, fallback on Bigtable
-error, threshold boundary (49 kB vs 51 kB), round-trip read/write for both
-backends.
+<details>
+<summary>Bigtable capacity planning</summary>
+
+Current converter cache: ~2M entries/day, 95% under 50 kB. Bigtable cluster
+(3 nodes, SSD) handles 10K reads/sec at p99 < 10 ms. Headroom: 5x current
+peak before scaling.
+
+</details>
 
 ## Links
 
 - [DIFF-5678](url)
-- [Bigtable capacity planning](url)
+- [Bigtable capacity planning doc](url)
 ```
-
-# Final checks
-
-- Title: active voice, present tense, describes full scope.
-- TL;DR: two sentences, concrete number/example, covers symptom + fix.
-- Files table (if present): marks a "start here" entry point.
-- Every sentence passes the "not in the diff" test.
-- Visual aids included where faster than prose, absent where decorative.
-- Each Reviewer note: one bolded headline, one non-obvious fact.
-- No `Co-Authored-By`, no "Generated with…", no AI/Claude mentions.
-- Links preserved on update.
-- Description describes current state, not a changelog.

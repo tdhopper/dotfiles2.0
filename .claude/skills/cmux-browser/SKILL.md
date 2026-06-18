@@ -1,91 +1,142 @@
 ---
 name: cmux-browser
-description: Open websites, take screenshots, inspect elements, and debug UI issues using cmux browser automation. Use this skill whenever you need to visually verify a web page, debug CSS/layout problems, check if a UI change looks correct, take a screenshot of a running site, inspect computed styles or DOM structure, or interact with a page in a real browser. Also trigger when the user says "open this in the browser", "take a screenshot", "check the page", "what does it look like", "inspect the element", "debug the layout", or references cmux. Use this proactively when working on frontend/UI tasks to verify your changes actually render correctly rather than just assuming they do.
+description: End-user browser automation with cmux. Use when you need to open sites, interact with pages, wait for state changes, and extract data from cmux browser surfaces.
+effort: low
 ---
 
-# cmux Browser Automation
+# Browser Automation with cmux
 
-Open pages, screenshot, inspect the DOM, and debug layout — all from the CLI.
+Use this skill for browser tasks inside cmux webviews.
 
-All commands target a surface ID (e.g., `surface:7`). Open a page first to get one, then reuse it for the session.
+## Core Workflow
 
-## Open and Navigate
-
-```bash
-cmux browser open-split <url>          # opens in split pane, returns surface ID
-cmux browser surface:N navigate <url>  # navigate existing surface
-cmux browser surface:N reload
-cmux browser surface:N back
-```
-
-## Screenshot
-
-Save to /tmp, then Read the PNG to view it.
+1. Open or target a browser surface.
+2. Verify navigation with `get url` before waiting or snapshotting.
+3. Snapshot (`--interactive`) to get fresh element refs.
+4. Act with refs (`click`, `fill`, `type`, `select`, `press`).
+5. Wait for state changes.
+6. Re-snapshot after DOM/navigation changes.
 
 ```bash
-cmux browser surface:N screenshot --out /tmp/page.png
+cmux --json browser open https://example.com
+# use returned surface ref, for example: surface:7
+
+cmux browser surface:7 get url
+cmux browser surface:7 wait --load-state complete --timeout-ms 15000
+cmux browser surface:7 snapshot --interactive
+cmux browser surface:7 fill e1 "hello"
+cmux --json browser surface:7 click e2 --snapshot-after
+cmux browser surface:7 snapshot --interactive
 ```
 
-If the screenshot is blank, the page hasn't loaded — `navigate` to the URL again and retry.
-
-## DOM Snapshot
-
-Returns the accessibility tree with `[ref=eN]` identifiers — faster than reading HTML.
+## Surface Targeting
 
 ```bash
-cmux browser surface:N snapshot --interactive --compact
-cmux browser surface:N snapshot --selector ".component" --interactive  # scoped
+# identify current context
+cmux identify --json
+
+# open routed to a specific topology target
+cmux browser open https://example.com --workspace workspace:2 --window window:1 --json
 ```
 
-## Inspect Elements
+Notes:
+- CLI output defaults to short refs (`surface:N`, `pane:N`, `workspace:N`, `window:N`).
+- UUIDs are still accepted on input; only request UUID output when needed (`--id-format uuids|both`).
+- Keep using one `surface:N` per task unless you intentionally switch.
+
+## Wait Support
+
+cmux supports wait patterns similar to agent-browser:
 
 ```bash
-cmux browser surface:N get styles "<sel>" --property <prop>  # computed CSS
-cmux browser surface:N get text "<sel>"       # visible text
-cmux browser surface:N get html "<sel>"       # innerHTML
-cmux browser surface:N get box "<sel>"        # bounding box
-cmux browser surface:N get count "<sel>"      # match count
-cmux browser surface:N is visible "<sel>"
-cmux browser surface:N highlight "<sel>"      # visual highlight
+cmux browser <surface> wait --selector "#ready" --timeout-ms 10000
+cmux browser <surface> wait --text "Success" --timeout-ms 10000
+cmux browser <surface> wait --url-contains "/dashboard" --timeout-ms 10000
+cmux browser <surface> wait --load-state complete --timeout-ms 15000
+cmux browser <surface> wait --function "document.readyState === 'complete'" --timeout-ms 10000
 ```
 
-## JavaScript Eval
+## Common Flows
 
-For multi-property inspection, use `eval` with an IIFE returning JSON:
+### Form Submit
 
 ```bash
-cmux browser surface:N eval "(() => {
-  const el = document.querySelector('.my-element');
-  const cs = getComputedStyle(el);
-  return JSON.stringify({
-    width: el.offsetWidth,
-    scrollWidth: el.scrollWidth,
-    overflow: cs.overflow,
-    isOverflowing: el.scrollWidth > el.offsetWidth
-  })
-})()"
+cmux --json browser open https://example.com/signup
+cmux browser surface:7 get url
+cmux browser surface:7 wait --load-state complete --timeout-ms 15000
+cmux browser surface:7 snapshot --interactive
+cmux browser surface:7 fill e1 "Jane Doe"
+cmux browser surface:7 fill e2 "jane@example.com"
+cmux --json browser surface:7 click e3 --snapshot-after
+cmux browser surface:7 wait --url-contains "/welcome" --timeout-ms 15000
+cmux browser surface:7 snapshot --interactive
 ```
 
-## Interact
+### Clear an Input
 
 ```bash
-cmux browser surface:N click "<sel>"
-cmux browser surface:N fill "<sel>" --text "value"
-cmux browser surface:N scroll down 300
-cmux browser surface:N eval "document.querySelector('<sel>').scrollIntoView({block:'center'})"
+cmux browser surface:7 fill e11 "" --snapshot-after --json
+cmux browser surface:7 get value e11 --json
 ```
 
-## Wait
+### Stable Agent Loop (Recommended)
 
 ```bash
-cmux browser surface:N wait --load-state complete
-cmux browser surface:N wait --selector ".loaded"
-cmux browser surface:N wait --text "Expected text"
+# navigate -> verify -> wait -> snapshot -> action -> snapshot
+cmux browser surface:7 get url
+cmux browser surface:7 wait --load-state complete --timeout-ms 15000
+cmux browser surface:7 snapshot --interactive
+cmux --json browser surface:7 click e5 --snapshot-after
+cmux browser surface:7 snapshot --interactive
 ```
 
-## Gotchas
+If `get url` is empty or `about:blank`, navigate first instead of waiting on load state.
 
-- **Server restarts**: Gunicorn `--reload` only watches .py files. Touch a Python file or `kill -HUP <master-pid>` to pick up template changes.
-- **Narrow viewport**: The cmux split is narrower than a real browser. JS eval widths reflect actual layout at full page width — more reliable than what the screenshot shows.
-- **Debug outlines**: `cmux browser surface:N addstyle "* { outline: 1px solid red; }"` to visualize element boundaries.
-- **Console errors**: `cmux browser surface:N errors list`
+## Deep-Dive References
+
+| Reference | When to Use |
+|-----------|-------------|
+| [references/commands.md](references/commands.md) | Full browser command mapping and quick syntax |
+| [references/snapshot-refs.md](references/snapshot-refs.md) | Ref lifecycle and stale-ref troubleshooting |
+| [references/authentication.md](references/authentication.md) | Login/OAuth/2FA patterns and state save/load |
+| [references/authentication.md#saving-authentication-state](references/authentication.md#saving-authentication-state) | Save authenticated state right after login |
+| [references/session-management.md](references/session-management.md) | Multi-surface isolation and state persistence patterns |
+| [references/video-recording.md](references/video-recording.md) | Current recording status and practical alternatives |
+| [references/proxy-support.md](references/proxy-support.md) | Proxy behavior in WKWebView and workarounds |
+
+## Ready-to-Use Templates
+
+| Template | Description |
+|----------|-------------|
+| [templates/form-automation.sh](templates/form-automation.sh) | Snapshot/ref form fill loop |
+| [templates/authenticated-session.sh](templates/authenticated-session.sh) | Login once, save/load state |
+| [templates/capture-workflow.sh](templates/capture-workflow.sh) | Navigate + capture snapshots/screenshots |
+
+## Limits (WKWebView)
+
+These commands currently return `not_supported` because they rely on Chrome/CDP-only APIs not exposed by WKWebView:
+- viewport emulation
+- offline emulation
+- trace/screencast recording
+- network route interception/mocking
+- low-level raw input injection
+
+Use supported high-level commands (`click`, `fill`, `press`, `scroll`, `wait`, `snapshot`) instead.
+
+## Troubleshooting
+
+### `js_error` on `snapshot --interactive` or `eval`
+
+Some complex pages can reject or break the JavaScript used for rich snapshots and ad-hoc evaluation.
+
+Recovery steps:
+
+```bash
+cmux browser surface:7 get url
+cmux browser surface:7 get text body
+cmux browser surface:7 get html body
+```
+
+- Use `get url` first so you know whether the page actually navigated.
+- Fall back to `get text body` or `get html body` when `snapshot --interactive` or `eval` returns `js_error`.
+- If the page is still failing, navigate to a simpler intermediate page, then retry the task from there.

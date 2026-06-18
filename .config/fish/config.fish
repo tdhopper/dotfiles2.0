@@ -17,3 +17,4 @@ fish_add_path --move --path /opt/devtools/bin
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+set -gx HERMES_TUI_LIGHT 1

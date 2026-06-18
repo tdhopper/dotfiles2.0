@@ -1,6 +1,7 @@
 ---
 name: Git-Workspace-Audit
 description: Audit a git repository's health by analyzing commit activity, contributors, hottest files, bug-fix hotspots, and reverts/hotfixes. Produces a Slack-formatted report copied to clipboard.
+context: fork
 ---
 
 # Git Workspace Audit

@@ -1,6 +1,7 @@
 ---
 name: omnifocus
 description: "Interact with OmniFocus task manager via the command-line interface (@stephendolan/omnifocus-cli). Use when the user wants to: (1) Add tasks or projects to OmniFocus, (2) List, view, or search tasks/projects, (3) Update or complete tasks, (4) Manage inbox items, (5) Work with tags and analyze tag usage, (6) Process or organize their OmniFocus database from the command line."
+effort: low
 ---
 
 # OmniFocus CLI
