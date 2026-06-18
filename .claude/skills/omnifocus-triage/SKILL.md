@@ -1,6 +1,7 @@
 ---
 name: omnifocus-triage
 description: Interactively process OmniFocus inbox items using AskUserQuestion. Use when the user wants to (1) triage their inbox, (2) process inbox items, (3) organize their OmniFocus inbox, (4) clear out their inbox, (5) do a GTD-style inbox review. Triggers on "triage inbox", "process inbox", "organize inbox", "clear inbox", "inbox zero".
+effort: medium
 ---
 
 # OmniFocus Inbox Triage

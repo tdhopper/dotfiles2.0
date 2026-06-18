@@ -1,6 +1,8 @@
 ---
 name: sonos-control
 description: Control Sonos speakers on Tim's home network. Use when the user wants to (1) play, pause, or stop music on Sonos speakers, (2) change volume on speakers, (3) skip tracks, (4) check what's playing, (5) see speaker status, (6) group or ungroup speakers, (7) any Sonos or music/audio playback task involving home speakers. Triggers on "sonos", "speakers", "play music", "what's playing", "volume", "turn up", "turn down", "pause music", "stop music".
+model: haiku
+effort: low
 ---
 
 # Sonos Speaker Control

@@ -1,6 +1,7 @@
 ---
 name: stop-slop
 description: Use this skill when writing or editing prose to eliminate predictable AI writing patterns. Helps make writing more direct, authentic, and human.
+model: haiku
 ---
 
 # Stop Slop

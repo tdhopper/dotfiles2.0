@@ -22,7 +22,8 @@
 * **Information Scent:** Links and headers must be "high-scent"—descriptive enough that a skimmer knows exactly what is behind them without reading the surrounding context.
 
 ## 5. Anti-AI Heuristics (Wikipedia / Signs of AI)
-* **Ban Puffery:** Never use "pivotal," "testament," "rich tapestry," "landscape," or "groundbreaking." Show significance through data; never announce it.
+* **Ban Puffery:** Never use "pivotal," "testament," "rich tapestry," "landscape," "groundbreaking," "delve," "robust," "comprehensive," "seamless," "utilize," "harness," "streamline," "elevate," "unprecedented," or "multifaceted." Show significance through data; never announce it.
+* **Deflate Pompous Verbs:** "serves as" / "stands as" / "marks" / "represents" → "is." "facilitates" → "helps." "utilizes" → "uses." "endeavors" → "efforts."
 * **Kill "Not Only... But Also":** This is weak AI padding. Use direct, parallel assertions.
 * **No "Conclusion" Clichés:** Prohibit "In conclusion," "Overall," and "In summary." Finish with a "next step" or a final insight.
 * **Modifier Audit:** Delete dangling "-ing" clauses that gesture at meaning without adding facts (e.g., "...thereby highlighting the importance of X").

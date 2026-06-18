@@ -1,6 +1,8 @@
 ---
 name: gfm-callout
 description: Insert GitHub Flavored Markdown alert/callout blocks (NOTE, TIP, IMPORTANT, WARNING, CAUTION). Use when the user says "callout", "gfm alert", "markdown alert", "add a note", "add a warning", "add a tip", "add a caution", "add an important block", or wants to insert any kind of highlighted info/warning/tip block in markdown. Also use when editing markdown files and the user asks to emphasize, highlight, or call attention to something.
+model: haiku
+effort: low
 ---
 
 # GFM Callout Blocks

@@ -399,5 +399,6 @@
     },
     "cursorpyright.analysis.typeCheckingMode": "basic",
     "claudeCode.preferredLocation": "sidebar",
-    "claudeCode.disableLoginPrompt": true
+    "claudeCode.disableLoginPrompt": true,
+    "window.autoDetectColorScheme": false
 }

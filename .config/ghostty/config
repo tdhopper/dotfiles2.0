@@ -10,5 +10,4 @@ custom-shader = shaders/sonic_boom_cursor.glsl
 # Recommended for line cursors with pulse effects
 custom-shader-animation = always
 
-theme = dark:Catppuccin Frappe,light:Catppuccin Latte
-minimum-contrast = 4.5  # needed for cmux (doesn't honor this yet)
+theme = dark:Catppuccin Frappe,light:/Users/thopper/.config/zenbones-zenwritten-light
