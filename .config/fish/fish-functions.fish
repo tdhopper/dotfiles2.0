@@ -113,3 +113,12 @@ function tm
         tmux new-session -A -s $session_name
     end
 end
+
+function zj
+    set -l session_name (basename (pwd))
+    if test "$session_name" = (basename $HOME)
+        set session_name main
+    end
+
+    zellij attach --create $session_name
+end

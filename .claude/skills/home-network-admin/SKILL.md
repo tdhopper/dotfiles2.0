@@ -52,9 +52,11 @@ See [references/network-inventory.md](references/network-inventory.md) for the f
 
 ## File Transfer
 
-- Between local and remote hosts: `scp` or `rsync` using the SSH aliases
+- Between local and remote hosts: `rsync` using the SSH aliases
 - Example: `rsync -avz ~/files/ synology:/volume1/backup/files/`
 - For large transfers, prefer `rsync` with `--progress`
+- **`scp` to synology does NOT work** — the sftp subsystem is disabled in its sshd. Use rsync or tar-over-ssh.
+- **rsync-to-synology gotcha**: Synology's patched rsync only allows rsync-over-SSH on the port set in DSM → Control Panel → File Services → rsync → "SSH encryption port". That field must match the real sshd port (27571). If it drifts (e.g. reset to 22 by a DSM update), rsync fails with "Permission denied, please try again" even though plain ssh works, and `rsync --server` run manually on the NAS reports "rsync service is no running (code 43)". Fixed 2026-07-03 by setting the field to 27571.
 
 ## Troubleshooting
 
