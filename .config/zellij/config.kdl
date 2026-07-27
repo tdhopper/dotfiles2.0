@@ -424,46 +424,46 @@ show_startup_tips false
 // A command to run (will be wrapped with sh -c and provided the RESURRECT_COMMAND env variable)
 
 
- 
-// 
+
+//
 // simplified_ui true
- 
- 
+
+
 // default_mode "locked"
- 
- 
- 
+
+
+
 // default_layout "compact"
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // show_startup_tips false
- 
- 
- 
- 
- 
-// A command to run (will be wrapped with sh -c and provided the RESURRECT_COMMAND env variable) 
+
+
+
+
+
+// A command to run (will be wrapped with sh -c and provided the RESURRECT_COMMAND env variable)
 // after Zellij attempts to discover a command inside a pane when resurrecting sessions, the STDOUT
 // of this command will be used instead of the discovered RESURRECT_COMMAND
 // can be useful for removing wrappers around commands
