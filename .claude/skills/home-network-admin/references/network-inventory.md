@@ -58,6 +58,7 @@ Caddy on dobro provides HTTPS reverse proxy for internal services under `*.hoppe
 | audible.hopperhosted.com | 192.168.68.63:3000 | Audible app (port currently closed — service may be off) |
 | jellyfin.hopperhosted.com | 100.86.145.18:8096 (Tailscale) | Jellyfin in **Docker on synology** — NOT the separate Jellyfin app on dobro |
 | elwood.hopperhosted.com | http://100.119.124.86:8765 (Tailscale device) | Elwood |
+| archive.hopperhosted.com | 100.86.145.18:8912 (Tailscale) | Mail archive search — see "Mail archive search" below |
 | scrypted.hopperhosted.com | https://127.0.0.1:10443 (local on dobro) | Scrypted web UI |
 | shiloh-companion.hopperhosted.com | 100.108.169.83:8888 | Shiloh Companion (Tailscale device) |
 
@@ -87,3 +88,85 @@ Tailscale overlay (100.x.x.x)
 - Local DNS server: 192.168.68.63 — this is the **synology NAS** running Pi-hole
 - Fallback DNS: 1.1.1.3 (Cloudflare with family filtering)
 - Tailscale MagicDNS: 100.100.100.100 (resolves `*.<tailnet>.ts.net`)
+
+## Mail archive search (archive.hopperhosted.com)
+
+Full-text search over a **frozen Feb-2024 Gmail Takeout export**: 216,669
+messages spanning 2006–2024. Built 2026-07-27.
+
+- **Code**: private repo `tdhopper/mail-archive`, also checked out at
+  `~/repos/gmail`. CI (GitHub Actions) runs 43 regression tests + an image
+  build on every push.
+- **Archive (the irreplaceable part)**:
+  `/volume1/Backups/2024-02 Gmail Backup/All mail Including Spam and Trash.mbox`
+  — 17,945,810,971 bytes. **Never modify it**; everything else is derived.
+- **On the NAS**: app at `/volume1/docker/mail-search/app`, index at
+  `/volume1/docker/mail-search/data/index.db` (~1.5 GB). Container
+  `mail-search`, port 8912, both mounts `:ro`.
+- **CLI**: `uv run mail-archive search "..."` from `~/repos/gmail`. Agent
+  guidance is in that repo's `AGENTS.md`.
+
+### Rebuilding / moving to a new NAS
+
+`./deploy.sh` in the repo is the recovery path. Every path is an env var
+(`NAS`, `APP_DIR`, `DATA_DIR`, `ARCHIVE_DIR`), so a different NAS is a
+variable change:
+
+```bash
+./deploy.sh sync       # push code, build image (deps pinned via uv.lock)
+./deploy.sh index      # ~40 min; writes index-new.db, live index keeps serving
+./deploy.sh progress   # follow it
+./deploy.sh promote    # swap in, keeping the old one as index-previous.db
+./deploy.sh verify     # prove it's healthy
+```
+
+The index is fully derivable from the mbox — losing it costs 40 minutes, not
+data. Losing the mbox is unrecoverable.
+
+### Gotchas that cost time
+
+- **DSM's Python 3.8 has no FTS5** (`no such module: fts5`). That is why this
+  runs in Docker at all. Don't try to run the indexer natively on the NAS.
+- **Docker cannot bind the Tailscale IP.** `"100.86.145.18:8912:8000"` fails
+  with "cannot assign requested address" — the NAS has no Tailscale interface
+  for docker's userland proxy. Attempting this takes the service down.
+- **DSM's kernel rejects `--cpus`** ("NanoCPUs can not be set"). `--memory`
+  works; limit CPU with the indexer's `--workers` instead.
+- **Cold page cache is brutal**: a broad query measured 292,000 ms cold vs
+  912 ms warm on this spinning disk. The container reads the index at startup
+  (in the background) to warm it; expect ~25 s after a restart before the
+  service answers, and a minute or two before broad queries are quick.
+- **Facets cost ~60x results** (13 s vs 218 ms). They live at `/api/facets`
+  and load asynchronously — don't move them back into `/api/search`.
+- **A WAL-mode index cannot be opened on a `:ro` mount.** The indexer sets
+  `journal_mode=DELETE` when it finishes; if a build dies, check that before
+  anything else.
+
+### Exposure (accepted risk, not an oversight)
+
+The service **binds `0.0.0.0:8912` with no authentication**, so any device on
+the LAN can read the whole archive — verified reachable from a LAN IP over
+`en0`, both directly and through Caddy. Public DNS for `*.hopperhosted.com`
+resolves to CGNAT so there is no inbound path from the internet, but nothing
+in the config enforces the tailnet boundary. Tim accepted this on 2026-07-27
+for a trusted LAN. To actually close it: a `DOCKER-USER` iptables rule
+restricting 8912 to `100.64.0.0/10`, plus a `remote_ip` matcher in the Caddy
+block.
+
+## Backups (Hyper Backup)
+
+Two tasks, and **their coverage differs in a way that matters**:
+
+| Task | Target | Covers `/Backups/`? |
+|---|---|---|
+| `Backup to USB` (task_3) | `/volumeUSB1/usbshare/HopperNAS_Backup.hbk` | **yes** (excludes only `/Tola/`) |
+| `B2 Backup` (task_2) | cloud | **no** — excludes `/Backups/`, `/docker/`, Time Machine shares, `/surveillance/`, `/web/` |
+
+So the 17.9 GB mail archive is backed up **locally only**. The NAS and the USB
+drive are in the same room, so a fire/theft/flood loses both, and a 2024
+Takeout snapshot cannot be re-created (re-exporting Gmail today yields today's
+mailbox). `/docker/` being excluded from cloud is fine — the index is
+derivable — but the archive is not.
+
+Config lives at `/usr/syno/etc/packages/HyperBackup/synobackup.conf`; the
+per-task `backup_filter` key holds the exclude list.

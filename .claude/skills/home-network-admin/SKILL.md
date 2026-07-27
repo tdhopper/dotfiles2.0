@@ -31,6 +31,18 @@ The Synology runs DSM. Common admin tasks via SSH:
 
 For destructive operations (deleting files, stopping services, modifying configs), confirm with the user first.
 
+## Mail archive search
+
+`archive.hopperhosted.com` serves full-text search over a frozen 2024 Gmail
+Takeout export (216,669 messages, 2006–2024). Code lives in the private repo
+`tdhopper/mail-archive` (checked out at `~/repos/gmail`); `./deploy.sh` there
+is the rebuild-from-scratch path if the NAS is replaced or the index is lost.
+Read the "Mail archive search" and "Backups" sections of
+[references/network-inventory.md](references/network-inventory.md) before
+touching it — several failure modes (DSM's Python has no FTS5, docker cannot
+bind the Tailscale IP, WAL indexes cannot be served read-only) will otherwise
+cost an hour each.
+
 ## Tailscale
 
 Tailscale connects all devices over a WireGuard mesh. Run `tailscale status` to discover the tailnet name and device list.
