@@ -105,3 +105,7 @@ metube.hopperhosted.com {
 pinchflat.hopperhosted.com {
 	reverse_proxy 100.86.145.18:8945
 }
+
+archive.hopperhosted.com {
+	reverse_proxy 100.86.145.18:8912
+}
