@@ -22,7 +22,7 @@
 
 [core]
     pager = delta
-	excludesfile = /Users/thopper/.gitignore
+    excludesfile = /Users/thopper/.gitignore
     editor = vim
 
 [color]
@@ -79,7 +79,7 @@
     smudge = git media smudge %f
 
 [push]
-    default = current
+	default = simple
     autoSetupRemote = true
     useForceIfIncludes = true
     followTags = true
@@ -125,3 +125,9 @@
 
 [remote]
     pushDefault = origin
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential

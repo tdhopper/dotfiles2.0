@@ -1,10 +1,23 @@
 palette = "catppuccin_mocha"
 
+[git_branch]
+symbol = " "
+style = "bold mauve"
+
+[git_commit]
+tag_symbol = "  "
+
 [git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
 ahead = '⇡${count}'
 diverged = '⇕⇡${ahead_count}⇣${behind_count}'
 behind = '⇣${count}'
-staged = ''
+staged = '+${count}'
+modified = '!${count}'
+untracked = '?${count}'
+deleted = '✘${count}'
+renamed = '»${count}'
+stashed = '*${count}'
 up_to_date = '✓'
 
 [git_metrics]
@@ -31,7 +44,7 @@ disabled = true
 [custom.uv_python]
 command = 'uv python find --show-version'
 format = 'via [${symbol}(${output} )]($style)'
-symbol = "🐍 "
+symbol = " "
 detect_extensions = ['py', 'ipynb']
 detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'uv.lock', 'pylock.toml']
 style = "bold purple"

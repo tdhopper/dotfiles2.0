@@ -1,171 +1,85 @@
 ---
 name: reviewing-code
-description: Use this skill when reviewing pull requests, branch changes, or code diffs. Triggers on "review this PR", "review my changes", "code review", "review branch", or when user shares a GitHub PR URL. Focuses on ML research and internal tooling quality.
+description: Review pull requests, branch changes, or code diffs. Triggers on "review this PR", "review my changes", "code review", "review branch", or GitHub PR URLs. Focuses on bugs, tests, complexity, and performance - not linting.
 ---
 
-# Code Review Skill
+# Code Review
 
-Review PR and branch changes with focus on quality, tests, complexity, and performance for ML research and internal tooling codebases.
+Focus on substantive issues: bugs, missing tests, complexity, performance, duplication, incomplete implementations. Skip linting concerns (formatting, imports, naming style).
 
-## Review Philosophy
+## Step 1: Get the Diff
 
-This review focuses on substantive issues that matter for ML research codebases:
-- **NOT linting**: Skip formatting, import order, naming conventions (linters handle these)
-- **Completeness**: Is the implementation complete? Any TODOs or partial implementations?
-- **Tests**: Are tests added? Are they meaningful and cover edge cases?
-- **Complexity**: Does this increase codebase complexity without justification?
-- **Performance**: Any regressions in hot paths or resource-intensive code?
-- **Duplication**: Is similar code already in the codebase?
-- **Side effects**: Any unintended consequences from these changes?
+- PR: `gh pr view NUMBER --json title,body,files` then `gh pr diff NUMBER`
+- Branch: `git diff origin/master...HEAD`
+- Uncommitted: `git diff`
 
-## Workflow
+## Step 2: External Review (Codex)
 
-### Step 1: Identify Changes to Review
+Check for Codex availability:
 
-**If given a PR URL:**
 ```bash
-# Extract PR info
-gh pr view PR_NUMBER --json title,body,additions,deletions,files
-
-# Get the diff
-gh pr diff PR_NUMBER
+command -v codex >/dev/null 2>&1 && echo "Codex available"
 ```
 
-**If reviewing current branch:**
-```bash
-# Find the base branch
-git log --oneline -1 origin/master
+**If Codex is available, you MUST run it before proceeding.** Do not skip this step.
 
-# Show what will be in the PR
-git diff origin/master...HEAD --stat
-git diff origin/master...HEAD
-```
+- Local branch: `codex review --config model_reasoning_effort="high" --base BASE_BRANCH`
+- Remote PR: `gh pr diff NUMBER | codex review --config model_reasoning_effort="high" -`
 
-**If reviewing uncommitted changes:**
-```bash
-git diff --stat
-git diff
-```
+Run Codex in the background while you do your own review in parallel.
 
-### Step 2: Gather Context
+## Step 3: Your Own Review
 
-Before reviewing, understand the intent:
-1. Read the PR description or commit messages
-2. Check for linked issues or documentation
-3. Look for project-specific guidelines:
-   ```bash
-   # Check for project CLAUDE.md or AGENTS.md
-   cat CLAUDE.md 2>/dev/null || cat AGENTS.md 2>/dev/null || echo "No project guidelines found"
-   ```
+Gather context: PR description, commit messages, project CLAUDE.md.
 
-### Step 3: Review the Changes
+Review each file for:
 
-For each file changed, evaluate against the checklist in `./ml-research-review-checklist.md`.
+- **Completeness**: All code paths handled? Stubs left behind?
+- **Tests**: Added? Meaningful? Edge cases covered?
+- **Complexity**: Justified abstractions? Simpler alternatives?
+- **Performance**: Hot path regressions? Unbatched I/O?
+- **Duplication**: Similar code already exists? (`rg "pattern"`)
 
-**Key areas to examine:**
+**In scope**: Logic errors, missing error handling, test gaps, performance regressions, unnecessary complexity, duplication, incomplete implementations, project guideline violations.
 
-1. **Implementation Completeness**
-   - Are all code paths handled?
-   - Any placeholder or stub code left behind?
-   - Do error messages make sense?
+**Out of scope** (linters handle): Formatting, import order, naming style, type annotations, docstring format.
 
-2. **Test Quality**
-   - Are tests added for new functionality?
-   - Do tests verify behavior, not just coverage?
-   - Are edge cases tested?
-   - Would these tests catch a regression?
+## Step 4: Triage and Auto-Fix Obvious Issues
 
-3. **Complexity Impact**
-   - Does this add new abstractions? Are they justified?
-   - Is there a simpler way to achieve the same goal?
-   - Does it follow existing patterns in the codebase?
+Once you have both your review and the Codex review, merge the findings and split them into two buckets:
 
-4. **Performance Considerations**
-   - Any new loops over large datasets?
-   - Unnecessary memory allocations in hot paths?
-   - I/O operations that could be batched?
+**Bucket A — Obvious fixes** (clear bugs, typos, missing null checks, off-by-one errors, trivial test gaps where the fix is unambiguous): If and only if I am the author of the code, fix these silently. Don't ask about them: just do it and note what you fixed. Otherwise discuss in step 5.
 
-5. **Duplication Check**
-   - Search for similar existing code:
-     ```bash
-     # Look for similar function names or patterns
-     rg "similar_function_name" --type py
-     ```
+**Bucket B — Judgment calls** (design trade-offs, architectural concerns, performance questions, ambiguous behavior, missing tests where the right test isn't obvious, things that might be intentional): These go to the interactive discussion in Step 5.
 
-### Step 4: Provide Feedback
+## Step 5: Present All Findings
 
-Structure your review as:
+Present **all** Bucket B findings at once in a list. For each finding include:
+
+- What the issue is and where (`file:line`)
+- Whether Codex and Claude agree or disagree
+- Your suggested fix or concern
+
+Also list what you already auto-fixed from Bucket A so Tim has full visibility. Present all the issues before stopping to fix anything.
+
+Then use a series of `AskUserQuestion` asking Tim to classify each item as one of:
+- **Fix** — agent will fix it
+- **Flag** — add to concerns list for the PR author
+- **Skip** — not worth addressing
+
+## Step 6: Execute and Summarize
+
+Fix everything Tim marked "Fix". Then present a final summary:
 
 ```markdown
-## Summary
-[1-2 sentence overview of the changes and overall assessment]
+## Auto-Fixed (Bucket A)
+- [list of obvious fixes you made silently]
 
-## Key Findings
+## Fixed (Bucket B — Tim approved)
+- [list of judgment-call fixes Tim chose to fix]
 
-### Must Address
-1. **[Issue title]** (file:line)
-   - Detail about the issue
-   - Code example if helpful
-   - **Risk**: Why this matters
-
-2. **[Next issue title]** (file:line)
-   - Details...
-
-### Should Consider
-3. **[Issue title]** (file:line)
-   - Details...
-
-### Minor Notes
-- [Observation]
-- [Another observation]
-
-## Tests
-[Assessment of test coverage and quality]
-
-## Complexity Assessment
-[Does this increase or decrease overall codebase complexity?]
+## To Raise with PR Author
+- [concerns Tim chose to flag, with file:line references]
 ```
 
-**IMPORTANT formatting rules:**
-- Use a **single incrementing number sequence** across all sections (Must Address items 1-N, Should Consider continues from N+1, etc.)
-- Use **bullet points (-)** for sub-details under each numbered finding, never restart numbering
-- Each numbered finding should have a bold title followed by file:line reference
-- Include a **Risk:** bullet point explaining why the issue matters
-
-## Review Scope Guidelines
-
-**In scope:**
-- Logic errors and bugs
-- Missing error handling for realistic failure modes
-- Test coverage and test quality
-- Performance regressions
-- Unnecessary complexity
-- Code duplication
-- Incomplete implementations
-- Violations of project guidelines (from CLAUDE.md/AGENTS.md)
-
-**Out of scope (linter territory):**
-- Code formatting
-- Import ordering
-- Variable naming style
-- Type annotation style
-- Docstring format
-
-## Example Review
-
-**User**: "Review my changes on this branch"
-
-**Claude**:
-1. Runs `git diff origin/master...HEAD --stat` to see scope
-2. Runs `git diff origin/master...HEAD` to get full diff
-3. Checks for project guidelines
-4. Reviews each changed file against the checklist
-5. Searches for potential duplication
-6. Provides structured feedback
-
-## Notes
-
-- Always read the full diff before providing feedback
-- Check commit messages for context on why changes were made
-- When in doubt about intent, ask before assuming something is wrong
-- Prioritize actionable feedback over stylistic preferences
+**Do NOT post comments on the PR** unless Tim asks. If he wants findings posted as a draft review with inline comments, use the `/draft-pr-review` skill to create a pending review.

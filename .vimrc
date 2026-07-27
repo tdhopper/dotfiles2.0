@@ -22,7 +22,10 @@ let mapleader = " "  " Sets the <leader> key to space
 map Y y$
 
 " Commenting with <leader>c in visual mode
-noremap <leader>c :Commentary<CR>
+xnoremap <leader>c :Commentary<CR>
+
+" Change with black hole register in normal mode (doesn't pollute clipboard)
+nnoremap <leader>c "_c
 
 " Escape mappings in insert mode
 inoremap jk <Esc>
@@ -54,9 +57,21 @@ nnoremap <leader>d "_dd
 " Highlight yanked text
 au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}
 
-" Disable cursor line and word wrapping
+" Disable cursor line
 set nocursorline
 set nowrap
+
+" Markdown: soft wrap, readable settings
+augroup markdown
+  autocmd!
+  autocmd FileType markdown setlocal wrap linebreak nolist
+  autocmd FileType markdown setlocal textwidth=120
+  autocmd FileType markdown setlocal conceallevel=2
+  autocmd FileType markdown setlocal colorcolumn=
+  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown nnoremap <buffer> j gj
+  autocmd FileType markdown nnoremap <buffer> k gk
+augroup END
 
 " EasyMotion
 let g:EasyMotion_do_mapping = 0  " Disable default mappings
