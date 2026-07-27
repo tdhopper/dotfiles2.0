@@ -13,7 +13,6 @@
 * **F-Pattern Alignment:** Readers scan in an F-shape. Front-load your most important keywords in headers and the first two words of every paragraph.
 * **Serial Position Effect:** Place critical takeaways at the absolute beginning (Primacy) or the absolute end (Recency) of lists and sections. The middle is a "memory dead zone."
 * **Intermediate Segmentation:** Aim for paragraph lengths of 2–4 lines. Research shows excessively long blocks (8+ lines) cause "skipping," while 1-line fragments hinder information integration.
-* **Optimal Line Width:** In technical documentation, aim for ~70 characters per line. Lines that are too wide strain the eye's ability to find the next start point.
 * **Von Restorff Effect (The Isolation Effect):** Use bolding or italics sparingly to make one "odd one out" key fact stand out. If you bold everything, nothing is memorable.
 
 ## 4. Visual Hierarchy & Scaffolding
