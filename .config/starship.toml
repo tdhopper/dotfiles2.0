@@ -39,15 +39,10 @@ disabled = true
 disabled = true
 
 [python]
-disabled = true
-
-[custom.uv_python]
-command = 'uv python find --show-version'
-format = 'via [${symbol}(${output} )]($style)'
 symbol = " "
+style = "bold purple"
 detect_extensions = ['py', 'ipynb']
 detect_files = ['.python-version', 'Pipfile', '__init__.py', 'pyproject.toml', 'requirements.txt', 'setup.py', 'tox.ini', 'uv.lock', 'pylock.toml']
-style = "bold purple"
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
