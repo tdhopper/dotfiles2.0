@@ -38,11 +38,11 @@ All resource names derive from the project name (kebab-case):
 
 | Resource | Pattern | Example |
 |----------|---------|---------|
-| Repo | `<project>` | `prayer-tracker` |
-| CF Pages project / Worker | `<project>` | `prayer-tracker` |
-| D1 database (prod) | `<project>-db` | `prayer-tracker-db` |
-| D1 database (preview) | `<project>-preview-db` | `prayer-tracker-preview-db` |
-| Attached worker | `<project>-<purpose>` | `prayer-tracker-digest` |
+| Repo | `<project>` | `task-tracker` |
+| CF Pages project / Worker | `<project>` | `task-tracker` |
+| D1 database (prod) | `<project>-db` | `task-tracker-db` |
+| D1 database (preview) | `<project>-preview-db` | `task-tracker-preview-db` |
+| Attached worker | `<project>-<purpose>` | `task-tracker-digest` |
 | GitHub Actions workflow | `deploy.yml` | `deploy.yml` |
 
 ## Error Handling
