@@ -1,6 +1,6 @@
 # Cloudflare platform gotchas (hard-won, from real projects)
 
-Distilled from catechism, earls, indy-indoor-playgrounds, and mic-compare. Read this when debugging deploys, secrets, email, Pages weirdness — and before choosing Pages for a new project.
+Read this when debugging deploys, secrets, email, Pages weirdness — and before choosing Pages for a new project.
 
 ## Pages Functions limitations (reasons to prefer a real Worker)
 
