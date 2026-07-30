@@ -287,7 +287,7 @@ If Pages Functions requested, create `functions/api/` directory with an example 
 
 ## Site Type: Vanilla JS + D1 App (Pages)
 
-No framework — vanilla HTML/CSS/JS with Cloudflare Pages Functions and D1. Reference: catechism (chiefend.reformedconfessions.com). Before picking this for a new project, consider Worker + Static Assets instead — see gotchas for what Pages Functions can't do.
+No framework — vanilla HTML/CSS/JS with Cloudflare Pages Functions and D1. Reference: Before picking this for a new project, consider Worker + Static Assets instead — see gotchas for what Pages Functions can't do.
 
 **Template options to ask:**
 - Include auth? (Better Auth on D1 — see notes below)
@@ -867,7 +867,7 @@ Pages secrets are **per-environment and non-inheritable** — always set both en
 
 ### Generate a `set-secrets.sh` for the project
 
-For any project with more than a couple of secrets, generate an idempotent `scripts/set-secrets.sh` following these rules (reference: catechism):
+For any project with more than a couple of secrets, generate an idempotent `scripts/set-secrets.sh` following these rules:
 
 - Generate random signing secrets with `openssl rand -base64 32`; use `openssl rand -hex 24` for anything sent in an HTTP header (WAF rejects `/` and `+` — see gotchas)
 - Prompt with `read -rs` (hidden) and pipe with `printf '%s'` (no trailing newline) straight into `wrangler ... secret put`
