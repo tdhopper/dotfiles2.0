@@ -33,7 +33,7 @@ Run parallel expert reviews using persona agents, then synthesize findings into 
 | Prose / announcement | prose-editor, skeptical-reviewer |
 | Claim / hypothesis | Use `/adversarial-validate` instead |
 
-If the target could use `production-safety-reviewer` (touches ml-toolkit or fusion code), include it. State the panel to the user before launching: "Running expert panel with [skeptical-reviewer, researcher-persona, prose-editor]. Starting reviews."
+If the target could use `production-safety-reviewer` (touches production infrastructure or ML training code), include it. State the panel to the user before launching: "Running expert panel with [skeptical-reviewer, researcher-persona, prose-editor]. Starting reviews."
 
 Do not ask for confirmation unless the target type is genuinely ambiguous.
 
