@@ -1,6 +1,6 @@
 ---
 name: cloudflare
-description: Bootstrap, deploy, and manage Cloudflare sites — Workers with Static Assets, Pages, D1, KV, cron workers. Use when the user wants to (1) create a new site or web app on Cloudflare, (2) deploy a project to Cloudflare, (3) create or apply D1 database migrations, (4) add a custom domain, (5) add a new page or route to an existing CF site, (6) add a standalone Cloudflare Worker (cron, email, scraper) to a project, (7) manage wrangler secrets, (8) any Cloudflare site management task. Subcommands: bootstrap, deploy, migrate, domain, add-page, add-worker, secrets.
+description: Bootstrap, deploy, and manage Cloudflare sites — Workers with Static Assets, Pages, D1, KV, cron workers. Use when the user wants to (1) create a new site or web app on Cloudflare, (2) deploy a project to Cloudflare, (3) create or apply D1 database migrations, (4) add a custom domain, (5) add a new page or route to an existing CF site, (6) add a standalone Cloudflare Worker (cron, email, scraper) to a project, (7) manage wrangler secrets, (8) any Cloudflare site management task. Subcommands are bootstrap, deploy, migrate, domain, add-page, add-worker, secrets.
 ---
 
 # Cloudflare Site Toolkit
