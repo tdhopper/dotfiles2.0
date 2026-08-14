@@ -8,6 +8,8 @@ effort: low
 
 A PR description transfers the author's understanding to the reviewer. The author spent hours building a mental model of the problem and solution. The description compresses that model into something a reviewer absorbs in minutes.
 
+Text generated without the intent to be read will not be read. Every sentence must exist because the author needed the reviewer to know it — not because a model completed it. If a description reads like it was generated (verbose, padded, adjective-heavy), reviewers will treat it like it was generated: skip it entirely.
+
 ## Critical rules
 
 ALWAYS:
@@ -60,6 +62,10 @@ You are an agent — you may lack context the author has. If you cannot derive t
 - "Was there a specific incident, request, or design decision that led here?"
 
 A fabricated motivation is worse than no motivation. If the user declines to provide context, write the TL;DR without a "why" and note the gap — don't invent one.
+
+### Cleanup and hardening PRs still need motivation
+
+"Addresses review feedback" is not a why. Each change in a follow-up PR fixes or prevents something concrete — name what goes wrong without it. A positional tuple that compiles silently when transposed, a field set that will drift, a code path that silently reroutes: those are the motivations, not "review-driven interface hardening."
 
 ## Conceptual frame before mechanics
 
@@ -207,6 +213,18 @@ Concrete numbers and specific examples are the strongest trust signal.
 | improved performance significantly | p50 dropped from 45 ms to 3 ms |
 | fixed an edge case in validation | fixed boundary check: 49 kB takes the fast path, 51 kB goes to cold storage |
 
+### Padding
+
+The most common AI tell is adding words without adding information. Test every phrase: does it convey something the previous word didn't?
+
+| Padded (skip-worthy) | Direct (reads like a person wrote it) |
+|---|---|
+| Performed a scheduled dependency refresh as part of ongoing maintenance practices | Bumped dependencies |
+| Refactored the existing implementation to leverage a more modular architectural pattern | Split the monolith into three modules |
+| Updated the configuration to ensure proper handling of edge cases in the validation layer | Fixed validation for empty inputs |
+
+If a sentence says the same thing without its adjectives and adverbs, cut them. "Minor and patch-level version bumps were applied across the dependency graph, including transitive dependencies where applicable" is just "bumped dependencies" wearing a trench coat.
+
 ### Self-contained context
 
 The PR description is permanent documentation. Companies migrate issue trackers; git history persists. Inline essential context — use links for depth, not as the sole reference. A description that says only "See JIRA-123" may be unresolvable in two years.
@@ -239,7 +257,7 @@ After drafting, apply these cuts:
 4. If the whole description exceeds the budget rule, cut sections bottom-up (Follow-up first, then Tests, then Visual aids).
 5. Read the final description aloud. If any sentence makes you wince, rewrite it shorter.
 
-The best description is the shortest one that transfers the author's understanding.
+The best description is the shortest one that transfers the author's understanding. If you can't compress further, that may mean you don't understand the change well enough yet — re-read the diff before adding words.
 
 ## Process
 
