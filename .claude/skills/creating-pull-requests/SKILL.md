@@ -85,6 +85,8 @@ The diff shows what you chose. The description explains what you chose *against*
 
 These are things the diff literally cannot convey.
 
+**Guard rail: only mention alternatives the reviewer would independently wonder about.** If an alternative only came up because you (the agent) tried it during your session and backed it out, the reviewer has no frame of reference for it. "Runtime measurement was considered but rejected" works because a reviewer might propose it. "The callback-based approach from our earlier iteration was replaced" fails because the reviewer never saw that iteration. The test: would this alternative occur to the reviewer unprompted? If not, cut it.
+
 ### State scope boundaries
 
 Tell the reviewer what is NOT in scope: "Focuses on the login flow; sign-up is a follow-up." Prevents reviewers from flagging missing pieces that are intentionally deferred. For small PRs, one trailing sentence in the TL;DR. For large PRs, integrate into the Why or Follow-up section.
@@ -186,6 +188,8 @@ The diff is right there. The description explains what the diff *can't* show: mo
 - **Restating obvious type/signature changes.** Say *why* it changed.
 - **Defensive disclaimers.** Put specific questions in Reviewer notes as a focus area.
 - **Commit-message archaeology.** Describe the final state.
+- **Session context leak.** Never reference plans, phases, task IDs, scratch files, or decisions that only existed in your working session. Don't explain why removed code was removed if it was never committed. Don't compare the current design to an earlier attempt the reviewer never saw. The PR description addresses a reader who has the repo and the diff. Everything else is invisible to them.
+- **Explaining absent code.** Don't describe what the PR *doesn't* do, what code *isn't* there, or why something was *taken out* (unless it was committed before). Describe the final state. "Not X because Y" still puts X in the reader's head for no reason.
 
 ### The test: does this sentence exist in the diff?
 
@@ -212,6 +216,10 @@ Concrete numbers and specific examples are the strongest trust signal.
 |---|---|
 | improved performance significantly | p50 dropped from 45 ms to 3 ms |
 | fixed an edge case in validation | fixed boundary check: 49 kB takes the fast path, 51 kB goes to cold storage |
+
+### Buzzword blocklist
+
+These phrases have become so associated with AI output that using them marks the description as generated. Avoid: "real unlock", "load bearing" (as metaphor), "wire it in", "significant finding", "fair challenge", "landed" (as past tense of shipping), "this corrects my framing", "at its core", "it's worth noting." These are in addition to the PROSE.md blocklist.
 
 ### Padding
 
