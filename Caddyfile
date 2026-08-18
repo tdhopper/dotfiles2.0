@@ -89,7 +89,7 @@ download.hopperhosted.com {
 	}
 }
 jellyfin.hopperhosted.com {
-	reverse_proxy 100.86.145.18:8096
+	reverse_proxy 127.0.0.1:8096
 }
 elwood.hopperhosted.com {
     reverse_proxy http://100.119.124.86:8765
