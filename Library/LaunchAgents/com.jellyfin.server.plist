@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jellyfin.server</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/Jellyfin.app/Contents/MacOS/jellyfin</string>
+        <string>--webdir</string>
+        <string>/Applications/Jellyfin.app/Contents/Resources/jellyfin-web</string>
+        <string>--ffmpeg</string>
+        <string>/Applications/Jellyfin.app/Contents/MacOS/ffmpeg</string>
+        <string>--datadir</string>
+        <string>/Users/thopper/Library/Application Support/jellyfin</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+    <key>StandardOutPath</key>
+    <string>/usr/local/var/log/jellyfin.log</string>
+    <key>StandardErrorPath</key>
+    <string>/usr/local/var/log/jellyfin-error.log</string>
+</dict>
+</plist>
