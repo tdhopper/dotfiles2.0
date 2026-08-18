@@ -47,9 +47,6 @@ synology.hopperhosted.com {
 		import tls_skip_verify
 	}
 }
-audible.hopperhosted.com {
-	reverse_proxy 192.168.68.63:3000
-}
 shiloh-companion.hopperhosted.com {
 	reverse_proxy http://100.108.169.83:8888
 }
