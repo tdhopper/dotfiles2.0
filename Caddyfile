@@ -2,17 +2,25 @@
 	email tim@tdhopper.com
 }
 
-# Wildcard + apex: get DNS certs and serve the apex docs here
-*.hopperhosted.com hopperhosted.com {
+# ----- helpers -----
+(tls_skip_verify) {
+	transport http {
+		tls_insecure_skip_verify
+	}
+}
+
+# Single site block: one wildcard cert (Cloudflare DNS challenge) covers the apex
+# and every subdomain, so hostnames never appear in Certificate Transparency logs.
+*.hopperhosted.com, hopperhosted.com {
 	tls {
 		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 	}
+	encode zstd gzip
 
 	# Apex landing/docs (MkDocs build output)
 	@apex host hopperhosted.com
 	handle @apex {
-		root *  /Users/thopper/repos/hopperhosted/site
-		encode zstd gzip
+		root * /Users/thopper/repos/hopperhosted/site
 		file_server
 
 		header {
@@ -23,86 +31,105 @@
 		}
 	}
 
-	# Everything else in this block falls through; specific subdomain site blocks below handle apps.
-}
+	# ----- subdomains (all upstreams on the LAN) -----
+	@pihole host pihole.hopperhosted.com
+	handle @pihole {
+		reverse_proxy 192.168.68.63:8765
+	}
 
-# ----- helpers -----
-(tls_skip_verify) {
-	transport http {
-		tls_insecure_skip_verify
+	@webdav host webdav.hopperhosted.com
+	handle @webdav {
+		reverse_proxy https://192.168.68.63:5006 {
+			import tls_skip_verify
+		}
 	}
-}
 
-# ----- subdomains -----
-pihole.hopperhosted.com {
-	reverse_proxy 192.168.68.63:8765
-}
-webdav.hopperhosted.com {
-	reverse_proxy https://192.168.68.63:5006 {
-		import tls_skip_verify
+	@synology host synology.hopperhosted.com
+	handle @synology {
+		reverse_proxy https://192.168.68.63:5001 {
+			import tls_skip_verify
+		}
 	}
-}
-synology.hopperhosted.com {
-	reverse_proxy https://100.86.145.18:5001 {
-		import tls_skip_verify
-	}
-}
-shiloh-companion.hopperhosted.com {
-	reverse_proxy http://100.108.169.83:8888
-}
-cam.hopperhosted.com {
-	reverse_proxy 192.168.68.63:9901 {
-		import tls_skip_verify
-	}
-}
-mail.hopperhosted.com {
-	reverse_proxy 192.168.68.63:21681 {
-		import tls_skip_verify
-	}
-}
-photos.hopperhosted.com {
-	reverse_proxy 192.168.68.63:5443 {
-		import tls_skip_verify
-	}
-}
-drive.hopperhosted.com {
-	reverse_proxy 192.168.68.63:10003 {
-		import tls_skip_verify
-	}
-}
-files.hopperhosted.com {
-	reverse_proxy 192.168.68.63:7001 {
-		import tls_skip_verify
-	}
-}
-file.hopperhosted.com {
-	reverse_proxy 192.168.68.63:7001 {
-		import tls_skip_verify
-	}
-}
-download.hopperhosted.com {
-	reverse_proxy 192.168.68.63:8001 {
-		import tls_skip_verify
-	}
-}
-jellyfin.hopperhosted.com {
-	reverse_proxy 127.0.0.1:8096
-}
-elwood.hopperhosted.com {
-    reverse_proxy http://100.119.124.86:8765
-}
-scrypted.hopperhosted.com {
-	reverse_proxy https://127.0.0.1:10443 {
-		import tls_skip_verify
-	}
-}
-metube.hopperhosted.com {
-	reverse_proxy 100.86.145.18:5992
-}
-pinchflat.hopperhosted.com {
-	reverse_proxy 100.86.145.18:8945
-}
 
-archive.hopperhosted.com {
-	reverse_proxy 100.86.145.18:8912
+	# Device currently offline; no LAN IP known — still on its Tailscale address.
+	@shiloh host shiloh-companion.hopperhosted.com
+	handle @shiloh {
+		reverse_proxy http://100.108.169.83:8888
+	}
+
+	@cam host cam.hopperhosted.com
+	handle @cam {
+		reverse_proxy https://192.168.68.63:9901 {
+			import tls_skip_verify
+		}
+	}
+
+	@mail host mail.hopperhosted.com
+	handle @mail {
+		reverse_proxy https://192.168.68.63:21681 {
+			import tls_skip_verify
+		}
+	}
+
+	@photos host photos.hopperhosted.com
+	handle @photos {
+		reverse_proxy https://192.168.68.63:5443 {
+			import tls_skip_verify
+		}
+	}
+
+	@drive host drive.hopperhosted.com
+	handle @drive {
+		reverse_proxy https://192.168.68.63:10003 {
+			import tls_skip_verify
+		}
+	}
+
+	@files host files.hopperhosted.com file.hopperhosted.com
+	handle @files {
+		reverse_proxy https://192.168.68.63:7001 {
+			import tls_skip_verify
+		}
+	}
+
+	@download host download.hopperhosted.com
+	handle @download {
+		reverse_proxy https://192.168.68.63:8001 {
+			import tls_skip_verify
+		}
+	}
+
+	@jellyfin host jellyfin.hopperhosted.com
+	handle @jellyfin {
+		reverse_proxy 127.0.0.1:8096
+	}
+
+	@elwood host elwood.hopperhosted.com
+	handle @elwood {
+		# LAN IP is 192.168.68.54, but macOS blocks caddy-cloudflare from the local network
+		# until it is approved in System Settings > Privacy & Security > Local Network.
+		reverse_proxy 100.119.124.86:8765
+	}
+
+	@scrypted host scrypted.hopperhosted.com
+	handle @scrypted {
+		reverse_proxy https://127.0.0.1:10443 {
+			import tls_skip_verify
+		}
+	}
+
+	@pinchflat host pinchflat.hopperhosted.com
+	handle @pinchflat {
+		reverse_proxy 192.168.68.63:8945
+	}
+
+	@archive host archive.hopperhosted.com
+	handle @archive {
+		reverse_proxy 192.168.68.63:8912
+	}
+
+	# Unknown subdomains
+	handle {
+		respond 404
+	}
 }
